@@ -401,18 +401,23 @@ tariffs; so implicitly we adopt the extreme assumption that tariff revenues
 are wasted---or at least not rebated back to agents in a way that would
 interact with the allocation of resources in the economy.} Under the
 assumption of perfect competition, goods are sourced from the lowest-cost
-producer, after adjusting for transport costs. The technology for producing $%
+producer, after adjusting for transport costs. 
+
+The technology for producing $%
 q_{nt}(\omega ^{j})$ is given accordingly by the country of origin ($m$)
 with the lowest cost (with $m=n$ when the good is produced locally): 
 \begin{equation}
 x_{mt}(\omega ^{j})=A_{mt}^{j}z_{m}(\omega ^{j})l_{mt}(\omega ^{j})^{\beta
-^{j}}M_{mt}(\omega ^{j})^{1-\beta ^{j}}
+^{j}}
+\prod_{k=1}^J M_{mt}^k(\omega ^{j})^{\gamma^{kj}}
 \end{equation}%
 where $x_{mt}(\omega ^{j})$ is the production of good $\omega ^{j}$ by
-country $m$ at time $t$, $M_{mt}(\omega ^{j})$ is the amount of the
-aggregate composite good used by country $m$ to produce $x_{mt}(\omega ^{j})$
+country $m$ at time $t$, $M_{mt}^k(\omega ^{j})$ is the amount of the
+composite good $k$ used by country $m$ to produce $x_{mt}(\omega ^{j})$
 units of good $\omega ^{j}$ and $l_{mt}(\omega ^{j})$ is the corresponding
-amount of equipped labour. Total factor productivity (TFP) levels vary
+amount of equipped labour. The exponent $\gamma^{kj}$ captures the share of sector $k$ in the total production cost of sector $j$ and we assume constant returns to scale: $\beta^{j}+\sum_{k=1}^J \gamma^{kj}=1$ for all $j$. 
+
+Total factor productivity (TFP) levels vary
 across countries, sectors, and goods. Specifically, each intermediate good $%
 \omega ^{j}$ in sector $j$ of country $n$ has a time-invariant idiosyncratic
 productivity factor $z_{n}(\omega ^{j})$ and a time-varying factor $%
@@ -426,14 +431,16 @@ productivity distribution, and hence reduces the scope for comparative
 advantage. Shocks to $A_{nt}^{j}$ over time are interpreted as standard
 sectoral total factor productivity (TFP) shocks.
 
-The single final good can be used both as input in the production of
-intermediaries $\omega^{j}$ or for final consumption, $C_{nt}$. Hence,
+%% in fact, i would put this in utility to ease on terminology. 
+%% than J could be called final goods
+%% omega(j) would be intermediates
+Only intermediate goods $\omega^j$ are traded, final composites $Q^j_{nt}$ are not. These final goods are used by consumers and as inputs in the production process. Hence,
 market clearing in the good markets implies: 
 \begin{equation*}
-Q_{nt} = C_{nt} + \sum_{j=1}^{J}\int_{0}^{1}M_{nt}(\omega^{j})d\omega ^{j},
+Q_{nt}^j = C_{nt}^j + \sum_{k=1}^{J}\int_{0}^{1}M_{nt}^j(\omega^{k})d\omega ^{k},
 \end{equation*}
 where the integral aggregates over the unit-size continuum of goods $%
-\omega^{j}$ entering in the production of each sector's $j$ aggregate good.
+\omega^{k}$ entering in the production of each sector's $k$ aggregate good.
 
 Clearing in the input market within a sector implies: 
 \begin{equation*}
@@ -526,12 +533,24 @@ solve for the ex-ante optimal $L_{t}^{j\prime }s$ before the shocks are
 realized. In the analysis of the autarky case, we omit the country-specific
 subscripts $n$ for convenience.
 
-The demand for each sector's composite good is given by 
+Given the input-output structure captured by $\{\gamma^{jk}\}$, the total expenditure on good $j$ can decomposed into final demand and intermediate demand from each sector $k$ as
+\[
+P^j_t Q^j_t = \alpha^j_t P_t Q_t
+ + \sum_{k=1}^J
+ 	\gamma^{jk} P^k_t Q^k_t,
+\]
+or, in vector notation,
+\[
+\mathbf P_t \circ \mathbf Q_t = \boldsymbol\alpha_t P_t Q_t
+ + \boldsymbol\Gamma (\mathbf P_t \circ \mathbf Q_t)
+\]
+where $\boldsymbol\Gamma$ is the input-output matrix with elements $\gamma^{jk}$ and $X \circ Y$ denotes the elementwise product of two conforming vectors. Total revenue can be expressed as a function of final demand using the Leontief inverse,
 \begin{equation}
-Q_{t}^{j}=\alpha _{t}^{j}\left( \frac{P_{t}^{j}}{P_{t}}\right) ^{-1}Q_{t},
+\mathbf P_t \circ \mathbf Q_t = (\mathbf I - \boldsymbol\Gamma)^{-1}\boldsymbol\alpha_t P_t Q_t.
 \label{QJ}
 \end{equation}%
-and the demand for each intermediate good $\omega ^{j}$ is 
+%% importantly, this remains the same in the open economy
+The demand for each intermediate good $\omega ^{j}$ is 
 \begin{equation*}
 q_{t}(\omega ^{j})=\left[ \frac{p_{t}(\omega ^{j})}{P_{t}^{j}}\right]
 ^{-\eta }Q_{t}^{j},
@@ -548,30 +567,36 @@ P_{t}=\prod_{j=1}^{J}\alpha _{t}^{j^{-\alpha _{t}^{j}}}\left(
 P_{t}^{j}\right) ^{\alpha _{t}^{j}}.  \label{Pt}
 \end{equation}%
 The demand for non-produced inputs $l_{t}(\omega ^{j})$ and produced inputs $%
-M_{t}(\omega ^{j})$ are given, respectively, by $l_{t}^{j}(\omega
+M_{t}^k(\omega ^{j})$ are given, respectively, by $l_{t}^{j}(\omega
 ^{j})=\beta ^{j}\frac{p_{t}(\omega ^{j})q_{t}(\omega ^{j})}{w_{t}^{j}}$ and $%
-M_{t}(\omega ^{j})=(1-\beta ^{j})\frac{p_{t}(\omega ^{j})q_{t}(\omega ^{j})}{%
-P_{t}}.$ Aggregating over all goods $\omega ^{j}$ in a given sector, we
+M_{t}^k(\omega ^{j})=\gamma^{kj}\frac{p_{t}(\omega ^{j})q_{t}(\omega ^{j})}{%
+P_{t}^k}.$ Aggregating over all goods $\omega ^{j}$ in a given sector, we
 obtain 
 \begin{equation}
 w_{t}^{j}L_{t}^{j}=\beta ^{j}P_{t}^{j}Q_{t}^{j}  \label{Labor share}
 \end{equation}%
-and, correspondingly, $P_{t}M_{t}^{j}=(1-\beta ^{j})P_{t}^{j}Q_{t}^{j}.$
+and, correspondingly, $P_{t}^kM_{t}^{kj}=\gamma^{kj}P_{t}^{j}Q_{t}^{j}.$
 Using the input demand functions and the zero profit condition the autarky
 prices of intermediate goods are given by: 
 \begin{equation}
-p_{t}(\omega ^{j})=B^{j}\left[ A_{t}^{j}\cdot z(\omega ^{j})\right]
-^{-1}\left( w_{t}^{j}\right) ^{\beta ^{j}}P_{t}^{1-\beta ^{j}},
+p_{t}(\omega ^{j})=B^{j}
+	\left[ A_{t}^{j}\cdot z(\omega ^{j})\right]^{-1}
+	\left( w_{t}^{j}\right) ^{\beta ^{j}}
+	\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}},
 \label{Frechet}
 \end{equation}%
-where $B^{j}=$ $\left( \beta ^{j}\right) ^{-\beta ^{j}}(1-\beta
-^{j})^{-(1-\beta ^{j})}$. Using (\ref{Frechet}) and the properties of the Fr%
+where $B^{j}=$ $\left( \beta ^{j}\right) ^{-\beta ^{j}} \prod_{k=1}^J (\gamma^{kj})^{-\gamma^{kj}}$. Using (\ref{Frechet}) and the properties of the Fr%
 \'{e}chet distribution, we can express the sectoral price index as: 
 \begin{equation}
-P_{t}^{j}=\xi B^{j}\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{\frac{1}{%
-\theta }}\right] ^{-1}\left( w_{t}^{j}\right) ^{\beta ^{j}}P_{t}^{1-\beta
-^{j}}
+P_{t}^{j}=\xi B^{j}
+	\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{\frac{1}{%
+		\theta }}\right] ^{-1}
+	\left( w_{t}^{j}\right) ^{\beta ^{j}}
+	\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}},
 \end{equation}%
+
+DONE UP TO HERE
+
 where $\xi =\left[ \Gamma \left( \frac{\theta +1-\eta }{\theta }\right) %
 \right] ,$ and $\Gamma $ is the gamma function. Using (\ref{QJ}), (\ref%
 {Labor share}), and (\ref{Pt}) we obtain real GDP: 
