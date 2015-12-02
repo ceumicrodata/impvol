@@ -1,0 +1,230 @@
+%2multibyte Version: 5.50.0.2960 CodePage: 65001
+
+\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{Codepage=65001}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=Manual}
+%TCIDATA{Created=Monday, November 30, 2015 16:55:25}
+%TCIDATA{LastRevised=Monday, November 30, 2015 17:05:20}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Standard LaTeX\Blank - Standard LaTeX Article">}
+%TCIDATA{CSTFile=40 LaTeX article.cst}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\input{tcilatex}
+
+\begin{document}
+
+
+\subsection{Model Assumptions}
+
+The world economy is composed of $N$ countries. At a given point in time $t$%
+, each country $n$ is endowed with $L_{nt}$ units of a primary (non
+produced) input, which we interpret as equipped labour. There are $J$
+sectors (or broad classes of goods) in the economy, whose output is combined
+into a final good through a Cobb-Douglas aggregate. In formulas, aggregate
+gross output in the economy is given by: 
+\begin{equation}
+Q_{nt}=\prod_{j=1}^{J}\left( Q_{nt}^{j}\right) ^{\alpha ^{j}}
+\label{aggregate}
+\end{equation}%
+where $Q_{t}^{j}$ is the gross output in sector $j$ and $\sum_{j=1}^{J}%
+\alpha ^{j}=1$. Competitive firms in each sector $j$ produce a composite
+good according to the following constant-elasticity-of-substitution (CES)
+technology: 
+\begin{equation}
+Q_{nt}^{j}=\left[ \int_{0}^{1}q_{nt}(\omega ^{j})^{\frac{\eta -1}{\eta }%
+}d\omega ^{j}\right] ^{\frac{\eta }{\eta -1}}  \label{sectoroutput}
+\end{equation}%
+where $q_{nt}(\omega ^{j})$ is the quantity of good $\omega ^{j}$ used by
+country $n$ in sector $j$ at time $t$, and $\eta >0$ is the elasticity of
+substitution across goods within a given sector. The intermediate goods $%
+\omega ^{j}$ can be produced locally or imported from other countries.
+Delivering a good from country $n$ to country $m$ in sector $j$ and time
+period $t$ results in $0<\kappa _{mnt}^{j}\leq 1$ goods arriving at $m$; we
+assume that $\kappa _{mnt}^{j}\geq \kappa _{mkt}^{j}\kappa _{knt}^{j}\quad
+\forall m,n,k,j,t$ and $\kappa _{nnt}^{j}=1$. All costs incurred are net
+losses.\footnote{%
+In the calibration, the $\kappa $s will reflect all trading costs, including
+tariffs; so implicitly we adopt the extreme assumption that tariff revenues
+are wasted---or at least not rebated back to agents in a way that would
+interact with the allocation of resources in the economy.} Under the
+assumption of perfect competition, goods are sourced from the lowest-cost
+producer, after adjusting for transport costs. The technology for producing $%
+q_{nt}(\omega ^{j})$ is given accordingly by the country of origin ($m$)
+with the lowest cost (with $m=n$ when the good is produced locally): 
+\begin{equation}
+x_{mt}(\omega ^{j})=A_{mt}^{j}z_{m}(\omega ^{j})l_{mt}(\omega ^{j})^{\beta
+^{j}}M_{mt}(\omega ^{j})^{1-\beta ^{j}}
+\end{equation}%
+where $x_{mt}(\omega ^{j})$ is the production of good $\omega ^{j}$ by
+country $m$ at time $t$, $M_{mt}(\omega ^{j})$ is the amount of the
+aggregate composite good used by country $m$ to produce $x_{mt}(\omega ^{j})$
+units of good $\omega ^{j}$ and $l_{mt}(\omega ^{j})$ is the corresponding
+amount of equipped labour. Total factor productivity (TFP) levels vary
+across countries, sectors, and goods. Specifically, each intermediate good $%
+\omega ^{j}$ in sector $j$ of country $n$ has a time-invariant idiosyncratic
+productivity factor $z_{n}(\omega ^{j})$ and a time-varying factor $%
+A_{nt}^{j}$ common to all the goods $\omega ^{j}$ in sector $j$. Building on
+the literature, we assume the productivities $z_{n}(\omega ^{j})$ follow a
+sector-specific, time-invariant Fr\'{e}chet distribution $F_{n}^{j}(z)=\exp
+(-T_{n}^{j}z^{-\theta })$. A higher $T_{n}^{j}$ shifts the distribution of
+productivities to the right, that is leading to probabilistically higher
+productivities. A higher $\theta $ decreases the dispersion of the
+productivity distribution, and hence reduces the scope for comparative
+advantage. Shocks to $A_{nt}^{j}$ over time are interpreted as standard
+sectoral total factor productivity (TFP) shocks.
+
+The single final good can be used both as input in the production of
+intermediaries $\omega^{j}$ or for final consumption, $C_{nt}$. Hence,
+market clearing in the good markets implies: 
+\[
+Q_{nt} = C_{nt} + \sum_{j=1}^{J}\int_{0}^{1}M_{nt}(\omega^{j})d\omega ^{j},
+\]
+where the integral aggregates over the unit-size continuum of goods $%
+\omega^{j}$ entering in the production of each sector's $j$ aggregate good.
+
+Clearing in the input market within a sector implies: 
+\[
+L_{nt}^{j}=\int_{0}^{1}l_{nt}(\omega ^{j})d\omega ^{j},
+\]%
+where $l_{nt}(\omega ^{j})$ denotes the amount of equipped labour used in
+the production of good $\omega ^{j}$ by country $n$. We assume there is
+perfect risk-sharing within a country, but no risk-sharing across countries.%
+\footnote{%
+To motivate the lack of risk-sharing across countries, see our discussion of
+Figures 1 and 2.} The (equipped) labour shares allocated to each sector, $%
+L_{nt}^{j}/L_{nt},$ with $\sum\nolimits_{k=1}^{J}L_{nt}^{k}=L_{nt}$, are
+determined ex ante (before the realization of the shocks), but can be
+adjusted ex-post, at an adjustment cost. At the beginning of each period, a
+representative consumer decides on the ex-ante optimal allocation of the
+primary input $L_{nt}$ into different sectors in order to maximize the
+expected value of utility. Then (stochastic) shocks to productivity $%
+A_{nt}^{j}$ are realized; equipped labour is reallocated freely within a
+sector, while reallocation across sectors implies a disutility cost $%
+\Upsilon .$ Production and consumption take place. The disutility cost of
+ex-post reallocation across sectors  aims at capturing the idea that in the
+short run, it is costly to reallocate productive factors across sectors. 
+
+The representative consumer's budget constraint in each period is: 
+\[
+P_{nt}C_{nt}=\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j},
+\]%
+where $P_{nt}$ is the price of the aggregate good (\ref{aggregate}), $%
+w_{nt}^{j}L_{nt}^{j}$ is the nominal value-added generated in sector $j$.
+Lifetime utility is given by 
+\[
+U_{n}=\sum\limits_{t=0}^{\infty }\delta ^{t}u(C_{nt})+\Upsilon ,
+\]%
+where $u^{\prime }>0$, $u^{\prime \prime }\leq 0$ and $\delta $ is the
+discount factor and $\Upsilon $ is the sum of quadratic deviations of
+sectoral shares from the original sectoral allocation. The cost $\Upsilon $
+is relevant ex-post, when consumers need to reallocate inputs across
+sectors. Ex ante, however, the optimal allocation is such  that the expected
+adjustment costs will be zero. Because there is no intertemporal trade and
+no capital in the economy, and given that input shares ex ante will equal
+the expected optimal allocation, each period consumers maximize the expected
+static utility flow $E\left[ u\left( C_{nt}\right) \right] $ and the
+equilibrium is simply a sequence of static equilibria. In making his labor
+allocation decisions the representative consumer takes into account the
+joint probability distribution function of sectoral productivities, $%
+A_{nt}^{j}$s.
+
+In the analysis, we assume log utility and therefore the consumer solves: 
+\begin{equation}
+L_{nt}^{k\ast }=\arg \max E_{t-1}\left[ \ln \left( \frac{%
+\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}{P_{nt}}\right) \right]
+,s.t.:\sum\nolimits_{j=1}^{J}L_{nt}^{j}=L_{nt},  \label{eq:log:utility}
+\end{equation}%
+where $E_{t-1}$ indicates that the expectation is taken before the
+realization of period $t$ shocks. This\ maximization problem leads to the
+following first-order conditions for the ex-ante allocation of inputs to
+sectors: 
+\begin{equation}
+\phi _{nt}^{k\ast }=\frac{L_{nt}^{k\ast }}{L_{nt}}=E_{t-1}\left[ \frac{%
+w_{nt}^{k}L_{nt}^{k}}{\sum_{k}w_{nt}^{k}L_{nt}^{k}}\right] ,\qquad \forall
+k,t.  \label{eq:FOC}
+\end{equation}%
+In words, the share of resources allocated to a given sector equals its
+expected share in value added. To gain intuition on this expression note
+that $1/\sum_{k}w_{nt}^{k}L_{nt}^{k}$ is the marginal utility of consumption
+in period $t$; thus, more resources are allocated to higher value-added
+sectors, after appropriately weighting by marginal utility. Consider, for
+further intuition, a (small) sector whose productivity is negatively
+correlated with the rest of the economy (that is, it has high value added
+when the rest of the economy has low value added); in states of the world in
+which overall income is low, the marginal utility of consumption $%
+1/\sum_{k}w_{nt}^{k}L_{nt}^{k}$ will be high and hence the optimal
+allocation entails allocating more resources to this sector.
+(Log-linearizing this expression makes the role of second moments on the
+allocation of resources clearer.) In the closed economy, the value-added
+share is pinned down by the Cobb--Douglas coefficients $\alpha ^{j}\beta ^{j}
+$, as with Cobb-Douglas technology there is no variation on expenditures
+(and sales) shares---and log-utility implies the shares determine the
+sectoral allocation of resources. (In the open economy this result no longer
+holds as a country's sectoral shares depend on its absolute and comparative
+advantage as well as trading costs vis-\`{a}-vis other countries.
+
+Ex post, as said, labour can potentially be reallocated after incurring the
+ajustment costs. The ex-post input shares solve:
+
+\begin{equation}
+L_{nt}^{k}=\arg \max \left[ \ln \left( \frac{%
+\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}{P_{nt}}\right) +\frac{\varrho }{2}%
+\sum_{j=1}^{J}\left[ \phi _{nt}^{j}-\phi _{nt}^{j\ast }\right] ^{2}\right]
+,s.t.:\sum\nolimits_{j=1}^{J}L_{nt}^{j}=L_{nt},\text{ }\phi _{nt}^{j}=\frac{%
+L_{nt}^{j}}{L_{nt}}
+\end{equation}
+
+with $\phi _{nt}^{j}=\frac{L_{nt}^{j}}{L_{nt}}$ and $\sum_{j=1}^{J}\phi
+_{nt}^{j}=\sum_{j=1}^{J}\phi _{nt}^{j\ast }=1.$ The first order conditions
+satisfy%
+\begin{equation}
+\frac{w_{nt}^{k}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{k}}+\varrho \left[ \phi
+_{nt}^{k}-\phi _{nt}^{k\ast }\right] =\lambda 
+\end{equation}%
+where $\lambda $ is given by $\lambda =\frac{\frac{1}{J}%
+\sum_{j=1}^{J}w_{nt}^{j}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}$ and hence%
+\[
+\phi _{nt}^{k}=\phi _{nt}^{k\ast }+\frac{1}{\varrho }\left[ \frac{\frac{1}{J}%
+\sum_{j=1}^{J}w_{nt}^{j}-w_{nt}^{k}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}%
+\right] 
+\]%
+In words, the ex pot input shares $\phi _{nt}^{k}$ equal the ex-ante optimal
+shares $\phi _{nt}^{k\ast }$ plus the differential between the average
+equipped labour cost in the economy $\frac{1}{J}\sum_{j=1}^{J}w_{nt}^{j}$
+and the sectoral input cost $w_{nt}^{k}$. The adjustment cost parameter $%
+\varrho $ determines the elasticity of adjustment. In the extreme, when
+adjustment costs are infinite, the economy simply stays with the initial
+sectoral shares $\phi _{nt}^{k}=\phi _{nt}^{k\ast }$. As adjustment costs
+decrease, the sectoral shares adjust with the cost differential.
+
+\bigskip 
+
+READ UP TO HEAR!
+
+\end{document}
