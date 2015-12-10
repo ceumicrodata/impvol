@@ -2,13 +2,16 @@
 
 \documentclass{article}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+
+\setcounter{MaxMatrixCols}{10}
 %TCIDATA{OutputFilter=LATEX.DLL}
 %TCIDATA{Version=5.50.0.2960}
 %TCIDATA{Codepage=65001}
 %TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
 %TCIDATA{BibliographyScheme=Manual}
 %TCIDATA{Created=Monday, November 30, 2015 16:55:25}
-%TCIDATA{LastRevised=Monday, November 30, 2015 17:05:20}
+%TCIDATA{LastRevised=Wednesday, December 09, 2015 17:26:48}
 %TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
 %TCIDATA{<META NAME="DocumentShell" CONTENT="Standard LaTeX\Blank - Standard LaTeX Article">}
 %TCIDATA{CSTFile=40 LaTeX article.cst}
@@ -36,7 +39,6 @@
 \newtheorem{summary}[theorem]{Summary}
 \newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
 \input{tcilatex}
-
 \begin{document}
 
 
@@ -102,16 +104,16 @@ sectoral total factor productivity (TFP) shocks.
 The single final good can be used both as input in the production of
 intermediaries $\omega^{j}$ or for final consumption, $C_{nt}$. Hence,
 market clearing in the good markets implies: 
-\[
-Q_{nt} = C_{nt} + \sum_{j=1}^{J}\int_{0}^{1}M_{nt}(\omega^{j})d\omega ^{j},
-\]
+\begin{equation*}
+Q_{nt} = C_{nt} + \sum_{j=1}^{J}\int_{0}^{1}M_{nt}(\omega^{j})d\omega ^{j}, 
+\end{equation*}
 where the integral aggregates over the unit-size continuum of goods $%
 \omega^{j}$ entering in the production of each sector's $j$ aggregate good.
 
 Clearing in the input market within a sector implies: 
-\[
-L_{nt}^{j}=\int_{0}^{1}l_{nt}(\omega ^{j})d\omega ^{j},
-\]%
+\begin{equation*}
+L_{nt}^{j}=\int_{0}^{1}l_{nt}(\omega ^{j})d\omega ^{j}, 
+\end{equation*}%
 where $l_{nt}(\omega ^{j})$ denotes the amount of equipped labour used in
 the production of good $\omega ^{j}$ by country $n$. We assume there is
 perfect risk-sharing within a country, but no risk-sharing across countries.%
@@ -127,24 +129,24 @@ expected value of utility. Then (stochastic) shocks to productivity $%
 A_{nt}^{j}$ are realized; equipped labour is reallocated freely within a
 sector, while reallocation across sectors implies a disutility cost $%
 \Upsilon .$ Production and consumption take place. The disutility cost of
-ex-post reallocation across sectors  aims at capturing the idea that in the
-short run, it is costly to reallocate productive factors across sectors. 
+ex-post reallocation across sectors aims at capturing the idea that in the
+short run, it is costly to reallocate productive factors across sectors.
 
 The representative consumer's budget constraint in each period is: 
-\[
-P_{nt}C_{nt}=\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j},
-\]%
+\begin{equation*}
+P_{nt}C_{nt}=\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}, 
+\end{equation*}%
 where $P_{nt}$ is the price of the aggregate good (\ref{aggregate}), $%
 w_{nt}^{j}L_{nt}^{j}$ is the nominal value-added generated in sector $j$.
 Lifetime utility is given by 
-\[
-U_{n}=\sum\limits_{t=0}^{\infty }\delta ^{t}u(C_{nt})+\Upsilon ,
-\]%
+\begin{equation*}
+U_{n}=\sum\limits_{t=0}^{\infty }\delta ^{t}u(C_{nt})+\Upsilon , 
+\end{equation*}%
 where $u^{\prime }>0$, $u^{\prime \prime }\leq 0$ and $\delta $ is the
 discount factor and $\Upsilon $ is the sum of quadratic deviations of
 sectoral shares from the original sectoral allocation. The cost $\Upsilon $
 is relevant ex-post, when consumers need to reallocate inputs across
-sectors. Ex ante, however, the optimal allocation is such  that the expected
+sectors. Ex ante, however, the optimal allocation is such that the expected
 adjustment costs will be zero. Because there is no intertemporal trade and
 no capital in the economy, and given that input shares ex ante will equal
 the expected optimal allocation, each period consumers maximize the expected
@@ -165,12 +167,12 @@ realization of period $t$ shocks. This\ maximization problem leads to the
 following first-order conditions for the ex-ante allocation of inputs to
 sectors: 
 \begin{equation}
-\phi _{nt}^{k\ast }=\frac{L_{nt}^{k\ast }}{L_{nt}}=E_{t-1}\left[ \frac{%
+\psi _{nt}^{k\ast }=\frac{L_{nt}^{k\ast }}{L_{nt}}=E_{t-1}\left[ \frac{%
 w_{nt}^{k}L_{nt}^{k}}{\sum_{k}w_{nt}^{k}L_{nt}^{k}}\right] ,\qquad \forall
 k,t.  \label{eq:FOC}
 \end{equation}%
-In words, the share of resources allocated to a given sector equals its
-expected share in value added. To gain intuition on this expression note
+In words, the share of resources allocated ex ante to a given sector equals
+its expected share in value added. To gain intuition on this expression note
 that $1/\sum_{k}w_{nt}^{k}L_{nt}^{k}$ is the marginal utility of consumption
 in period $t$; thus, more resources are allocated to higher value-added
 sectors, after appropriately weighting by marginal utility. Consider, for
@@ -179,52 +181,801 @@ correlated with the rest of the economy (that is, it has high value added
 when the rest of the economy has low value added); in states of the world in
 which overall income is low, the marginal utility of consumption $%
 1/\sum_{k}w_{nt}^{k}L_{nt}^{k}$ will be high and hence the optimal
-allocation entails allocating more resources to this sector.
-(Log-linearizing this expression makes the role of second moments on the
-allocation of resources clearer.) In the closed economy, the value-added
-share is pinned down by the Cobb--Douglas coefficients $\alpha ^{j}\beta ^{j}
-$, as with Cobb-Douglas technology there is no variation on expenditures
-(and sales) shares---and log-utility implies the shares determine the
-sectoral allocation of resources. (In the open economy this result no longer
-holds as a country's sectoral shares depend on its absolute and comparative
-advantage as well as trading costs vis-\`{a}-vis other countries.
+allocation entails allocating more resources to this sector. In the closed
+economy, the value-added share is pinned down by the Cobb--Douglas
+coefficients $\alpha ^{j}\beta ^{j}$, as with Cobb-Douglas technology there
+is no variation on expenditures (and sales) shares---and log-utility implies
+the shares determine the sectoral allocation of resources. In the open
+economy this result no longer holds as a country's sectoral shares depend on
+its absolute and comparative advantage as well as trading costs vis-\`{a}%
+-vis other countries.
 
 Ex post, as said, labour can potentially be reallocated after incurring the
-ajustment costs. The ex-post input shares solve:
+ajustment costs. The ex-post sectoral input allocation solves:
 
 \begin{equation}
 L_{nt}^{k}=\arg \max \left[ \ln \left( \frac{%
 \sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}{P_{nt}}\right) +\frac{\varrho }{2}%
-\sum_{j=1}^{J}\left[ \phi _{nt}^{j}-\phi _{nt}^{j\ast }\right] ^{2}\right]
-,s.t.:\sum\nolimits_{j=1}^{J}L_{nt}^{j}=L_{nt},\text{ }\phi _{nt}^{j}=\frac{%
-L_{nt}^{j}}{L_{nt}}
-\end{equation}
-
-with $\phi _{nt}^{j}=\frac{L_{nt}^{j}}{L_{nt}}$ and $\sum_{j=1}^{J}\phi
-_{nt}^{j}=\sum_{j=1}^{J}\phi _{nt}^{j\ast }=1.$ The first order conditions
-satisfy%
+\sum_{j=1}^{J}\left[ \psi _{nt}^{j}-\psi _{nt}^{j\ast }\right] ^{2}\right] ,%
+\text{ }s.t.:\sum\nolimits_{j=1}^{J}L_{nt}^{j}=L_{nt}
+\end{equation}%
+with $\psi _{nt}^{j}\equiv \frac{L_{nt}^{j}}{L_{nt}}$ and $%
+\sum_{j=1}^{J}\psi _{nt}^{j}=\sum_{j=1}^{J}\psi _{nt}^{j\ast }=1.$ The first
+order conditions satisfy%
 \begin{equation}
-\frac{w_{nt}^{k}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{k}}+\varrho \left[ \phi
-_{nt}^{k}-\phi _{nt}^{k\ast }\right] =\lambda 
+\frac{w_{nt}^{k}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}+\varrho \left[ \psi
+_{nt}^{k}-\psi _{nt}^{k\ast }\right] =\lambda
 \end{equation}%
 where $\lambda $ is given by $\lambda =\frac{\frac{1}{J}%
-\sum_{j=1}^{J}w_{nt}^{j}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}$ and hence%
-\[
-\phi _{nt}^{k}=\phi _{nt}^{k\ast }+\frac{1}{\varrho }\left[ \frac{\frac{1}{J}%
+\sum_{j=1}^{J}w_{nt}^{j}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}$ and hence
+
+\begin{equation*}
+\psi _{nt}^{k}=\psi _{nt}^{k\ast }+\frac{1}{\varrho }\left[ \frac{\frac{1}{J}%
 \sum_{j=1}^{J}w_{nt}^{j}-w_{nt}^{k}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}%
 \right] 
-\]%
-In words, the ex pot input shares $\phi _{nt}^{k}$ equal the ex-ante optimal
-shares $\phi _{nt}^{k\ast }$ plus the differential between the average
-equipped labour cost in the economy $\frac{1}{J}\sum_{j=1}^{J}w_{nt}^{j}$
-and the sectoral input cost $w_{nt}^{k}$. The adjustment cost parameter $%
-\varrho $ determines the elasticity of adjustment. In the extreme, when
-adjustment costs are infinite, the economy simply stays with the initial
-sectoral shares $\phi _{nt}^{k}=\phi _{nt}^{k\ast }$. As adjustment costs
-decrease, the sectoral shares adjust with the cost differential.
+\end{equation*}%
+In words, the ex post input shares $\psi _{nt}^{k}$ equal the ex-ante
+optimal shares $\psi _{nt}^{k\ast }$ plus a fraction of the differential
+between the average equipped labour cost in the economy $\frac{1}{J}%
+\sum_{j=1}^{J}w_{nt}^{j}$ and the sectoral input cost $w_{nt}^{k}$. The
+adjustment cost parameter $\varrho $ determines the elasticity of sectoral
+adjustment to the cost differential. In the extreme, when adjustment costs
+are infinite, $\varrho \rightarrow \infty $, the economy simply stays at the
+initial sectoral input shares $\psi _{nt}^{k}=\psi _{nt}^{k\ast }$. As
+adjustment costs decrease, the sectoral shares adjust in response to the
+cost differential.
+
+\bigskip
+
+PAUSE
+
+\subsection{Model Solution}
+
+We first discuss the solution under autarky, and then turn to the solution
+under free trade.
+
+\paragraph{Solution under Autarky}
+
+We solve the model backwards in two stages. First, we solve the model taking
+the sectoral allocation of nonproduced inputs $L_{t}^{j}$ as fixed. We then
+solve for the ex-ante optimal $L_{t}^{j\prime }s$ before the shocks are
+realized. In the analysis of the autarky case, we omit the country-specific
+subscripts $n$ for convenience.
+
+The demand for each sector's composite good is given by 
+\begin{equation}
+Q_{t}^{j}=\alpha _{t}^{j}\left( \frac{P_{t}^{j}}{P_{t}}\right) ^{-1}Q_{t},
+\label{QJ}
+\end{equation}%
+and the demand for each intermediate good $\omega ^{j}$ is 
+\begin{equation*}
+q_{t}(\omega ^{j})=\left[ \frac{p_{t}(\omega ^{j})}{P_{t}^{j}}\right]
+^{-\eta }Q_{t}^{j}, 
+\end{equation*}%
+where 
+\begin{equation}
+P_{t}^{j}=\left[ \int_{0}^{1}p_{t}(\omega ^{j})^{1-\eta }d\omega ^{j}\right]
+^{\frac{1}{1-\eta }}  \label{PJ}
+\end{equation}%
+is the aggregate price index in sector $j$, and the economy-wide price index
+is given by: 
+\begin{equation}
+P_{t}=\prod_{j=1}^{J}\alpha _{t}^{j^{-\alpha _{t}^{j}}}\left(
+P_{t}^{j}\right) ^{\alpha _{t}^{j}}.  \label{Pt}
+\end{equation}%
+The demand for non-produced inputs $l_{t}(\omega ^{j})$ and produced inputs $%
+M_{t}(\omega ^{j})$ are given, respectively, by $l_{t}^{j}(\omega
+^{j})=\beta ^{j}\frac{p_{t}(\omega ^{j})q_{t}(\omega ^{j})}{w_{t}^{j}}$ and $%
+M_{t}(\omega ^{j})=(1-\beta ^{j})\frac{p_{t}(\omega ^{j})q_{t}(\omega ^{j})}{%
+P_{t}}.$ Aggregating over all goods $\omega ^{j}$ in a given sector, we
+obtain 
+\begin{equation}
+w_{t}^{j}L_{t}^{j}=\beta ^{j}P_{t}^{j}Q_{t}^{j}  \label{Labor share}
+\end{equation}%
+and, correspondingly, $P_{t}M_{t}^{j}=(1-\beta ^{j})P_{t}^{j}Q_{t}^{j}.$
+Labour shares are given by:
+
+\begin{equation*}
+\frac{L_{t}^{j}}{L_{t}}=\psi _{nt}^{k}=\psi _{nt}^{k\ast }+\frac{1}{\varrho }%
+\left[ \frac{\frac{1}{J}\sum_{j=1}^{J}w_{nt}^{j}-w_{nt}^{k}}{%
+\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}\right] 
+\end{equation*}%
+and the initial labour allocation, $\psi _{nt}^{k\ast }$, is taken as given.
+
+Using the input demand functions and the zero profit condition the autarky
+prices of intermediate goods are given by: 
+\begin{equation}
+p_{t}(\omega ^{j})=B^{j}\left[ A_{t}^{j}\cdot z(\omega ^{j})\right]
+^{-1}\left( w_{t}^{j}\right) ^{\beta ^{j}}P_{t}^{1-\beta ^{j}},
+\label{Frechet}
+\end{equation}%
+where $B^{j}=$ $\left( \beta ^{j}\right) ^{-\beta ^{j}}(1-\beta
+^{j})^{-(1-\beta ^{j})}$. Using (\ref{Frechet}) and the properties of the Fr%
+\'{e}chet distribution, we can express the sectoral price index as: 
+\begin{equation}
+P_{t}^{j}=\xi B^{j}\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{\frac{1}{%
+\theta }}\right] ^{-1}\left( w_{t}^{j}\right) ^{\beta ^{j}}P_{t}^{1-\beta
+^{j}}
+\end{equation}%
+where $\xi =\left[ \Gamma \left( \frac{\theta +1-\eta }{\theta }\right) %
+\right] ,$ and $\Gamma $ is the gamma function.
+
+Using (\ref{QJ}), (\ref{Labor share}), and (\ref{Pt}) we obtain real GDP:
+
+\begin{eqnarray*}
+Y_{t} &=&\sum_{j=1}^{J}\frac{w_{t}^{j}L_{t}^{j}}{P_{t}}=\sum_{j=1}^{J}\beta
+^{j}\frac{P_{t}^{j}Q_{t}^{j}}{P_{t}}=\sum_{j=1}^{J}\beta ^{j}\alpha
+_{t}^{j}Q_{t} \\
+\text{since }w_{t}^{j}L_{t}^{j} &=&\beta ^{j}P_{t}^{j}Q_{t}^{j}=\beta
+^{j}\alpha _{t}^{j}P_{t}Q_{t} \\
+Q_{t} &=&\frac{1}{\alpha _{t}^{j}\beta ^{j}}\frac{w_{t}^{j}}{P_{t}}L_{t}^{j}
+\\
+\text{and since }\frac{w_{t}^{j}}{P_{t}} &=&\left( \xi B^{j}\right)
+^{-1/\beta ^{j}}\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{\frac{1}{\theta }%
+}\right] ^{1/\beta ^{j}}\left( \frac{P_{t}^{j}}{P_{t}}\right) ^{\frac{1}{%
+\beta ^{j}}}
+\end{eqnarray*}%
+We hence obtain%
+\begin{eqnarray*}
+Q_{t} &=&\left( \xi B^{j}\right) ^{-1/\beta ^{j}}\left[ A_{t}^{j}\cdot
+\left( T^{j}\right) ^{\frac{1}{\theta }}\right] ^{1/\beta ^{j}}\left( \frac{%
+P_{t}^{j}}{P_{t}}\right) ^{\frac{1}{\beta ^{j}}}\frac{1}{\alpha
+_{t}^{j}\beta ^{j}}L_{t}^{j} \\
+\frac{P_{t}^{j}}{P_{t}} &=&\left( \xi B^{j}\right) \left[ A_{t}^{j}\cdot
+\left( T^{j}\right) ^{\frac{1}{\theta }}\right] ^{-1}\left( \frac{1}{\alpha
+_{t}^{j}\beta ^{j}}L_{t}^{j}\right) ^{-\beta ^{j}}\left( Q_{t}\right)
+^{\beta ^{j}} \\
+\prod_{j=1}^{J}\alpha _{t}^{j^{-\alpha _{t}^{j}}}\left( P_{t}^{j}\right)
+^{\alpha _{t}^{j}} &=&\prod_{j=1}^{J}\alpha _{t}^{j^{-\alpha
+_{t}^{j}}}\left( \xi B^{j}\right) ^{\alpha _{t}^{j}}\left[ A_{t}^{j}\cdot
+\left( T^{j}\right) ^{\frac{1}{\theta }}\right] ^{-\alpha _{t}^{j}}\left( 
+\frac{1}{\alpha _{t}^{j}\beta ^{j}}L_{t}^{j}\right) ^{-\beta ^{j}\alpha
+_{t}^{j}}\left( Q_{t}\right) ^{\beta ^{j}\alpha _{t}^{j}} \\
+1 &=&\prod_{j=1}^{J}\alpha _{t}^{j^{-\alpha _{t}^{j}}}\left( \xi
+B^{j}\right) ^{\alpha _{t}^{j}}\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{%
+\frac{1}{\theta }}\right] ^{-\alpha _{t}^{j}}\left( \frac{1}{\alpha
+_{t}^{j}\beta ^{j}}L_{t}^{j}\right) ^{-\beta ^{j}\alpha _{t}^{j}}Q_{t}^{\bar{%
+\beta}} \\
+Q_{t} &=&\prod_{j=1}^{J}\left( \xi B^{j}\right) ^{-\alpha ^{j}/\bar{\beta}}%
+\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{\frac{1}{\theta }}\right]
+^{\alpha ^{j}/\bar{\beta}}\alpha _{t}^{j^{-\alpha _{t}^{j}/\bar{\beta}%
+}}\left( \alpha _{t}^{j}\beta ^{j}\right) ^{-\frac{\beta ^{j}\alpha _{t}^{j}%
+}{\bar{\beta}}}\left( L_{t}^{j}\right) ^{\frac{\beta ^{j}\alpha _{t}^{j}}{%
+\bar{\beta}}} \\
+Y_{t} &=&\sum_{j=1}^{J}\frac{w_{t}^{j}L_{t}^{j}}{P_{t}}=\sum_{k=1}^{J}\beta
+^{k}\alpha _{t}^{k}Q_{t}=\bar{\beta}\prod_{j=1}^{J}\left( \xi B^{j}\right)
+^{-\alpha ^{j}/\bar{\beta}}\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{\frac{%
+1}{\theta }}\right] ^{\alpha ^{j}/\bar{\beta}}\alpha _{t}^{j^{-\alpha
+_{t}^{j}/\bar{\beta}}}\left( \alpha _{t}^{j}\beta ^{j}\right) ^{-\frac{\beta
+^{j}\alpha _{t}^{j}}{\bar{\beta}}}\left( L_{t}^{j}\right) ^{\frac{\beta
+^{j}\alpha _{t}^{j}}{\bar{\beta}}} \\
+Y_{t} &=&\prod_{j=1}^{J}R^{j}\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{%
+\frac{1}{\theta }}\right] ^{\alpha ^{j}/\bar{\beta}}\left( L_{t}^{j}\right)
+^{\frac{\beta ^{j}\alpha _{t}^{j}}{\bar{\beta}}}
+\end{eqnarray*}
+
+\bigskip where $\bar{\beta}=\sum_{j=1}^{J}\alpha ^{j}\beta ^{j}$ and $%
+R_{j}\propto \prod_{j=1}^{J}\left( \beta ^{j}\alpha ^{j}\right) ^{-\frac{%
+\alpha ^{j}\beta ^{j}}{\bar{\beta}}}(B^{j})^{-\frac{\alpha ^{j}}{\bar{\beta}}%
+}\left( T^{j}\right) ^{\frac{\alpha ^{j}}{\bar{\beta}\cdot \theta }}$ is a
+time-invariant product. We now need to determine $L_{nt}^{k}$
+
+\begin{equation}
+\psi _{nt}^{k\ast }=\frac{L_{nt}^{k\ast }}{L_{nt}}=E_{t-1}\left[ \frac{%
+w_{nt}^{k}L_{nt}^{k}}{\sum_{k}w_{nt}^{k}L_{nt}^{k}}\right] ,\qquad \forall
+k,t.
+\end{equation}%
+\begin{equation*}
+\psi _{nt}^{k}=\psi _{nt}^{k\ast }+\frac{1}{\varrho }\left[ \frac{\frac{1}{J}%
+\sum_{j=1}^{J}w_{nt}^{j}-w_{nt}^{k}}{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}%
+\right] 
+\end{equation*}
+
+We can now move one step backward and solve for the allocation of the
+primary input across sectors, $L_{t}^{j},$ $j=1,...,J$. 
+
+$\psi _{nt}^{k\ast }=\frac{\alpha ^{j}\beta ^{j}}{\bar{\beta}}$.$.$Hence:
+
+\begin{equation*}
+\psi _{t}^{k}=\frac{\alpha ^{j}\beta ^{j}}{\bar{\beta}}+\frac{1}{\varrho }%
+\left[ \frac{\bar{w}_{t}-w_{t}^{k}}{\sum_{j=1}^{J}w_{t}^{j}L_{t}^{j}}\right] 
+\end{equation*}
+
+\begin{eqnarray}
+Y_{t} &=&\sum_{j=1}^{J}\frac{w_{t}^{j}L_{t}^{j}}{P_{t}}=\prod_{j=1}^{J}R_{j}%
+\left[ A_{t}^{j}\right] ^{\frac{\alpha ^{j}}{\bar{\beta}}}\left( \frac{%
+\alpha ^{j}\beta ^{j}}{\bar{\beta}}+\frac{1}{\varrho }\left[ \frac{\bar{w}%
+_{t}-w_{t}^{k}}{\sum_{j=1}^{J}w_{t}^{j}L_{t}^{j}}\right] \right) ^{\frac{%
+\alpha ^{j}\beta ^{j}}{\bar{\beta}}}L_{t}  \label{expost} \\
+Y_{t} &=&\sum_{j=1}^{J}\frac{w_{t}^{j}L_{t}^{j}}{P_{t}}=\prod_{j=1}^{J}R_{j}%
+\left[ A_{t}^{j}\right] ^{\frac{\alpha ^{j}}{\bar{\beta}}}\left( \frac{%
+\alpha ^{j}\beta ^{j}}{\bar{\beta}}+\frac{1}{\varrho }\left[ \frac{\frac{%
+\bar{w}_{t}-w_{t}^{k}}{P_{t}}}{Y_{t}}\right] \right) ^{\frac{\alpha
+^{j}\beta ^{j}}{\bar{\beta}}}L_{t}
+\end{eqnarray}
+
+\begin{equation*}
+\frac{\bar{w}_{t}-w_{t}^{k}}{P_{t}}=\sum_{j\neq k}^{J}\left( \xi
+B^{j}\right) ^{-1/\beta ^{j}}\left[ A_{t}^{j}\cdot \left( T^{j}\right) ^{%
+\frac{1}{\theta }}\right] ^{1/\beta ^{j}}\left( \frac{P_{t}^{j}}{P_{t}}%
+\right) ^{\frac{1}{\beta ^{j}}}
+\end{equation*}
 
 \bigskip 
 
-READ UP TO HEAR!
+\bigskip 
+
+\bigskip 
+
+STOP HERE
+
+\bigskip
+
+\paragraph{Solution with International Trade}
+
+The key difference in the internationally open economy is that inputs can
+potentially be sourced from different countries. Delivering a unit of good $%
+\omega ^{j}$ produced in country $m$ to country $n$ costs: 
+\begin{equation*}
+p_{nmt}^{j}(\omega ^{j})=\frac{B^{j}\left( w_{mt}^{j}\right) ^{\beta
+^{j}}P_{mt}^{1-\beta ^{j}}}{A_{mt}^{j}\kappa _{nmt}^{j}z_{m}(\omega ^{j})} 
+\end{equation*}%
+where $B^{j}\left( w_{mt}^{j}\right) ^{\beta ^{j}}P_{mt}^{1-\beta ^{j}}$ is
+the cost of the input bundle in country of origin $m$, sector $j$, at time $%
+t $. Because of perfect competition, the price paid in country $n$, denoted $%
+p_{nt}(\omega ^{j})$, will be the minimum price across all $N$ potential
+trading partners: $p_{nt}^{j}(\omega ^{j})=\min \left\{ p_{nmt}^{j}(\omega
+^{j});\text{ }m=1,...,N\right\} .$ Producers of the aggregate good in (\ref%
+{aggregate}) minimize production costs taking prices as given. We assume the
+distribution of efficiencies for any good $\omega ^{j}$ in sector $j$ and
+country $n$ are independent across countries and sectors and follow a
+time-invariant Fr\'{e}chet distribution: $F_{n}^{j}(z)=\exp
+(-T_{n}^{j}z^{-\theta }).$ Under this assumption, the distribution of prices
+in sector $j$ of country $n$, conditional on $\left\{ A_{mt}^{j}\right\}
+_{m=1,...N}$ is given by $G_{nt}^{j}(p)|_{\left\{ A_{t}^{j}\right\} }=\Pr
+(P_{nt}^{j}<p)=1-\exp \left[ -\Phi _{nt}^{j}p^{\theta }\right] $ where $\Phi
+_{nt}^{j}=\sum_{m=1}^{N}T_{m}^{j}\left( \frac{B^{j}\left( w_{mt}^{j}\right)
+^{\beta ^{j}}P_{mt}^{1-\beta ^{j}}}{A_{mt}^{j}\kappa _{nmt}^{j}}\right)
+^{-\theta }$. Given that there is a continuum of $\omega ^{j}$ in each
+sector, by the law of large numbers the probability that country $m$
+provides a good in sector $j$ at the lowest price in country $n$ equals the
+fraction of goods that country $n$ buys from country $m$ in sector $j$: 
+\begin{equation}
+d_{nmt}^{j}=\frac{T_{m}^{j}\left( \frac{B^{j}\left( w_{mt}^{j}\right)
+^{\beta ^{j}}P_{mt}^{1-\beta ^{j}}}{A_{mt}^{j}\kappa _{nmt}^{j}}\right)
+^{-\theta }}{\Phi _{nt}^{j}}  \label{shares}
+\end{equation}%
+that is, $d_{nmt}^{j}$ is the fraction of country $n$'s total spending on
+sector-$j$ goods from country $m$ at time $t$. The equilibrium in the open
+economy can be defined as following.
+
+\textbf{Equilibrium Definition. } An equilibrium in the open economy is
+defined as a set of resource allocations $\left\{ L_{nt}^{j}\right\} $,
+import shares $\left\{ d_{nit}^{j}\right\} $, prices $\left\{ P_{nt}\right\} 
+$, $\left\{ P_{nt}^{j}\right\} $, and $\left\{ w_{n}^{j}\right\} $ such
+that, given technology $\left\{ A_{it}^{j}\right\}
+,\left\{T_{it}^{j}\right\} ,$ aggregate endowments $\left\{ L_{nt}\right\} $
+and trading costs $\left\{ \kappa _{int}^{j}\right\} $ $i)$ consumers
+maximize expected utility, $ii)$ firms minimize costs and, $iii)$ markets
+for goods and inputs clear, and $iv)$ trade is balanced. In equilibrium,
+prices and quantities satisfy (\ref{eq1})-(\ref{eq7}): 
+\begin{equation}
+P_{nt}=\prod_{j}^{J}\left( \frac{1}{\alpha _{n}^{j}}\right)
+^{\alpha^{j}}\left( P_{nt}^{j}\right) ^{\alpha ^{j}}  \label{eq1}
+\end{equation}
+\begin{equation}
+P_{nt}^{j}=\xi\Phi _{nt}^{j^{-1/}\theta }  \label{eq2}
+\end{equation}
+\begin{equation}
+\Phi _{nt}^{j}=\left( B^{j}\right) ^{-\theta
+}\sum_{i=1}^{N}T_{i}^{j}\left(A_{it}^{j}\right) ^{\theta }\left[ \frac{%
+P_{it}^{1-\beta ^{j}}\left(w_{it}^{j}\right) ^{\beta ^{j}}}{\kappa _{nit}^{j}%
+}\right] ^{-\theta }  \label{eq3}
+\end{equation}
+\begin{equation}
+d_{nmt}^{j}=\frac{\left( B^{j}\right) ^{-\theta
+}T_{m}^{j}\left(A_{mt}^{j}\right) ^{\theta }\left( \frac{P_{mt}^{1-\beta
+^{j}}w_{mt}^{j\beta^{j}}}{\kappa _{nmt}^{j}}\right) ^{-\theta }}{\Phi
+_{nt}^{j}};\sum\limits_{m=1}^{N}d_{nmt}^{j}=1  \label{eq4}
+\end{equation}
+\begin{equation}
+w_{nt}^{j}L_{nt}^{j}=\beta^{j}\sum_{m=1}^{N}d_{mnt}^{j}\left[\alpha^{j}+%
+\frac{1-\beta^{j}}{\beta^j} \cdot \frac{w_{mt}^{j}L_{mt}^{j}}{w_{mt}L_{mt}}%
+\right] w_{mt}L_{mt}  \label{eq5}
+\end{equation}
+\begin{equation}
+w_{nt}L_{nt}=\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}  \label{eq6}
+\end{equation}
+\begin{equation}
+\frac{L_{nt}^{j}}{L_{nt}}=E_{t-1}\left[ \frac{w_{nt}^{j}L_{nt}^{j}}{%
+\sum_{k=1}^J w_{nt}^{k}L_{nt}^{k}}\right]  \label{eq7}
+\end{equation}
+
+Equations (\ref{eq1})--(\ref{eq3}) show the equilibrium prices as a function
+of technology and input costs resulting from firms' cost minimization and
+consumers' maximization problems. The first equation in (\ref{eq4}) shows
+the value of goods from sector $j$ bought by country $n$ from country $m$ as
+a share of total spending on goods $j$ by country $n.$ The second equation
+says that the sum of spending shares on goods $j$ from all countries $m$ by
+country $n$ (including $n$ itself) add to 1, that is, imports plus domestic
+expenditures on goods $j$ by country $n$, add up to the overall spending
+value on goods $j$ by country $n.$ Equation (\ref{eq5}) gives the value of
+total sales accruing to the primitive factor in sector $j$ of country $n;$
+it already incorporates the balanced trade condition, i.e., total payments
+for goods flowing out of country $m$ to the rest of the world equal payments
+flowing in country $m$ from the rest of the world.\footnote{%
+In formulas, $\sum\nolimits_{j=1}^{J}X_{mt}^{j}=\sum\nolimits_{n=1}^{N}\sum%
+\nolimits_{j=1}^{J}d_{nmt}^{j}X_{nt}^{j}$, where $X_{nt}^{j}$ is total
+expenditure by country $n$ on sector-$j$ goods. The right-hand side is the
+total demand by all $N$ countries for goods produced in country $m$. The
+left-hand side is the total expenditures by country $m$, which, under trade
+balance also equals its total sales. Recall that $P_{m}^{j}Q_{m}^{j}$ is the
+total purchases of goods from sector $j$ by country $m.$ Note $%
+P_{mt}^{j}Q_{mt}^{j}$, the total purchases of goods from sector $j$ by
+country $m.$ Hence: $P_{mt}^{j}Q_{mt}^{j}=\alpha ^{j}w_{mt}L_{mt}+\frac{%
+1-\beta ^{j}}{\beta ^{j}}w_{mt}^{j}L_{mt}^{j}$.} Equation (\ref{eq4})
+expresses total value added in the economy as the sum of sectoral value
+added. (Real value added is given by $Y_{nt}=\frac{w_{nt}L_{nt}}{P_{nt}}$.)
+Finally, (\ref{eq7}) expresses the resource shares as a function of expected
+shares, following the first order conditions in (\ref{eq:FOC}).
+
+The model can conceptually be solved backwards in two steps. First, for any
+given set of values for $L_{nt}^{j}$, the first five sets of equations can
+be solved for $P_{nt}$, $w_{nt}^{j}$, $P_{nt}^{j}$, $d_{nmt}^{j}$ as a
+function of the $\kappa _{mnt}^{j}s$ and the augmented productivity factors
+defined as: 
+\begin{equation}
+Z_{nt}^{j}\equiv T_{n}^{j}\left[ L_{nt}\left( A_{nt}^{j}\right) ^{1/\beta
+^{j}}\right] ^{\beta ^{j}\theta }.  \label{productivityfactor}
+\end{equation}%
+Then in a first stage, we can solve for the shares $\frac{L_{nt}^{j}}{L_{nt}}
+$. As seen, with log utility the solution for $\frac{L_{n}^{j}}{L_{n}}$
+simplifies significantly as it is the expected value of sectoral value-added
+shares; in the implementation, we will use the data to help pin down these
+expectations.
+
+\subsection{Two Illustrative Cases: Autarky and Costless Trade}
+
+To illustrate the mechanism of diversification through trade, we analyze a
+one-sector version of the model (that is, the Eaton-Kortum model) under two
+extreme cases for which we have closed-form analytical solutions for GDP:
+autarky and costless trade. We accordingly drop the sector subscripts.
+
+\subsubsection{Volatility under Autarky}
+
+Under complete autarky, value added in the one-sector economy is given by (%
+\ref{expost}), which can be rewritten as: 
+\begin{equation*}
+Y_{nt}\propto \left( Z_{nt}\right) ^{\frac{1}{\beta \theta }} 
+\end{equation*}
+where $Z_{nt}\equiv T_{n}\left( L_{nt}A_{nt}^{1/\beta }\right)^{\beta\theta
+} $. Taking log-differences around the mean (or trend value in the
+empirics), we obtain, 
+\begin{equation*}
+\hat{Y}_{nt}=\frac{1}{\beta \theta }\hat{Z}_{nt}. 
+\end{equation*}
+Thus, in the one-sector economy under autarky, shocks to value added are
+driven exclusively by domestic shocks to the productive capacity of the
+economy, $\hat{Z}_{nt}.$ The variance of GDP, $V(\hat{Y}_{nt})$ thus depends
+on the variance of the shocks $V(\hat{Z}_{nt})$: 
+\begin{equation*}
+V(\hat{Y}_{nt})=\frac{1}{\left( \beta \theta \right) ^{2}}V(\hat{Z}_{nt}). 
+\end{equation*}
+
+\subsubsection{Volatility under Costless Trade}
+
+Under costless trade in the one-sector economy ($\kappa _{nmt}=1$), GDP per
+capita simplifies to:\footnote{%
+See derivations in the Appendix.} 
+\begin{equation*}
+Y_{nt}=\left( \xi B\right) ^{1/\beta }Z_{nt}^{\frac{1}{1+\beta \theta }%
+}\left( \sum_{m=1}^{N}Z_{mt}^{\frac{1}{1+\beta \theta }}\right) ^{\frac{1}{%
+\beta \theta }} 
+\end{equation*}%
+and hence GDP fluctuations are given by: 
+\begin{equation*}
+\hat{Y}_{nt}=\frac{1}{1+\beta \theta }\left[ \hat{Z}_{n}+\frac{1}{\beta
+\theta }\sum_{m=1}^{N}\gamma _{m}\hat{Z}_{m}\right] 
+\end{equation*}%
+where $\gamma _{m}=\frac{\bar{Z}_{m}^{\frac{1}{1+\beta \theta }}}{%
+\sum_{i=1}^{N}\bar{Z}_{i}^{\frac{1}{1+\beta \theta }}}$ is the relative size
+of country $j$ evaluated at the mean of $Z_{j}s$. Rearranging, we obtain: 
+\begin{equation}
+\hat{Y}_{nt}=\frac{1}{\beta \theta }\left[ \frac{\gamma _{n}+\beta \theta }{%
+1+\beta \theta }\hat{Z}_{n}+\frac{1}{1+\beta \theta }\sum_{m\neq
+n}^{N}\gamma _{m}\hat{Z}_{m}\right]
+\end{equation}%
+Volatility under free trade is hence given by: 
+\begin{equation}
+Var(\hat{Y}_{nt})=\left( \frac{1}{\beta \theta }\right) ^{2}\left\{ 
+\begin{array}{c}
+\left( \frac{\gamma _{n}+\beta \theta }{1+\beta \theta }\right) ^{2}Var(\hat{%
+Z}_{nt})+\left[ \frac{1}{1+\beta \theta }\right] ^{2}\sum_{m\neq i}\gamma
+_{m}^{2}Var(\hat{Z}_{mt}) \\ 
+2\frac{\gamma _{n}+\beta \theta }{1+\beta \theta }\frac{1}{1+\beta \theta }%
+\sum_{m\neq n}\gamma _{m}Cov(\hat{Z}_{m,}\hat{Z}_{n})%
+\end{array}%
+\right\}
+\end{equation}%
+Compared to the variance in autarky, $V(\hat{Y}_{nt})=\frac{1}{\left( \beta
+\theta \right) ^{2}}V(\hat{Z}_{nt})$, it is clear that the volatility due to
+domestic productivity fluctuations, $Var(\hat{Z}_{nt}),$ now receives a
+smaller loading, as $\left( \frac{\gamma _{n}+\beta \theta }{1+\beta \theta }%
+\right) ^{2}<1$ since $\gamma _{n}<1.$ The smaller the country (as gauged by
+its share $\gamma _{n}$), the smaller the impact of domestic volatility of
+shocks, $\hat{Z}_{n},$ on its GDP, when compared to autarky. Openness to
+trade, however, exposes the economy to other countries' productivity shocks,
+which will also contribute to the country's overall volatility. Whether or
+not the gain in diversification (given by lower exposure to domestic
+productivity) is bigger than the increased exposure to new shocks depends on
+the variance-covariance matrix of shocks across countries. If all countries
+have the same constant variance $Var(\hat{Z}_{nt})=\sigma ,$ and the $\hat{Z}%
+_{nt}$ are uncorrelated, volatility under free trade becomes: 
+\begin{equation}
+Var(\hat{Y}_{nt})=\left( \frac{1}{\beta \theta }\right) ^{2}\left\{ \left( 
+\frac{\gamma _{n}+\beta \theta }{1+\beta \theta }\right) ^{2}+\left[ \frac{1%
+}{1+\beta \theta }\right] ^{2}\sum_{m\neq i}\gamma _{m}^{2}\right\} \sigma
+\end{equation}%
+which is unambiguously lower than the volatility in autarky given that%
+\footnote{%
+since $\left( \beta \theta \right) ^{2}+2\beta \theta \gamma
+_{n}+\sum_{j=1}\gamma _{j}^{2}<(1+\beta \theta )^{2}$ as 
+\begin{equation*}
+2\beta \theta \gamma _{n}+\sum_{j=1}\gamma _{j}^{2}<2\beta \theta +1 
+\end{equation*}%
+} 
+\begin{equation}
+\left( \frac{\gamma _{n}+\beta \theta }{1+\beta \theta }\right) ^{2}+\left[ 
+\frac{1}{1+\beta \theta }\right] ^{2}\sum_{m\neq i}\gamma _{m}^{2}<1
+\label{derivelater}
+\end{equation}%
+(recall $\gamma _{m}<1$ and\ $\sum_{m=1}^{N}\gamma _{m}^{2}\leq 1)$. Of
+course, if other countries have higher variances or the covariance terms are
+important, then the weights countries receive matter and the resulting
+change in volatility cannot be unambiguously signed.
+
+\section{Mapping the Model into Observables}
+
+\label{mapping_into_observables}
+
+In this section, we connect the model to the data and use it to
+quantitatively assess the effect of historical changes in trade barriers on
+GDP volatility for a diverse sample of 24\ core countries and an aggregate
+of the remaining countries\ to which we refer as \textquotedblleft rest of
+the world\textquotedblright\ (ROW).
+
+The equilibrium of the model is characterized by equations (\ref{eq1})-(\ref%
+{eq7}). We solve the model\ numerically, for which we need to calibrate the
+values of the exogenous trading costs $\kappa _{nmt}^{j}$, the productivity
+process $Z_{nt}^{j}$, and the parameters $\alpha ^{j}$, $\beta ^{j}$, $%
+\theta $, and $\eta $. We consider 24 sectors in the analysis (agriculture,
+22 manufacturing sectors, and services). Throughout the study, services are
+treated as a nontradable sector (that is, $\kappa _{nmt}^{j}=0$ for all $%
+n\neq m$ and $\kappa _{nmt}^{j}=1$ for $n=m$), whereas agriculture and\ all
+manufacturing sectors are treated as tradables, with potentially different
+trading costs.
+
+We set $\alpha ^{j}$ so as to match the average share of each sector on
+total final uses in the OECD Input-Output tables across all countries. The
+betas for each sector are calculated as the ratio of value added to total
+output. A detailed description of the data and the calculations are
+available in the Appendix.
+
+We allow for a relatively broad parametric range for $\theta $, from $\theta
+=2$ to $\theta =8,$ consistent with the estimates in the literature (see
+Eaton and Kortum, 2003, Donaldson 2015, and Simonovska and Waugh, 2011). We
+use $\theta =4$ as the baseline case, and report the results for other
+values when discussing the sensitivity of our results. We calibrate the
+elasticity of substitution across varieties $\eta =2$, consistent with Broda
+and Weinstein (2006). The results are not sensitive to this parametric
+choice.
+
+We explain next how we obtain the processes for $\kappa _{nmt}^{j}$ and $%
+Z_{it}^{j}$ using data on sectoral bilateral trade flows, value added,
+output, and prices. Before we specify the details, a quick intuition on how
+these series are backed-out from the model is as follows. We recover trade
+costs $\kappa _{nmt}^{j}$ using information on bilateral trade shares and
+gross output at the sectoral level. Intuitively, if two countries trade
+little with one another in a given sector (relative to the sectoral gross
+output of these countries), this will signal high trade costs between the
+countries in that sector. Second, we recover productivities relative to a
+benchmark country using the market share of each exporter. If a country has
+a high export share in a sector, that is a sign of revealed comparative
+advantage, meaning a high relative productivity in the sector relative to
+the benchmark country. To calibrate the absolute level of productivities, we
+use price data for a benchmark country. We explain the procedure in detail
+and with formulas in the next section.
+
+\subsection{Implementation}
+
+\paragraph{Kappas}
+
+In order to perform counterfactual experiments we need to back out the
+historical realizations of the exogenous processes. Following the idea in
+Head and Ries (2011), we assume that sectoral bilateral trading costs are
+symmetric, that is: $\kappa _{nmt}^{j}=\kappa _{mnt}^{j}$, and hence
+bilateral trade costs at the sectoral level can be backed out from\ the
+data. Indeed, inverting the structural model, we obtain: 
+\begin{equation}
+\frac{d_{nmt}^{j}d_{mnt}^{j}}{d_{mmt}^{j}d_{nnt}^{j}}=\left( \kappa
+_{nmt}^{j}\right) ^{2\theta }.  \label{kappa}
+\end{equation}%
+The left hand side objects can be measured using data on bilateral imports
+and gross output at the sectoral level. Specifically, $d_{nmt}^{j}$ is the
+value of exports from $m$ to $n$ in sector $j$ at $t$ relative to total
+spending by $n$ on sector $j$ at time $t$, where total spending is measured
+as gross output plus imports minus exports by that sector and country at
+time $t.$ The share $d_{mmt}^{j}$ is obtained as a residual from the
+accounting restriction: 
+\begin{equation*}
+d_{mmt}^{j}=1-\sum\limits_{n\neq m}^{N}d_{mnt}^{j} 
+\end{equation*}%
+Hence, for a given value of $\theta $, we can obtain the time series of
+trading costs by sector and country-pairs $\left\{ \kappa _{nmt}^{j}\right\} 
+$.
+
+\paragraph{Productivity in Tradable Sectors}
+
+To back out the productivities, we proceed as follows. First, using the
+formula for $d_{nm}^{j}$ in equation (\ref{eq4}), after some algebra, we
+obtain: 
+\begin{equation}
+d_{nm}^{j}=\frac{\left( B^{j}\right) ^{-\theta }\left( \psi _{m}^{j}\right)
+^{\beta ^{j}\theta }Z_{m}^{j}\left( \kappa _{nm}^{j}\right) ^{\theta }\left(
+y_{m}^{j}\right) ^{-\theta \beta ^{j}}}{P_{m}^{\theta }\Phi _{n}^{j}}\text{, 
+}  \label{produc}
+\end{equation}%
+where $\psi _{m}^{j}\equiv \frac{L_{m}^{j}}{L_{m}}$ and $y_{m}^{j}\equiv 
+\frac{L_{m}^{j}w_{m}^{j}}{P_{m}}$. We can exploit this to recover $%
+Z_{m}^{j}. $ In particular, inverting (\ref{produc}) we have: 
+\begin{equation}
+Z_{mt}^{j}={B^{j}}^{\theta }{\xi }^{\theta }d_{nmt}^{j}\left(
+y_{m}^{j}\right) ^{\theta \beta ^{j}}\left( \kappa _{nmt}^{j}\right)
+^{-\theta }\left( \frac{P_{nt}^{j}}{P_{mt}}\right) ^{-\theta }\left( \psi
+_{mt}^{j}\right) ^{-\theta \beta ^{j}}  \label{productivity}
+\end{equation}%
+To approximate terms on the right hand side we use data on sectoral import
+shares $d_{nmt}^{j}$, sectoral value added $y_{m}^{j}$, sectoral shares $%
+\psi _{mt}^{j}$, and aggregate prices $P_{nt}\ $along with the calibrated
+parameters. (See the Appendix for more details.) The only terms we cannot
+back out directly from data are sectoral prices. We thus use the model in
+conjunction with the data to infer them. Note first that equation~(\ref%
+{productivity}) holds for all $(n,k)$ pairs of countries and all sectors $j$
+(except for services). The procedure becomes clear when we collect known and
+unknown terms as follows:%
+\begin{align}
+Z_{nt}^{j}& =\underbrace{\xi ^{\theta }{B^{j}}^{\theta }d_{k,n,t}^{j}\left(
+\kappa _{k,n,t}^{j}\right) ^{-\theta }\left( w_{n,t}^{j}L_{n,t}^{j}\right)
+^{\theta \beta ^{j}}\left( \psi _{n,t}^{j}\right) ^{-\theta \beta ^{j}}{%
+P_{n,t}}^{\theta (1-\beta ^{j})}}_{\equiv \exp (\zeta _{k,n,t}^{j})}{%
+P_{k,t}^{j}}^{-\theta }  \notag \\
+& =\exp (\zeta _{k,n,t}^{j}){P_{k,t}^{j}}^{-\theta }
+\end{align}%
+Note in particular that this relationship holds for any choice of country $k$%
+. Note also that the factor $\exp (\zeta _{k,n,t}^{j})$ can be constructed
+from observable data. We decompose $\exp (\zeta
+_{k,n,t}^{j})=Z_{nt}^{j}\left( {P_{k,t}^{j}}\right) ^{\theta }$ according to
+the following procedure:
+
+\begin{enumerate}
+\item Take logs and rename terms for brevity. 
+\begin{align}
+\zeta _{k,n,t}^{j}& =\ln {Z_{nt}^{j}}+\theta \ln {P_{k,t}^{j}} \\
+& \equiv \chi _{nt}^{j}+\tau _{k,t}^{j}
+\end{align}%
+where $\chi _{nt}^{j}\equiv \ln {Z_{nt}^{j}}$ and $\tau _{k,t}^{j}\equiv
+\theta \ln {P_{k,t}^{j}}$.
+
+\item To proceed we need a benchmark country, so we use sectoral prices in
+the US. 
+\begin{equation*}
+\tau _{US,t}^{j}\equiv \theta \ln {P_{US,t}^{j}} 
+\end{equation*}%
+We choose units of accounts for each sector so that U.S. nominal sectoral
+prices are equal to 1 in 1972.
+
+\item Obtain $\tau _{k,t}^{j}$ for all other countries as: 
+\begin{equation}
+\tau _{k,t}^{j}=\frac{1}{N}\sum_{n=1}^{N}\left( \zeta _{k,n,t}^{j}-\zeta
+_{US,n,t}^{j}\right) +\tau _{US,t}^{j}
+\end{equation}%
+(Note that this equation holds with and without the averaging operator, $%
+\frac{1}{N}\sum_{n=1}^{N}$, as $\tau _{k,t}^{j}$ and $\tau _{US,t}^{j}$ do
+not depend on the exporter $n$.\footnote{%
+We use the average in the quantitative analysis to minimize measurement
+error.})
+
+\item Back-out $\chi _{nt}^{j}$ for all other countries:%
+\begin{equation}
+\chi _{nt}^{j}=\frac{1}{N}\sum_{k=1}^{N}\left( \zeta _{k,n,t}^{j}-\tau
+_{k,t}^{j}\right)
+\end{equation}
+
+\item Recover shocks and prices:%
+\begin{align}
+Z_{n,t}^{j}& =\exp \left( \chi _{nt}^{j}\right) \\
+P_{k,t}^{j}& =\exp \left( \frac{\tau _{kt}^{j}}{\theta }\right)
+\end{align}
+\end{enumerate}
+
+At the end of the procedure we end up with augmented productivity factors $%
+Z_{n,t}^{j}$ and sectoral prices for agriculture and all manufacturing
+sectors $P_{k,t}^{j}$.
+
+\paragraph{Productivity in Nontradables}
+
+To compute the productivities in the services sector for each country, we
+use equilibrium equations (\ref{eq1}), (\ref{eq2}) and (\ref{produc}).
+
+\begin{enumerate}
+\item As we already have sectoral prices of tradables we can use (\ref{eq1})
+to recover the price of services as follows: 
+\begin{equation}
+P_{n,t}^{s}=\left( \frac{P_{n,t}}{P_{US,t}}P_{US,t}\right) ^{\frac{1}{\alpha
+^{s}}}\left( \prod_{j=1}^{J}{\alpha ^{j}}^{-\alpha ^{j}}\right) ^{-\frac{1}{%
+\alpha ^{s}}}\left[ \prod_{j\neq s}\left( P_{n,t}^{j}\right) ^{\alpha ^{j}}%
+\right] ^{-\frac{1}{\alpha ^{s}}}
+\end{equation}%
+Note that we observe data on the price of country $n$ relative to the price
+in the United States, $\frac{P_{n,t}}{P_{US,t}}$, from the Penn World Tables.
+
+\item Now we recover $Z_{n,t}^{s}$ using (\ref{eq2}), (\ref{produc}), and $%
+n=m$. 
+\begin{equation}
+Z_{n,t}^{s}=\xi ^{\theta }{B^{s}}^{\theta }\left( \frac{%
+w_{n,t}^{s}L_{n,t}^{s}}{\psi _{n,t}^{s}}\right) ^{\theta \beta ^{s}}\left( 
+\frac{P_{n,t}}{P_{US,t}}P_{US,t}\right) ^{\theta (1-\beta ^{s})}{P_{n,t}^{s}}%
+^{-\theta }
+\end{equation}
+\end{enumerate}
+
+\paragraph{Sectoral versus Aggregate Shocks}
+
+Note that the changes in productivity retrieved above, 
+\begin{equation}
+\frac{1}{\beta ^{j}\theta }\hat{Z}_{m}^{j}\equiv \frac{1}{\beta ^{j}}\hat{A}%
+_{mt}^{j}+\hat{L}_{mt},  \label{prodchanges}
+\end{equation}%
+can be decompose into two factors: a sectoral factor, $\frac{1}{\beta ^{j}}%
+\hat{A}_{mt}^{j}$, and an aggregate factor $\hat{L}_{mt}$. The
+interpretation of $L_{mt}$ as \textquotedblleft equipped
+labour\textquotedblright\ means that it embeds a productivity component too.
+Given the functional form, the split between pure productivity and resources
+in $L_{mt}$ is not relevant from the point of view of aggregate volatility.
+(A shock to $L_{mt}$ will be equivalent to an aggregate shock to $A_{mt}^{j}$%
+s that leaves the relative productivities $A_{mt}^{j}/A_{mt}^{j^{\prime }}$
+unchanged $\forall j,j^{\prime }.$) For identification, we impose the
+restriction that 
+\begin{equation}
+\sum \frac{\alpha ^{j}}{\beta ^{j}}\hat{A}_{mt}^{j}=0.  \label{idrestriction}
+\end{equation}%
+Thus, changes in the sectoral productivity will correspond to changes in the
+relative value of $A_{mt}^{j}$, while changes in aggregate productivity
+(affecting all sectors equally), as well as changes in overall resources,
+will be subsumed in $L_{mt}$. We hence call sectoral shocks, those affecting 
+$\hat{A}_{mt}^{j}$ and aggregate shocks those affecting the aggregate factor 
+$\hat{L}_{mt}$. The identification restriction implies that any primitive
+aggregate shock affecting all sectors will be collected in $\hat{L}_{mt}.$
+
+\paragraph{Summary of the Procedure}
+
+We can summarize the procedure as follows.
+
+\begin{enumerate}
+\item Obtain the\ inverse of trade costs, $\kappa $s, from (\ref{kappa}).
+
+\item Compute $\psi _{mt}^{j}$ as the sectoral value-added share at time $t$.
+
+\item Retrieve the panel of sectoral and country productivities$\left\{
+Z_{mt}^{j}\right\} $ from the procedure described above.\footnote{%
+Units of accounts are chosen so that nominal sectoral prices in the US in
+1972 equal 1.}
+
+\item Retrieve $L_{mt}$ from (\ref{prodchanges}) using (\ref{idrestriction})
+and compute $L_{mt}^{j}=\psi _{mt}^{j}L_{mt}.$
+
+\item Solve the equilibrium values of $\left\{ d_{nit}^{j}\right\} $, $%
+\left\{ P_{nt}\right\} $, $\left\{ P_{nt}^{j}\right\} $, and $\left\{
+w_{n}^{j}\right\} $ using equations (\ref{eq1}) through (\ref{eq6}).
+\end{enumerate}
+
+\subsubsection{Counterfactual Equilibria}
+
+We discuss next how we compute the equilibrium in the counterfactual
+exercise and how we identify the two theoretical mechanisms.
+
+\paragraph{Numerical Counterfactual Equilibria}
+
+For each new value of (inverse) trading cost $\kappa $, and the estimated
+sequence of sectoral productivities $\left\{ Z_{mt}^{j}\right\} $, we need
+to solve for the sequence of equipped labour allocated to each sector $%
+\left\{ L_{mt}^{j}\right\} $. The rational-expectations equilibrium is a
+fixed point of a below mapping on the space of all possible sequences $%
+\left\{ L_{mt}^{j}\right\} $. We proceed as follows.
+
+\begin{enumerate}
+\item We start from the initial value $(L_{nt}^j)^0 = \alpha^j L_{nt}$.
+
+\item In iteration $i$ for the actual $(L_{nt}^{j})^{i}$ we get sectoral and
+aggregate (equipped labour) wages, $(w_{nt}^{j})^{i}$ and $(w_{nt})^{i}$,
+from the equilibrium equations.
+
+\item We calculate the implied total value added and the sectoral value
+added shares as 
+\begin{equation*}
+\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = \frac{(w_{nt}^j)^i
+(L_{nt}^j)^i}{(w_{nt})^i L_{nt}}. 
+\end{equation*}
+
+\item 
+\begin{enumerate}
+\item Decompose all $N\cdot J$ value-added-share series into trend and cycle
+components using an annual band-pass filter. 
+\begin{equation*}
+\log \left( \frac{w_{nt}^{j}L_{nt}^{j}}{w_{nt}L_{nt}}\right)
+^{i}=trend_{nt}^{j}+cycle_{nt}^{j}. 
+\end{equation*}
+
+\item Normalize the trend values so that in each period and each country the
+trend values add up to 1: 
+\begin{equation*}
+\widehat{\left( \frac{w_{nt}^{j}L_{nt}^{j}}{w_{nt}L_{nt}}\right) ^{i}}=\frac{%
+\exp (trend_{nt}^{j})}{\sum_{k}\exp (trend_{nt}^{k})} 
+\end{equation*}
+
+\item Replace the expectation with the adjusted trend value. 
+\begin{equation*}
+E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right) = \widehat{%
+\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i} 
+\end{equation*}
+\end{enumerate}
+
+\item Update the resource allocations 
+\begin{equation*}
+(L_{nt}^j)^{i + 1} = L_{nt} \widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt}
+L_{nt}}\right)^i} 
+\end{equation*}
+
+\item Repeat the procedure until convergence.
+\end{enumerate}
+
+\paragraph{Productivities in Counterfactual Scenario}
+
+We are interested in decomposing the trade effect on volatility on the
+contributions of the two mechanisms, specialization and diversification. To
+achieve that, we need to identify the sources of shocks to productivity. We
+resort to a factor model that decomposes productivity shocks into sector-
+and country-specific components in a way described in Koren and Tenreyro
+(2007). To separate per period shocks from trends we use a band pass filter
+to detrend each $\left\{ \log {Z_{n,t}^{j}}\right\} _{t=1}^{T}$ series. Then
+we calculate the time average of the shocks for each $(n,j)$ pair and
+subtract it from the growth rate to get the object to be decomposed, $\tilde{%
+Z}_{nt}^{j}$. 
+\begin{equation*}
+\tilde{Z}_{nt}^{j}=\hat{Z}_{n,t}^{j}-(T-1)^{-1}\sum_{t=2}^{T}\hat{Z}%
+_{n,t}^{j} 
+\end{equation*}%
+Without loss of generality, we decompose $\tilde{Z}_{nt}^{j}$ as: 
+\begin{equation*}
+\tilde{Z}_{nt}^{j}=\lambda _{t}^{j}+\mu _{nt}+\epsilon _{nt}^{j}, 
+\end{equation*}%
+where ${\mu _{n,t}}$ is the country-specific factor, affecting all sectors
+within the country; $\lambda _{t}^{j}$ is the global sectoral factor,
+affecting sector $j$ in all countries;\ and the residual $\epsilon
+_{n,t}^{j} $ is the idiosyncratic component, specific to the country and
+sector. The three factors, $\lambda ,\mu $, and $\epsilon $ are estimated
+as: 
+\begin{align*}
+\hat{\lambda}_{t}^{j}& =N^{-1}\sum_{n=1}^{N}\tilde{Z}_{nt}^{j} \\
+\hat{\mu}_{nt}& =J^{-1}\sum_{j=1}^{J}\left( \tilde{Z}_{nt}^{j}-\hat{\lambda}%
+_{t}^{j}\right) \\
+\hat{\epsilon}_{nt}^{j}& =\tilde{Z}_{nt}^{j}-\hat{\lambda}_{t}^{j}-\hat{\mu}%
+_{nt}\text{,}
+\end{align*}%
+with the restriction $\sum_{n}{\mu _{n}}=0$ implying that the
+country-specific effect is expressed relative to the world's aggregate. In
+the counterfactual exercises, we can mute the sector- or country-specific
+factors by setting the corresponding components equal to 0, in order to
+identify the separate effects of the two trade channels affecting volatility.
 
 \end{document}
