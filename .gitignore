@@ -1,0 +1,12 @@
+# ignore internal and temporary matlab data files
+*.mat
+
+# ignore image results
+*.png
+
+# keep only latex source of documentation
+*.pdf
+*.aux
+*.gz
+*.log
+*.out
