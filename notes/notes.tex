@@ -1,0 +1,552 @@
+\documentclass[11pt,oneside,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{layout}
+\usepackage{fancyhdr}
+
+\usepackage{hyperref}
+%\hypersetup{pdfcolorlinks=true,allcolors=blue}
+
+%\pagestyle{fancy}
+%\headheight = 14.5 pt
+%\markright{Notes on \textsl{volatilitytrade.pdf} \hfill Peter Zsohar}
+
+\title{Notes on \textsl{volatilitytrade.pdf}}
+\author{Peter Zsohar}
+
+\voffset = -10 pt
+\textheight = 650 pt
+\parindent = 0 pt
+
+\begin{document}
+\maketitle
+
+\section{Input Files}
+Data files in alphabetical order.
+\subsection{\textsl{alfas.csv}}
+Contains the $J(=24)$ sectoral $\alpha^j$ values.
+\subsubsection{Time varying alphas}
+\begin{enumerate}
+  \item $w\!L^j_{t} \doteq \sum_n w^j_{nt} L^j_{nt}$ -- Use sectoral value added from the data. (see below) 
+  \item $s^j_{t} \doteq \frac{w\!L^j_{t}}{\sum_k w\!L^k_{t}}$
+  \item $\alpha^j_t \doteq \frac{s^j_{t} / \beta^j}{\sum_k (s^k_{t} / \beta^k)}$ -- Use betas from data. (see below)
+\end{enumerate}
+\subsubsection{Constant alphas}
+\begin{itemize}
+  \item Averaged: Take the time average of the time varying alphas.
+  \item Pooled
+	\begin{enumerate}
+  		\item $w\!L^j \doteq \sum_{n, t} w^j_{nt} L^j_{nt}$ -- Use sectoral value added from the data. (see below) 
+  		\item $s^j \doteq \frac{w\!L^j}{\sum_k w\!L^k}$
+  		\item $\alpha^j \doteq \frac{s^j / \beta^j}{\sum_k (s^k / \beta^k)}$ -- Use betas from data. (see below)
+	\end{enumerate}
+\end{itemize}
+\subsubsection{Smooth alphas}
+We take the time varying alphas and apply the bandpass filter to get the trend for each sector. Then renormalize so that the sum of alphas is 1 in all periods.
+
+
+\subsection{\textsl{betts.csv}}
+Contains the country, sector and time period specific $\beta^j_{nt}$ values.
+Construct sectoral $\beta^j$ values by averaging over $t$ and $n$: $$\beta^j = \frac{\sum_{t, n}\beta^j_{nt}}{TN}$$
+
+\subsection{\textsl{export\_shares.csv}}
+This file contains the \emph{import} expenditure shares for each country pair, sector and time period.\\
+Manipulations
+\begin{itemize}
+  \item Negative entries are set to 0 (3379 cases). There are some numbers in the magnitude of 1e2.
+  \item Get domestic shares $d_{mmt}  = 1 - \sum_{n \neq m} d_{mnt}$
+  \item Set negative domestic shares $\left(1364 \mbox{ cases when }\sum_{n \neq m} d_{mnt} > 1\right)$ to previous year's value or 0, then re-normalize row by $\sum_{n} d_{mnt}$
+  \item Remaining zeros are set to 1e-10.
+\end{itemize}
+Use
+\begin{itemize}
+  \item Infer trade costs $\kappa_{nmt}^{j}$
+  \item The US values are used in the calculation of the sectoral productivities ($Z$s).
+\end{itemize}
+
+\subsection{\textsl{Price\_USA.csv}}
+This contains a single time series of the US aggregate price index with 1995 as a base. \\
+Manipulation
+\begin{itemize}
+  \item Normalize the base value in 1995 to 1.
+\end{itemize}
+Use
+\begin{itemize}
+  \item Price changes for the US ($\hat{P}_{US,t}$) -- the rest of price changes uses also the PWT (see below).
+\end{itemize}
+
+\subsection{\textsl{prices.csv}}
+Stores price index time series (with base 1995) for each country and sector separately. Only US prices are used.\\
+Use
+\begin{itemize}
+  \item Sectoral prices in the US ($P^j_{US,t}$) are used to calculate the evolution of sectoral prices ($\hat{P}^j_{US,t}$) and the evolution of sectoral productivities in the US.
+\end{itemize}
+
+\subsection{\textsl{PWT.csv}}
+Stores aggregate prices relative to the US for each country and time period.\\
+Use
+\begin{itemize}
+  \item Deflator of sectoral value added ($w^j_{nt}L^j_{nt}$) to get sectoral output ($y^j_{nt}$).
+  \item Calculate sectoral productivities in all countries in period 0 ($Z^j_{n,0}$) based on US sectoral productivities ($Z^j_{US,0}$).
+  \item Calculate the aggregate (relative to US) price changes ($\hat{P}_{m,t}$).
+\end{itemize}
+
+\subsection{\textsl{VA.csv}}
+Contains country, sector and time period specific value added. Quantities are in \emph{current} million USD.\\
+Use
+\begin{itemize}
+  \item Deflate with aggregate prices to get sectoral output ($y^j_{nt} \equiv w^j_{nt}L^j_{nt} / P^j_{n,t} $).
+  \item Use the trend of value added share as a proxy for equipped labor share.
+  $$\psi^j_{nt} \equiv L^j_{nt} / L_{nt} \approx \widehat{\left(\frac{L^j_{nt} w^j_{nt}}{L_{nt} w_{nt}}\right)}$$
+\end{itemize}
+
+
+\newpage
+\section{Mapping the model into observables}
+\subsection{Trade Costs}
+Following equation (26p) trade costs are backed out from the import expenditure shares.
+\begin{align}
+\frac{d_{nmt}^{j}d_{mnt}^{j}}{d_{mmt}^{j}d_{nnt}^{j}} &=\left( \kappa_{nmt}^{j}\right) ^{2\theta }  \tag{26p}\\
+\kappa_{nmt}^{j} &= \left( \frac{d_{nmt}^{j}d_{mnt}^{j}}{d_{mmt}^{j}d_{nnt}^{j}}\right) ^{\frac{1}{2\theta}} 
+\end{align}
+
+\subsection{Price normalization}
+Problem: From Equation (15p) aggregate price will not equal 1 if all sectoral prices are normalized to 1.
+\begin{align}
+P_{nt} &= \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j} \tag{15p}\\
+%
+P_{nt} &= \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} \neq 1 \notag
+\end{align}
+From now on I will use
+\begin{equation}
+P_{US, 1972} = \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} \approx 3.3667,
+\end{equation}
+where I use the $\alpha$ values to compute the \emph{level} of aggregate price in the US in 1972.
+
+\subsection{Compound Shocks (Except for Services)}
+First $Z_{0t_0}^j = Z_{US, 1972}^{j}$ is backed out based on (34p) for all sectors except for services. Note that for clarity I make it explicit that country 0 is the US.
+\begin{align}
+Z_{US, 1972}^{j} &= {B^{j}}^{\theta } {\xi}^\theta d_{US, US, 1972}^{j} \left(y_{US, 1972}^{j}\right) ^{\theta \beta^{j}} \left(\frac{1}{P_{US, 1972}}\right) ^{-\theta} \left(\psi_{US, 1972}^{j}\right) ^{-\theta \beta^{j}} \notag\\
+%
+&= {B^{j}}^{\theta } {\xi}^\theta d_{US, US, 1972}^{j} \left(\frac{VA_{US, 1972}^j}{P_{US, 1972}}\right) ^{\theta \beta^{j}} \left(\frac{1}{P_{US, 1972}}\right) ^{-\theta} \left(\psi_{US, 1972}^{j}\right) ^{-\theta \beta^{j}}  \notag\\
+%
+&= {B^{j}}^{\theta } {\xi}^\theta d_{US, US, 1972}^{j} \left(P_{US, 1972}\right) ^{\theta (1 - \beta^{j})} \left(VA^j_{US, 1972}\right)^{\theta \beta^{j}} \left(\psi_{US, 1972}^{j}\right) ^{-\theta \beta^{j}}\notag\\
+%
+&= {B^{j}}^{\theta } {\xi}^\theta d_{US, US, 1972}^{j} \left(\prod_{k = 1}^J {\alpha^k}^{- \alpha^k}\right) ^{\theta(1 - \beta^{j})} \left(VA^j_{US, 1972}\right)^{\theta \beta^{j}} \left(\psi_{US, 1972}^{j}\right) ^{-\theta \beta^{j}}
+\end{align}
+%
+Then $Z_{nt_0}^j = Z_{n, 1972}^j$ is recovered for all the other countries and all sectors (except for services) based on the $Z_{US, 1972}^{j}$ values. This is done based on (30p).
+%
+\begin{align}
+Z_{n, 1972}^{j} &= Z_{US, 1972}^{j} \frac{d_{US, n, 1972}^{j}}{d_{US, US, 1972}^{j}} \left(\frac{y_{n, 1972}^{j}}{y_{US, 1972}^{j}}\right)^{\theta \beta ^{j}} \left(\kappa_{US, n, 1972}^{j}\right)^{-\theta} \left(\frac{P_{n, 1972}}{P_{US, 1972}}\right)^{\theta} \left(\frac{\psi_{n, 1972}^{j}}{\psi_{US, 1972}^{j}}\right)^{-\theta \beta^{j}} \notag\\
+%
+&= Z_{US, 1972}^{j} \frac{d_{US, n, 1972}^{j}}{d_{US, US, 1972}^{j}} \left(\frac{VA_{n, 1972}^{j}}{VA_{US, 1972}^{j}}\right)^{\theta \beta ^{j}} \left(\kappa_{US, n, 1972}^{j}\right)^{-\theta} \left(\frac{P_{n, 1972}}{P_{US, 1972}}\right)^{\theta(1 - \beta^j)} \left(\frac{\psi_{n, 1972}^{j}}{\psi_{US, 1972}^{j}}\right)^{-\theta \beta^{j}} \notag\\
+%
+&=  {B^{j}}^{\theta} {\xi}^\theta d_{US, n, 1972}^{j} \left(VA_{n, 1972}^{j}\right)^{\theta \beta ^{j}} \left(\kappa_{US, n, 1972}^{j}\right)^{-\theta} \left(\prod_{k = 1}^J {\alpha^k_t}^{- \alpha^k_t}\right) ^{\theta(1 - \beta^{j})} \cdot \dots \notag\\
+& \qquad \quad \cdot \left(PWT_{n, 1972}\right)^{\theta(1 - \beta^j)} \left(\psi_{n, 1972}^{j}\right)^{-\theta \beta^{j}}
+%
+\end{align}
+%
+Then we compute the $Z_{0t}^j = Z_{US, t}^j$ series for all 35 remaining time periods ($t = 1973 \dots 2007$) and all sectors (except for services). To do this, first we obtain the growth rate of these series, $\hat{Z}_{US, t}^j$, based on (33p), and then calculate the whole series based on the initial values $Z_{US, 1972}^j$.
+%
+\begin{align}
+\hat{Z}_{US, t}^{j} &= \hat{d}_{US, US, t}^{j} + \theta\beta^{j} \hat{y}_{US, t}^{j} - \theta \left(\hat{P}_{US, t}^{j} - \hat{P}_{US, t}\right) - \theta\beta^{j} \hat{\psi}_{US, t}^{j} \notag\\
+%
+&= \hat{d}_{US, US, t}^{j} + \theta(1 - \beta^{j}) \hat{P}_{US, t} - \theta \hat{P}_{US, t}^{j} + \theta\beta^{j} \left(\widehat{VA}^j_{US, t} - \hat{\psi}^j_{US, t}\right)
+\end{align}
+%
+Then use
+\begin{equation}
+Z_{US, t}^j = Z_{US, t-1}^j e^{\hat{Z}_{US, t}^j} \qquad \mbox{with} \qquad Z_{US, 1972}^j. 
+\end{equation}
+%
+The growth rate of $Z_{nt}^j$ values for the rest of the countries is then recovered by using (31p) and then using the exponential formula like for the US. 
+%
+\begin{align}
+\hat{Z}_{nt}^{j} &= \hat{Z}_{US, t}^{j} + (\hat{d}_{US, n, t}^{j} - \hat{d}_{US, US, t}^{j}) + \theta \beta^{j} \left(\hat{y}_{n, t}^{j}-\hat{y}_{US, t}^{j}\right) \notag \\ 
+& \qquad \quad - \theta \left(\hat{\kappa}_{US,n,t}^{j} + \hat{P}_{US,t} - \hat{P}_{n,t}\right) + \theta \beta^{j} \left(\hat{\psi}_{US,t}^{j} - \hat{\psi}_{n,t}^{j}\right) \notag \\ 
+%
+&= \hat{Z}_{US, t}^{j} + (\hat{d}_{US, n, t}^{j} - \hat{d}_{US, US, t}^{j}) + \theta \beta^{j} \left(\widehat{VA}_{n, t}^{j}-\widehat{VA}_{US, t}^{j} + \hat{P}_{US, t}-\hat{P}_{n, t}\right) \notag \\ 
+& \qquad \quad - \theta \left(\hat{\kappa}_{US,n,t}^{j} + \hat{P}_{US,t} - \hat{P}_{n,t}\right) + \theta \beta^{j} \left(\hat{\psi}_{US,t}^{j} - \hat{\psi}_{n,t}^{j}\right) \notag \\ 
+%
+&= \hat{d}_{US, n, t}^{j} - \theta\hat{\kappa}_{US,n,t}^{j} + \theta \beta^{j} \left(\widehat{VA}^j_{n, t} - \hat{\psi}^j_{n, t}\right) + \theta(1 - \beta^{j}) \left(\hat{P}_{US, t} + \widehat{PWT}_{n,t}\right) - \theta \hat{P}_{US, t}^{j}
+\end{align}
+%
+Then use
+\begin{equation}
+Z_{n, t}^j = Z_{n, t-1}^j e^{\hat{Z}_{n, t}^j} \qquad \mbox{and} \qquad Z_{n, 1972}^j.
+\end{equation}
+
+
+\subsection{Compound Shocks for Services}
+Now we have to compute the shocks for services. Generally we use three equations to derive all the formulas below. These three are (15p), (16p) and (27p).
+%
+\begin{align}
+P_{nt} &= \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j} \tag{15p}\\
+%
+P_{nt}^j &= \xi^j {\Phi_{nt}^j}^{-\frac{1}{\theta}} \tag{16p}\\
+%
+d^j_{nmt} &= \frac{{B^{j}}^{-\theta} \left(\psi^j_{mt}\right)^{\theta\beta^j} Z_{mt}^j \left(\kappa^j_{nmt}\right)^{\theta} \left(y^j_{mt}\right)^{-\theta\beta^j}}{{P_{mt}}^\theta {\Phi_{nt}^j}} \tag{27p}
+\end{align}
+%
+\begin{enumerate}
+  \item Use (27p) and $n = m$ to calculate $\Phi_{n, t}^j$ for all sectors (except for services)
+  \begin{equation}
+     \Phi_{n, t}^j = {B^j}^{-\theta} Z_{n, t}^j \left(VA^j_{n, t}\right)^{-\theta \beta^j} \left(\psi^j_{n, t}\right)^{\theta \beta^j}  \left(PWT_{n, t} P_{US, t}\right)^{\theta(\beta^j - 1)} \frac{1}{d_{n, n, t}^j}
+  \end{equation} 
+  \item Use (16p) to recover sectoral prices for all countries (except for services)
+  \begin{equation}
+    P_{n, t}^j = \xi \left(\Phi_{n,t}^j\right)^{-\frac{1}{\theta}}
+  \end{equation}
+  \item Use (15p) to recover the price of services
+  \begin{equation}
+    P_{n, t}^s = \left(PWT_{n, t} P_{US, t}\right)^{\frac{1}{\alpha^s}} \left(\prod_{j = 1}^J {\alpha^j}^{- \alpha^j}\right)^{-\frac{1}{\alpha^s}} \left[\prod_{j \neq s} \left(P_{n, t}^j\right)^{\alpha^j}\right]^{-\frac{1}{\alpha^s}}
+  \end{equation}
+  \item Recover $Z_{n, t}^s$ using (27p), (16p) and $n = m$
+  \begin{equation}
+    Z_{n, t}^s = \xi^\theta {B^s}^\theta \left(\frac{VA^s_{n, t}}{\psi^s_{n, t}}\right)^{\theta \beta^s} \left(PWT_{n, t} P_{US, t}\right)^{\theta(1 - \beta^s)} {P_{n, t}^s}^{-\theta}
+  \end{equation}
+\end{enumerate}
+
+
+\subsection{Alternative Computation of Shocks and Sectoral Prices}
+Start with (28p) which is true for all $(n, k)$ pairs of countries and all sectors $j$ except for services:
+\begin{align}
+Z_{nt}^j &= \underbrace{\xi^\theta {B^j}^\theta d_{k, n, t}^j \left(\kappa_{k, n, t}^j\right)^{-\theta} \left(VA_{n, t}^j\right)^{\theta \beta^j} \left(\psi_{n, t}^j\right)^{-\theta \beta^j} {P_{n, t}}^{\theta (1 - \beta^j)}}_{\exp(\zeta_{k, n, t}^j)} {P_{k, t}^j}^{-\theta} \notag \\
+&= \exp(\zeta_{k, n, t}^j) {P_{k, t}^j}^{-\theta}
+\end{align}
+Note that this relationship is true for any choice of $k$ and that $\exp(\zeta_{k, n, t}^j)$ can be constructed from data.
+Decompose $\exp(\zeta_{k, n, t}^j) = Z_{nt}^j {P_{k, t}^j}^{\theta}$ according to the following procedure:
+\begin{enumerate}
+  \item Take logs and rename terms for brevity.
+  \begin{align}
+  \zeta_{k, n, t}^j &= \ln{Z_{nt}^j} + \theta\ln{P_{k, t}^j} \\
+  &= \lambda_{nt}^j + \tau_{k, t}^j
+  \end{align}
+  \item Use sectoral prices in the US.
+  \begin{equation}
+  \tau_{US, t}^j = \theta\ln{P_{US, t}^j}
+  \end{equation}
+  \item Get $\tau_{k, t}^j$ for all other countries.
+  \begin{equation}
+  \tau_{k, t}^j = \frac{1}{N} \sum_{n = 1}^N \left(\zeta_{k, n, t}^j- \zeta_{US, n, t}^j\right) + \tau_{US, t}^j
+  \end{equation}
+  \item Get $\lambda_{nt}^j$ for all other countries.
+  \begin{equation}
+  \lambda_{nt}^j = \frac{1}{N} \sum_{k = 1}^N \left(\zeta_{k, n, t}^j - \tau_{k, t}^j\right)
+  \end{equation}
+  \item Recover shocks and prices.
+  \begin{align}
+  Z_{n, t}^j &= \exp\left(\lambda_{nt}^j\right)\\
+  P_{k, t}^j &= \exp\left(\frac{\tau_{kt}^j}{\theta}\right)
+  \end{align}
+\end{enumerate}
+
+To get shocks and prices for services one can use the same procedure as described in the previous section with the option to directly use the sectoral prices for all other sectors delivered by the decomposition approach from the $\tau$ values.
+
+
+\subsection{Compute Equipped Labor}
+As a last step, we have to compute $L$, the measure of \emph{equipped labor}. We use the identity
+$$\frac{1}{\beta^j \theta} \hat{Z}^j_{mt} \equiv \frac{1}{\beta^j} \hat{A}^j_{mt} + \hat{L}_{mt}$$ along with the identifying assumption
+$$\sum_j \frac{\alpha^j}{\beta^j} \hat{A}^j_{mt} = 0.$$
+
+This yields
+$$L_{mt} = \prod_j \left(Z^j_{mt}\right)^{\frac{\alpha^j}{\beta^j \theta}}.$$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\section{Shock Decomposition}
+\subsection{Filtering}
+To separate per period shocks from trends we use a band pass filter to detrend each $\left\{\log{Z^j_{n,t}}\right\}_{t=1}^T$ series.
+
+The filter uses the moving average weights recommeneded by Table 4 in Baxter and King (1995). In the equilibrium calculations we will have to repeat this filtering several times on each time series and that would result in loss of data at edges of the series in each step. To resolve this issue we reflect the head and tail of the time series at the edges.
+
+Let $y_0$ denote the first observation in the time series. Then we extrapolate to $K$ preceding periods by using
+$$y_{-k} = y_0 + (y_0 - y_k)\quad \forall k \leq K, $$ where $K$ is the number of lags used in the moving average.
+The same procedure is employed at the end of the time series. Note that in this way the trend value at the edges of the time series will be equal to the actual values. This implies that the reflection procedure yields shocks equal to 0 in the first and last periods.
+After the trend is removed we denote the cyclical component of the $\left\{\log{Z^j_{n,t}}\right\}_{t=1}^T$ series with $\hat{Z}^j_{n,t}$.
+
+\subsection{Decomposition}
+The decomposition to sector and country specific parts is done in a way described in Koren and Tenreyro (2007). 
+First, we calculate the time average of the shocks for each $(n,j)$ pair and subtract it from the growth rate to get the object to be decomposed, $\tilde{Z}^j_{nt}$.
+$$\tilde{Z}^j_{nt} = \hat{Z}^j_{n,t} - (T - 1)^{-1} \sum_{t=2}^T \hat{Z}^j_{n,t}$$
+
+Then $\tilde{Z}$ is decomposed as
+$$\tilde{Z}^j_{nt} = \lambda^j_t + \mu_{nt} + \epsilon^j_{nt},$$
+
+where $\lambda, \mu$ and $\epsilon$ are estimated as
+\begin{align*}
+\hat{\lambda}^j_t &= N^{-1} \sum_{n=1}^N  \tilde{Z}^j_{nt} \\
+\hat{\mu}_{nt} &= J^{-1} \sum_{j=1}^J \left(\tilde{Z}^j_{nt} - \hat{\lambda}^j_t\right)\\
+\hat{\epsilon}^j_{nt} &= \tilde{Z}^j_{nt} - \hat{\lambda}^j_t - \hat{\mu}_{nt}.
+\end{align*}
+
+\newpage
+\section{Equilibrium Algorithm}
+%
+\subsection{Equilibrium Equations}
+Equations (\ref{eq1}) - (\ref{eq7}) describe the equilibrium of the model.
+\begin{align}
+% \nonumber to remove numbering (before each equation)
+  P_{nt} &= \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j} \label{eq1}\\
+  %
+  P_{nt}^j &= \xi {\Phi_{nt}^j}^{-\frac{1}{\theta}} \label{eq2}\\
+  %
+  \Phi_{nt}^j &= {B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta} \left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{nit}^j}\right)^{-\theta} \label{eq3}\\
+  %
+  d_{mnt}^j &= \frac{{B^j}^{-\theta} T_n^j {A_{nt}^j}^{\theta} \left(\frac{{P_{nt}}^{1 - \beta^j} {w_{nt}^j}^{\beta^j}}{\kappa_{mnt}^j}\right)^{-\theta}} {\Phi_{mt}^j} \label{eq4}\\
+  %
+  w_{nt}^j L_{nt}^j &= \beta^j \sum_{m = 1}^N d_{mnt}^j \left( \alpha^j w_{mt} L_{mt} + \frac{1 - \beta^j}{\beta^j} w_{mt}^j L_{mt}^j\right) \label{eq5}\\
+  %
+  w_{nt} L_{nt} &= \sum_{j = 1}^J w_{nt}^j L_{nt}^j \label{eq6}\\
+  %
+  \frac{L_{nt}^{j}}{L_{nt}} &= E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right) \label{eq7}
+\end{align}
+
+Where
+\begin{align}
+  \nonumber
+  \xi &= \Gamma\left(\frac{\theta + 1 - \eta}{\theta}\right) \\
+  \nonumber
+  B^j &= {\beta^j}^{- \beta^j} (1 - \beta^j)^{-(1 - \beta^j)}
+\end{align}
+
+\newpage
+\subsection{Inner loop}
+For a given pair of sectoral resource allocation $(L_{nt}^j)$ and sectoral wages $(w_{nt}^j)$ solve the system below for the aggregate price indexes $P_{nt}.$
+\begin{eqnarray}
+% \nonumber to remove numbering (before each equation)
+  P_{nt} &=& \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j} \label{aggr1}\\
+  P_{nt}^j &=& \xi {\Phi_{nt}^j}^{-\frac{1}{\theta}} \label{aggr2} \\
+  \Phi_{nt}^j &=& {B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta} \left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{nit}^j}\right)^{-\theta}
+\end{eqnarray}
+Where $$\xi = \Gamma\left(\frac{\theta + 1 - \eta}{\theta}\right)$$ and $$B^j = {\beta^j}^{- \beta^j} (1 - \beta^j)^{-(1 - \beta^j)}.$$
+
+Algebraic manipulations to arrive at a system of $N$ equations and $N$ unknowns.
+%
+Simplify $\Phi_{nt}^j:$
+\begin{eqnarray*}
+  \Phi_{nt}^j &=&  {B^j}^{-\theta} \sum_{i = 1}^N \underbrace{T_i^j {A_{it}^j}^{\theta}}_{\frac{Z_{it}^j}{{L_{it}}^{\beta^j\theta}}} \left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{nit}^j}\right)^{-\theta}\\
+  &=& {B^j}^{-\theta} \sum_{i = 1}^N Z_{it}^j {L_{it}}^{- \beta^j\theta} {w_{it}^j}^{-\beta^j\theta} {\kappa_{nit}^j}^{\theta}{P_{it}}^{\theta(\beta^j - 1)}\\
+  &=& {B^j}^{-\theta} \sum_{i = 1}^N \underbrace{Z_{it}^j {\left((L_{it}w_{it}^j)^{- \beta^j} \kappa_{nit}^j\right)}^{\theta}}_{D_{nit}^j} {P_{it}}^{\theta(\beta^j - 1)}\\
+  &=& {B^j}^{-\theta} \sum_{i = 1}^N D_{nit}^j{P_{it}}^{\theta(\beta^j - 1)}
+\end{eqnarray*}
+%
+Notice that we can compute the coefficients of the equation (the $D$ values) before starting the search for the price vector.
+
+
+Use equation (\ref{aggr2}) and then the expression for $\Phi_{nt}^j$:
+\begin{eqnarray*}
+  P_{nt} &=&  \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j}\\
+  &=& \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} \left(\xi {\Phi_{nt}^j}^{-\frac{1}{\theta}}\right)^{\alpha^j}\\
+  &=& \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} \xi^{\alpha^j} {\Phi_{nt}^j}^{-\frac{\alpha^j}{\theta}}\\
+  &=& \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} \xi^{\alpha^j} \left({B^j}^{-\theta} \sum_{i = 1}^N D_{nit}^j{P_{it}}^{\theta(\beta^j - 1)}\right)^{-\frac{\alpha^j}{\theta}}\\
+  &=& \prod_{j = 1}^J \underbrace{{\alpha^j}^{- \alpha^j} \xi^{\alpha^j} {B^j}^{\alpha^j}}_{K^j} \left(\sum_{i = 1}^N D_{nit}^j{P_{it}}^{\theta(\beta^j - 1)}\right)^{-\frac{\alpha^j}{\theta}}\\
+  &=& \left( \prod_{j = 1}^J K^j \right) \cdot \prod_{j = 1}^J \left(\sum_{i = 1}^N D_{nit}^j {P_{it}}^{\theta(\beta^j - 1)}\right)^{-\frac{\alpha^j}{\theta}}
+\end{eqnarray*}
+%
+Notice that $\prod_{j = 1}^J K^j$ can be computed before the whole procedure.
+
+%
+We could simplify this further by solving for $\mathcal{P}_{nt} \equiv P_{nt}^{\theta}$ instead of $P_{nt}$:
+
+\begin{equation}
+\mathcal{P}_{nt} = K \prod_{j = 1}^J \left(\sum_{i = 1}^N D_{nit}^j {\mathcal{P}_{it}}^{(\beta^j - 1)}\right)^{-\alpha^j}, \label{price_eq}
+\end{equation}
+
+where $$K \equiv \left(\prod_{j = 1}^J K^j\right)^\theta \equiv \left(\prod_{j = 1}^J {\alpha^j}^{- \alpha^j} \xi^{\alpha^j} {B^j}^{\alpha^j} \right)^\theta$$
+%
+and $$D_{nit}^j \equiv Z_{it}^j {\left((L_{it}w_{it}^j)^{- \beta^j} \kappa_{nit}^j\right)}^{\theta}.$$
+
+Then we solve the system for the vector $\mathcal{P}_{\cdot t}$ by iterating on the right hand side of (\ref{price_eq}) starting from $\mathcal{P}_{\cdot ,t-1}$.
+
+\newpage
+\subsection{Middle loop}
+For a given resource allocation, $L_{nt}^j$, this loop searches for sectoral wages $w_{nt}^j$ that solve the nonlinear system of equations below.
+
+\begin{eqnarray}
+% \nonumber to remove numbering (before each equation)
+  w_{nt}^j L_{nt}^j &=& \beta^j \sum_{m = 1}^N d_{mnt}^j \left( \alpha^j w_{mt} L_{mt} + \frac{1 - \beta^j}{\beta^j} w_{mt}^j L_{mt}^j\right)\\
+  w_{nt} L_{nt} &=& \sum_{j = 1}^J w_{nt}^j L_{nt}^j
+\end{eqnarray}
+
+There are three important remarks:
+\begin{itemize}
+  \item The system is separable in $t$, so we can solve the corresponding subsystem for each $t$ separately.
+  \item The system is nonlinear because $d$ depends on sectoral wages by definition through
+    $$d_{mnt}^j \equiv \frac{{B^j}^{-\theta} T_n^j {A_{nt}^j}^{\theta} \left(\frac{{P_{nt}}^{1 - \beta^j} {w_{nt}^j}^{\beta^j}}{\kappa_{mnt}^j}\right)^{-\theta}}{{B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta} \left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{mit}^j}\right)^{-\theta}}.$$
+  \item This is a system of the form $x = A(x) x$, where the matrix $A(x)$ depends on $x$ nonlinearly. To solve for $x$ we can use the following iterative procedure.
+    \begin{enumerate}
+      \item Start from an initial $x^0$.
+      \item Iterate $x^{i + 1} = \lambda A(x^i) x^i + (1 - \lambda) x^i$ $\forall i = 0, 1, \dots$ until $x^i$ converges to some $x^*$, where $\lambda \in \left(0,1\right]$ is a dampening parameter.
+    \end{enumerate}
+\end{itemize}
+
+\subsubsection{Nonlinear part}
+To facilitate computation we introduce $D$, the coefficients from the inner loop.
+We can rewrite the definition of $d$ as
+\begin{align*}
+  d_{mnt}^j &= \frac{\overbrace{T_n^j {A_{nt}^j}^{\theta}}^{\frac{Z_{nt}^j}{{L_{nt}}^{\beta^j\theta}}} \left(\frac{{P_{nt}}^{1 - \beta^j} {w_{nt}^j}^{\beta^j}}{\kappa_{mnt}^j}\right)^{-\theta}}{\sum_{i = 1}^N \underbrace{T_i^j {A_{it}^j}^{\theta}}_{\frac{Z_{it}^j}{{L_{it}}^{\beta^j\theta}}} \left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{mit}^j}\right)^{-\theta}}\\
+%
+  &= \frac{Z_{nt}^j {L_{nt}}^{- \beta^j\theta} {w_{nt}^j}^{-\beta^j\theta} {\kappa_{mnt}^j}^{\theta}{P_{nt}}^{\theta(\beta^j - 1)}}{\sum_{i = 1}^N Z_{it}^j {L_{it}}^{- \beta^j\theta} {w_{it}^j}^{-\beta^j\theta} {\kappa_{mit}^j}^{\theta}{P_{it}}^{\theta(\beta^j - 1)}}\\
+%
+  &= \frac{\overbrace{Z_{nt}^j {L_{nt}}^{- \beta^j\theta} {w_{nt}^j}^{-\beta^j\theta} {\kappa_{mnt}^j}^{\theta}}^{D_{mnt}^j}{P_{nt}}^{\theta(\beta^j - 1)}}{\sum_{i = 1}^N \underbrace{Z_{it}^j {L_{it}}^{- \beta^j\theta} {w_{it}^j}^{-\beta^j\theta} {\kappa_{mit}^j}^{\theta}}_{D_{mit}^j}{P_{it}}^{\theta(\beta^j - 1)}}\\
+%
+  &= \frac{D_{mnt}^j {P_{nt}}^{\theta(\beta^j - 1)}}{\sum_{i = 1}^N D_{mit}^j{P_{it}}^{\theta(\beta^j - 1)}}
+\end{align*}
+Note that $d$ does not depend on the resource allocation.
+
+\subsubsection{Linear part}
+Substitute the sum from the second equation into the first one to get the expression below:
+
+\begin{align*}
+w_{nt}^j L_{nt}^j &= \beta^j \sum_{m = 1}^N d_{mnt}^j \left( \alpha^j \left(\sum_{k = 1}^J w_{mt}^k L_{mt}^k\right) + \frac{1 - \beta^j}{\beta^j} w_{mt}^j L_{mt}^j\right)\\
+%
+w_{nt}^j L_{nt}^j &= \alpha^j \beta^j \sum_{m = 1}^N  d_{mnt}^j \sum_{k = 1}^J w_{mt}^k L_{mt}^k \quad + \quad (1 - \beta^j)\sum_{m = 1}^N d_{mnt}^j w_{mt}^j L_{mt}^j
+\end{align*}
+
+We gather the coefficients on the right hand side to matrix $A$ and then iterate on the sectoral value added term according to the procedure described above. That is in iteration $i + 1$ the new value of the value added term is calculated as
+$$\left(w_{nt}^j L_{nt}^j\right)^{i + 1} = \lambda A\!\left(\left(w_{nt}^j\right)^i\right) \left(w_{nt}^j L_{nt}^j\right)^i + (1 - \lambda) \left(w_{nt}^j L_{nt}^j\right)^i.$$
+
+\subsubsection{Wage normalization}
+Once the procedure converged, we get sectoral wages from dividing $w_{nt}^j L_{nt}^j$ by $L_{nt}^j$. Then we scale sectoral wages so that the average wage across all countries and sectors in any given period is 1.
+
+\newpage
+\subsection{Outer loop}
+The goal of this loop is to find the sectoral resource allocations $L_{nt}^j$ that satisfy
+$$\frac{L_{nt}^{j}}{L_{nt}} = E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right).$$
+This loop runs over iterations of $L_{nt}^j$ until it converges up to a predefined threshold.
+
+We use three methods to approximate the expectation:
+\begin{itemize}
+  \item An exponential trend that allows for constant growth rate.
+  \item A band pass filtered trend that allows for breaks in growth rates.
+  \item Perfect foresight to match actual values by neglecting the expectation operator.
+\end{itemize}
+
+\subsubsection{Exponential Trend}
+%
+\begin{enumerate}
+  \item We start from the initial value $(L_{nt}^j)^0 = \alpha^j L_{nt}$. \footnote{Would it make sense to start from the average value added share in the data?}
+  \item In iteration $i$ for the actual $(L_{nt}^j)^i$ we get sectoral and aggregate wages, $(w_{nt}^j)^i$ and $(w_{nt})^i$, from the middle loop.
+  \item We calculate the implied total value added and the sectoral value added shares as
+    $$\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = \frac{(w_{nt}^j)^i (L_{nt}^j)^i}{(w_{nt})^i L_{nt}}.$$
+  \item We calculate the exponential trend of the value added share series and use the trend values to approximate the expectation.
+    \begin{enumerate}
+      \item Estimate each of the $N \cdot J$ equations separately with OLS
+        $$\log\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = \delta_n^{j0} + \delta_n^{j1} t + \epsilon_{nt}^j.$$
+      \item Normalize the trend values so that in each period in each country the trend values add up 1:
+        $$\widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i} = \frac{\exp(\hat{\delta}_n^{j0} + \hat{\delta}_n^{j1} t)}{\sum_k \exp(\hat{\delta}_n^{k0} + \hat{\delta}_n^{k1} t)}$$
+      \item Replace the expectation with the adjusted trend value.
+      $$E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right) = \widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i}$$
+    \end{enumerate}
+  \item Update the resource allocations
+    $$(L_{nt}^j)^{i + 1} = L_{nt} \widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i}$$
+\end{enumerate}
+
+\subsubsection{Band Pass Filtered Trend}
+\begin{enumerate}
+  \item We start from the initial value $(L_{nt}^j)^0 = \alpha^j L_{nt}$.
+  \item In iteration $i$ for the actual $(L_{nt}^j)^i$ we get sectoral and aggregate wages, $(w_{nt}^j)^i$ and $(w_{nt})^i$, from the middle loop.
+  \item We calculate the implied total value added and the sectoral value added shares as
+    $$\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = \frac{(w_{nt}^j)^i (L_{nt}^j)^i}{(w_{nt})^i L_{nt}}.$$
+  \item
+    \begin{enumerate}
+      \item Decompose all $N \cdot J$ value added share series to trend and cycle components using a band pass filter with the same specification as in the shock decomposition.
+        $$\log\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = trend^j_{nt} + cycle_{nt}^j.$$
+      \item Normalize the trend values so that in each period in each country the trend values add up 1:
+        $$\widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i} = \frac{\exp(trend^j_{nt} + cycle_{nt}^j)}{\sum_k \exp(trend^k_{nt} + cycle_{nt}^k)}$$
+      \item Replace the expectation with the adjusted trend value.
+      $$E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right) = \widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i}$$
+    \end{enumerate} 
+  \item Update the resource allocations
+    $$(L_{nt}^j)^{i + 1} = L_{nt} \widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i}$$
+\end{enumerate}
+
+\subsubsection{Perfect Foresight}
+\begin{enumerate}
+  \item We start from the initial value $(L_{nt}^j)^0 = \alpha^j L_{nt}$. 
+  \item In iteration $i$ for the actual $(L_{nt}^j)^i$ we get sectoral and aggregate wages, $(w_{nt}^j)^i$ and $(w_{nt})^i$, from the middle loop.
+  \item We calculate the implied total value added and the sectoral value added shares as
+    $$\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = \frac{(w_{nt}^j)^i (L_{nt}^j)^i}{(w_{nt})^i L_{nt}}.$$
+  \item Update the resource allocations
+    $$(L_{nt}^j)^{i + 1} = L_{nt} \left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i$$
+\end{enumerate}
+
+\newpage
+\section{Potential Typos}
+
+\subsection{Equilibrium Equations}
+Formulas (15p) - (21p) describe the equilibrium in the paper.
+\begin{align}
+% \nonumber to remove numbering (before each equation)
+  P_{nt} &= \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j} \tag{15p}\\
+  %
+  P_{nt}^j &= \xi^j {\Phi_{nt}^j}^{-\frac{1}{\theta}} \tag{16p}\\
+  %
+  \Phi_{nt}^j &= {B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta} \left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{nit}^j}\right)^{-\theta} \tag{17p}\\
+  %
+  d_{mnt}^j &= \frac{{B^j}^{-\theta} T_n^j {A_{nt}^j}^{\theta} \left(\frac{{P_{nt}}^{1 - \beta^j} {w_{nt}^j}^{\beta^j}}{\kappa_{mnt}^j}\right)^{-\theta}} {\Phi_{mt}^j}; \qquad \sum_n^N d^j_{mnt} = 1 \tag{18p}\\
+  %
+  w_{nt}^j L_{nt}^j &= \beta^j \sum_{m = 1}^N d_{mnt}^j \left( \alpha^j w_{mt} L_{mt} + (1 - \beta^j) w_{mt}^j L_{mt}^j\right) \tag{19p}\\
+  %
+  w_{nt} L_{nt} &= \sum_{j = 1}^J w_{nt}^j L_{nt}^j \tag{20p}\\
+  %
+  \frac{L_{nt}^{j}}{L_{nt}} &= E_{t - 1} \left( \frac{w_{n}^{j} L_{n}^{j}}{\sum_{k = 1}^J w_{n}^k L_{n}^k}\right)  \tag{21p}
+\end{align}
+
+\subsection{Proposed Corrections} 
+\begin{itemize}
+  \item (16p): $\xi$ does not depend on $j$
+  \item (18p): Adding that the sum of the $d$ values is 1 is redundant
+  \item (19p): It should be $\frac{1 - \beta^j}{\beta^j}$ instead of only $(1 - \beta^j)$
+  \item (21p): Adding the time subscript $t$ to the terms in the expectation may be better
+\end{itemize}
+
+\subsubsection{Equations for Calibration}
+If the equilibrium equations (15p-21p) are OK, then (27p) is OK.\\
+Equation (28p)
+\begin{equation}
+Z_{mt}^{j}=\left( B^{j}\right) ^{-\theta }d_{nmt}^{j}\left( y_{m}^{j}\right)
+^{\theta \beta ^{j}}\left( \kappa _{nmt}^{j}\right) ^{-\theta }\left( \frac{%
+P_{nt}^{j}}{P_{mt}}\right) ^{-\theta }\left( \psi _{mt}^{j}\right) ^{-\theta
+\beta ^{j}}  \tag{28p}
+\end{equation}%
+Correct version
+\begin{equation}
+Z_{mt}^{j}={B^{j}}^{\theta } {\xi}^\theta d_{nmt}^{j}\left( y_{m}^{j}\right)
+^{\theta \beta ^{j}}\left( \kappa _{nmt}^{j}\right) ^{-\theta }\left( \frac{%
+P_{nt}^{j}}{P_{mt}}\right) ^{-\theta }\left( \psi _{mt}^{j}\right) ^{-\theta
+\beta ^{j}}
+\end{equation}%
+Equations (29p), (30p) and (31p) are OK.\\
+Equation (32p)
+\begin{equation}
+Z_{0t}^{j}=\left( B^{j}\right) ^{-\theta }d_{00t}^{j}\left(
+y_{0t}^{j}\right) ^{\theta \beta ^{j}}\left( \frac{P_{0t}^{j}}{P_{0t}}%
+\right) ^{-\theta }\left( \psi _{0t}^{j}\right) ^{-\theta \beta ^{j}} \tag{32p}
+\end{equation}%
+Correct version
+\begin{equation}
+Z_{0t}^{j}={B^{j}}^{\theta } {\xi}^\theta d_{00t}^{j}\left(
+y_{0t}^{j}\right) ^{\theta \beta ^{j}}\left(\frac{P_{0t}^{j}}{P_{0t}}\right) ^{-\theta }\left( \psi _{0t}^{j}\right) ^{-\theta \beta ^{j}}
+\end{equation}%
+Equation (33p) is OK.\\
+Equation (34p)
+\begin{equation}
+Z_{01972}^{j}=d_{001972}^{j}\left( y_{1972}^{j}\right) ^{\theta \beta
+^{j}}\left( \psi _{01972}^{j}\right) ^{-\theta \beta ^{j}} \tag{34p}
+\end{equation}%
+Correct version
+\begin{equation}
+Z_{01972}^{j}= {B^{j}}^{\theta } {\xi}^\theta d_{001972}^{j}\left( y_{01972}^{j}\right) ^{\theta \beta
+^{j}}\left(\frac{1}{P_{01972}}\right) ^{-\theta}\left(\psi_{01972}^{j}\right) ^{-\theta \beta ^{j}}, 
+\end{equation}
+as $P_{01972}^{j}$ is normalized to 1 for all $j$. (See details in the section on price normalization above.)\\
+Equation (35p) is OK.
+
+\end{document} 

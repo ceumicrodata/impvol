@@ -1,0 +1,65 @@
+\documentclass[12pt,oneside,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{layout}
+\usepackage{fancyhdr}
+
+\usepackage{hyperref}
+%\hypersetup{pdfcolorlinks=true,allcolors=blue}
+
+%\pagestyle{fancy}
+%\headheight = 14.5 pt
+%\markright{Notes on \textsl{volatilitytrade.pdf} \hfill Peter Zsohar}
+
+\voffset = -10 pt
+\textheight = 650 pt
+\parindent = 0 pt
+
+\begin{document}
+
+\section{Solve for Z, w and trade costs} % (fold)
+\label{sec:solve_for_z_w_and_trade_cost}
+
+\begin{align}
+P_{nt} &= \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j} \tag{15p}\\
+%
+P_{nt}^j &= \xi^j {\Phi_{nt}^j}^{-\frac{1}{\theta}} \tag{16p}\\
+%
+d^j_{nmt} &= \frac{{B^{j}}^{-\theta} \left(\psi^j_{mt}\right)^{\theta\beta^j} Z_{mt}^j \left(\kappa^j_{nmt}\right)^{\theta} \left(y^j_{mt}\right)^{-\theta\beta^j}}{{P_{mt}}^\theta {\Phi_{nt}^j}} \tag{27p}
+\end{align}
+
+\begin{enumerate}
+	\item Solve for $P_{nt}(P^j_{nt})$ from (15p).
+	\item Solve for $\Phi^j_{nt}(P^j_{nt})$ from (16p).
+	\item Rearrange (27p) to get
+	\begin{equation}
+	d^j_{nmt} {P_{mt}}^{\theta(1 - \beta^j)} {\Phi_{nt}^j} {B^{j}}^{\theta}  = Z_{mt}^j \left(\kappa^j_{nmt}\right)^{\theta} {w^j_{mt}}^{-\theta\beta^j} {\underbrace{L_{mt}}_{1}}^{-\theta\beta^j}	
+	\end{equation}
+	\item Divide by $d^j_{mmt} {P_{mt}}^{\theta(1 - \beta^j)} {\Phi_{mt}^j}$ to get  $\kappa$ as
+	\begin{equation}
+		\left(\frac{d^j_{nmt} {\Phi_{nt}^j}}{d^j_{mmt} {\Phi_{mt}^j}}\right)^{\frac{1}{\theta}} =
+	  \frac{\kappa^j_{nmt}}{\kappa^j_{mmt}} = \kappa^j_{nmt}
+	\end{equation}
+	\item Denote the LHS of (1) as $G_{nmt}^j$ and express $w_{nt}^j$ from (1) as
+	\begin{equation}
+		w_{nt}^j = {Z_{nt}^j}^{\frac{1}{\theta\beta^j}} {G_{nnt}^j}^{-\frac{1}{\theta\beta^j}}
+	\end{equation}
+	\item Divide $wL_{nt}^j$ (this is data) by $w_{nt}^j$ to express $L_{nt}^j$ as
+	\begin{equation}
+		L_{nt}^j = {Z_{nt}^j}^{-\frac{1}{\theta\beta^j}} {G_{nnt}^j}^{\frac{1}{\theta\beta^j}}
+	\end{equation}
+	\item Calculate $L_{nt}^j$ from (21p) by approximating the expectation and using $wL_{nt}^j$
+	\item With $L_{nt}^j$ at hand calculate $Z_{nt}^j$ as
+	\begin{equation}
+		Z_{nt}^j = {L_{nt}^j}^{-\theta\beta^j} G_{nnt}^j = {L_{nt}^j}^{-\theta\beta^j} d^j_{nnt} {P_{nt}}^{\theta(1 - \beta^j)} {\Phi_{nt}^j} {B^{j}}^{\theta} 
+	\end{equation}
+	\item Now it is possible to get $w_{nt}^j$ as well.
+\end{enumerate}
+
+
+
+% section solve_for_z_w_and_trade_cost (end)
+
+\end{document}

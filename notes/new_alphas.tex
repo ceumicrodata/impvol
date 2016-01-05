@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage[left=1.5in, right=1.5in, top=1.2in, bottom=1.2in]{geometry}
+%\usepackage[left=1in, right=2.3cm, top=1cm, bottom=1cm]{geometry}
+\usepackage{layout}
+\usepackage{setspace}
+%\onehalfspace
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{amsmath}
+
+%\usepackage{lmodern}
+%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+%\usepackage[T1]{fontenc}
+
+\usepackage{xcolor}
+\definecolor{mycolor}{RGB}{100,0,0}
+\definecolor{mycolor2}{RGB}{100,0,0}
+%\definecolor{mycolor2}{RGB}{0,0,0}
+
+\usepackage{blindtext}
+\usepackage{lipsum}
+
+\parindent = 0pt
+\begin{document}
+\thispagestyle{empty}
+
+\section{New alpha}
+
+\begin{enumerate}
+	\item $va_{jt} = \sum_n va_{njt}$
+	\item $s_{jt} = \frac{va_{jt}}{\sum_k va_{kt}}$
+	\item $\alpha_{jt} = \frac{s_{jt} / \beta_j}{\sum_k (s_{kt} / \beta_k)}$
+\end{enumerate}
+
+\end{document} 
