@@ -83,8 +83,9 @@ end % if
 
 
 %% Import sectoral Prices
-p_sectoral_data = csvread([input_folder, 'sectoral_price_index.csv']);
+% index of base country in sectoral price data
 ii = sum(have_prices(1:i_base));
+p_sectoral_data = csvread([input_folder, 'sectoral_price_index.csv']);
 p_sectoral_base = p_sectoral_data((ii - 1) * n_years + 1 : ii * n_years, :);
 
 
@@ -93,7 +94,7 @@ p_sectoral_base = p_sectoral_data((ii - 1) * n_years + 1 : ii * n_years, :);
 % Normalize sectoral price index in base country 
 p_sectoral_base = p_sectoral_base ./ repmat(p_sectoral_base(1, :), [n_years 1]);
 
-% Compute aggregate price index
+% Compute aggregate price index in base country
 p_base = prod((p_sectoral_base' ./ alpha) .^ alpha)';
 
 % Recompute PWT. Needed if US is not chosen as the base country
@@ -136,7 +137,6 @@ va_total = squeeze(va_total)';
 
 kappa = compute_trade_cost(d, parameters);
 
-% plot_trade_costs(kappa)
 
 % collect parameters
 parameters.alpha = alpha;
@@ -237,7 +237,6 @@ p_sectoral(:, i_services, :) = ...
 z(:, i_services, :) = ...
     compute_z_services(va, psi, pwt, p_base, p_sectoral, parameters);
 
-%save('sectoral_prices', 'p_sectoral')
 
 %% Compute Equipped Labor - L
 % This is alpha_j * (37) summed over j and then applying (38).
@@ -284,5 +283,4 @@ output_folder = c.results_folder;
 save([output_folder, 'data_rgdp_and_volatility.mat'], 'real_dgp_sectoral',...
      'real_gdp_total', 'data_volatility_total', 'deflator', 'pwt', 'p_base',...
      'va_total', 'va', 'p_sectoral_base', 'p_sectoral_data', 'd');
-
 end
