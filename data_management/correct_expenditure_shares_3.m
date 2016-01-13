@@ -1,40 +1,40 @@
-function d = correctexpenditureshares3(d, parameters)
+function d = correct_expenditure_shares3(d, parameters)
 % There are a number of manipulations to the shares...
 
 global c
 
-weights = c.filterWeights;
+weights = c.filter_weights;
 
-numericalZero = parameters.numericalZero;
+numerical_zero = parameters.numerical_zero;
 
-[nCountries, ~, nSectors, nYears] = size(d);
+[n_countries, ~, n_sectors, n_years] = size(d);
 
 % There is no data about domestic shares. We calculate them so that
 % shares add up to 1.
-for n = 1:nCountries
-    d(n, n, :, :) = ones(1, 1, nSectors, nYears) - sum(d(n, :, :, :), 2);
+for n = 1:n_countries
+    d(n, n, :, :) = ones(1, 1, n_sectors, n_years) - sum(d(n, :, :, :), 2);
 end
 
-domestic_shares = zeros(nCountries, nSectors - 1, nYears);
+domestic_shares = zeros(n_countries, n_sectors - 1, n_years);
 
-for t = 1:nYears
-    for j = 1:(nSectors - 1)
+for t = 1:n_years
+    for j = 1:(n_sectors - 1)
         domestic_shares(:, j, t) = diag(d(:, :, j, t));
     end % j
 end % t
 
-% [domestic_trend, domestic_noise] = detrendseries(domestic_shares, weights);
+% [domestic_trend, domestic_noise] = detrend_series(domestic_shares, weights);
 
 % indd = domestic_shares < 0;
 % t_c = squeeze(sum(indd, 2))';
 
 
 % % cutoff = -0.126;
-% cutoff = numericalZero;
+% cutoff = numerical_zero;
 % include_index = (domestic_trend(:) >= cutoff);
 % exclude_index = logical(1 - include_index);
 % 
-% positive_index = (domestic_trend(:) > numericalZero);
+% positive_index = (domestic_trend(:) > numerical_zero);
 % negative_index = logical(1 - positive_index);
 % 
 % 
@@ -87,33 +87,33 @@ end % t
 % 
 % XX_pinv = pinv(X' * X);
 % next = XX_pinv * X';
-% b_FE = next * y;
-% y_hat = X * b_FE;
-% y_hat_full = X_full * b_FE;
+% b_fe = next * y;
+% y_hat = X * b_fe;
+% y_hat_full = X_full * b_fe;
 % % e = y - y_hat;
 % 
 % % y_imputed = y_full .* include_index + y_hat_full .* exclude_index;
-% % y_imputed = max(min(y_imputed, 1), numericalZero);
-% % domestic_trend_imputed = reshape(y_imputed, [nCountries, nSectors - 1, nYears]);
-% domestic_trend_predicted = reshape(y_hat_full, [nCountries, nSectors - 1, nYears]);
+% % y_imputed = max(min(y_imputed, 1), numerical_zero);
+% % domestic_trend_imputed = reshape(y_imputed, [n_countries, n_sectors - 1, n_years]);
+% domestic_trend_predicted = reshape(y_hat_full, [n_countries, n_sectors - 1, n_years]);
 % domestic_share_predicted = domestic_trend_predicted + domestic_noise ./ domestic_trend;
 
 negative_indicator = squeeze(sum((domestic_shares < 0), 3));
 
 domestic_shares_corrected = domestic_shares;
 
-for nn = 1:nCountries
-    for jj = 1:(nSectors - 1)
+for nn = 1:n_countries
+    for jj = 1:(n_sectors - 1)
         if negative_indicator(nn, jj) > 0
 %             pic_id = figure()
 %             s2 = squeeze(domestic_trend(nn, jj, :));
             s1 = squeeze(domestic_shares(nn, jj, :));
             % s3 = squeeze(domestic_trend_predicted(nn, jj, :));
-            s4 = min(max(s1, numericalZero), 1);
-            s5 = ((s1 / (max(s1) - min(s1)) - min(s1) / (max(s1) - min(s1)))) * (max(max(s1), numericalZero) - max(min(s1), 0)) + max(min(s1), numericalZero);
+            s4 = min(max(s1, numerical_zero), 1);
+            s5 = ((s1 / (max(s1) - min(s1)) - min(s1) / (max(s1) - min(s1)))) * (max(max(s1), numerical_zero) - max(min(s1), 0)) + max(min(s1), numerical_zero);
             lam = 0.25;
             s6 = (1 - lam) * s4 + lam * s5;
-            domestic_shares_corrected(nn, jj, :) = min(max(s6, numericalZero), 1);
+            domestic_shares_corrected(nn, jj, :) = min(max(s6, numerical_zero), 1);
 %             plot(s1, '-k', 'LineWidth',2)
 %             hold on
 %             plot(s6, '-r', 'LineWidth',2)
@@ -126,24 +126,24 @@ for nn = 1:nCountries
 end % n
         
      
-[domestic_shares_corrected, ~] = detrendseries(domestic_shares_corrected, weights);
-domestic_shares_corrected = min(max(domestic_shares_corrected, numericalZero), 1);
+[domestic_shares_corrected, ~] = detrend_series(domestic_shares_corrected, weights);
+domestic_shares_corrected = min(max(domestic_shares_corrected, numerical_zero), 1);
 
-for t = 1:nYears
-    for j = 1:(nSectors - 1)
+for t = 1:n_years
+    for j = 1:(n_sectors - 1)
         d(:, :, j, t) = d(:, :, j, t) - diag(diag(d(:, :, j, t)));
-        total_import_share = sum(d(:, :, j, t), 2) + numericalZero;
+        total_import_share = sum(d(:, :, j, t), 2) + numerical_zero;
         total_import_share_imputed = 1 - domestic_shares_corrected(:, j, t); 
         d(:, :, j, t) = ...
             d(:, :, j, t) .* ...
             repmat(total_import_share_imputed ./ ...
-                   total_import_share, [1, nCountries]);        
+                   total_import_share, [1, n_countries]);        
         d(:, :, j, t) = ...
             d(:, :, j, t) + diag(domestic_shares_corrected(:, j, t));
     end % j
 end % t
 
 % We will take logs and divide by shares, so we set a numerical zero
-d(:, :, 1:(nSectors - 1), :) = ...
-    max(d(:, :, 1:(nSectors - 1), :), numericalZero);
+d(:, :, 1:(n_sectors - 1), :) = ...
+    max(d(:, :, 1:(n_sectors - 1), :), numerical_zero);
 end

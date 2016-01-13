@@ -1,10 +1,10 @@
 clear all
 
-load('results\data_rgdp_and_volatility.mat', 'realGdpTotal')
+load('results\data_rgdp_and_volatility.mat', 'real_gdp_total')
 load('algorithm_input\data_theta_2.mat', 'baseline')
-countryNames = baseline.countryNames;
+country_names = baseline.country_names;
 
-rGDP_data = realGdpTotal;
+rGDP_data = real_gdp_total;
 [N, T] = size(rGDP_data);
 
 rGDP = zeros(N, T, 3);
@@ -56,7 +56,7 @@ for n = 1:N
     series1 = log(rGDP_data(n, :))';
     series2 = squeeze(log(rGDP(n, :, :)));
     plot([series1, series2], 'LineWidth', 1.5)
-    title([countryNames{n}, ' Log rGDP'])
+    title([country_names{n}, ' Log rGDP'])
     xlim([1, 36])
     grid on
     set(gca, 'GridLineStyle', '-');

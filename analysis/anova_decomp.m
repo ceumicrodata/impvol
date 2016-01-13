@@ -1,6 +1,6 @@
 clear all
 load('zeta.mat')
-countryNames = importdata('country_name.txt');
+country_names = importdata('country_name.txt');
 
 [d1 d2 d3 d4] = size(zeta);
 NN = length(zeta(:));
@@ -21,13 +21,13 @@ figure()
 bar(importer)
 title('Importer effect')
 set(gca,'XTick', 1:25)
-set(gca,'XTickLabel', countryNames)
+set(gca,'XTickLabel', country_names)
 rotateXLabels(gca(), 60)
 figure()
 bar(exporter)
 title('Exporter effect')
 set(gca,'XTick', 1:25)
-set(gca,'XTickLabel', countryNames)
+set(gca,'XTickLabel', country_names)
 rotateXLabels(gca(), 60)
 figure()
 bar(sector)

@@ -1,4 +1,4 @@
-function P_nj = recoversectoralprices(D, P_n)
+function P_nj = recover_sectoral_prices(D, P_n)
 
 global beta theta xi B
 

@@ -1,11 +1,11 @@
 function out = rollout(change, level)
 
-[nCountries, nSectors, nYears] = size(level);
+[n_countries, n_sectors, n_years] = size(level);
 
-out = zeros(nCountries, nSectors, nYears);
+out = zeros(n_countries, n_sectors, n_years);
 out(:, :, 1) = level(:, :, 1);
 
-for t = 2:nYears
+for t = 2:n_years
     out(:, :, t) = out(:, :, t - 1) .* exp(change(:, :, t - 1));
 end
 

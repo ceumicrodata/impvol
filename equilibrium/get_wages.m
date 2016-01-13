@@ -1,4 +1,4 @@
-function [w_njt, w_nt, P_nt, P_njt, d_mnjt] = get_wages(L_njt, L_nt, Z_njt, outer_iteration)
+function [w_njt, w_nt, P_nt, P_njt, d_mnjt] = get_wages(L_njt, L_nt, z_njt, outer_iteration)
 % This function calculates equilibrium sector-specific wages for any given set of
 % sector-specific labor allocation.
 % The corresponding equilibrium aggregate wages and aggregate prices are also returned along the wages.
@@ -22,7 +22,7 @@ for t = 1:T
     % Get values from appropriate time periods
     L_nj = L_njt(:, :, t);
     L_n = L_nt(:, t);
-    Z_nj = Z_njt(:, :, t);
+    z_nj = z_njt(:, :, t);
     
     % Initial guess on sector-specific wages
     % Use previous period values in later periods
@@ -46,7 +46,7 @@ for t = 1:T
     damp_step = 0;
     for lambda = lambda_w
         damp_step = damp_step + 1;
-        middle_dif = c.middle_dif;
+        middle_dif = c.dif;
         middle_iteration = 0; % set current iteration to zero
         
         % update wage until convergence or maximum number of iterations
@@ -66,14 +66,14 @@ for t = 1:T
             % calculate new sector specific wages (and associated prices)
             % based on current values
             [w_nj_new, P_n, price_iterations, price_lambda, P_nj, d] = ...
-                wage_update(w_nj, L_nj, L_n, Z_nj, P_n, t);
+                wage_update(w_nj, L_nj, L_n, z_nj, P_n, t);
             
             middle_dif = max(abs((w_nj_new(:) - w_nj(:)) ./ (1 + w_nj(:))));
             
             % update current values
             w_nj = lambda * w_nj_new + (1 - lambda) * w_nj;
             
-            if (verbose >= 3) && (mod(middle_iteration, c.middlePrintEvery) == 0)
+            if (verbose >= 3) && (mod(middle_iteration, c.middle_print_every) == 0)
                 fprintf('    Wage iteration %d, difference is %e\n', middle_iteration, middle_dif)
                 if (verbose == 4)
                     fprintf('        Price loop converged in %d iterations and with %1.2f as the dampening parameter.\n', price_iterations, price_lambda)

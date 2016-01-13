@@ -4,12 +4,12 @@ global c
 
 theta = c.theta;
 
-includeCounterfactuals = c.includeCounterfactuals;
+include_counterfactuals = c.include_counterfactuals;
 
-inFolder = c.dataFolderAlgorithmInput;
-outFolder = c.resultsFolder;
-inFile = [inFolder, 'data_theta_', num2str(theta), '.mat'];
-load(inFile)
+in_folder = c.data_folder_algorithm_input;
+out_folder = c.results_folder;
+in_file = [in_folder, 'data_theta_', num2str(theta), '.mat'];
+load(in_file)
 
 equilibrium = struct('scenario', {},...
                      'P_nt', {}, 'P_njt', {},...
@@ -20,35 +20,35 @@ equilibrium = struct('scenario', {},...
 % Calculate baseline equilibrium
 equilibrium(1) = equilibrium_algorithm(baseline);
 
-outFile = [outFolder, 'equilibrium_baseline_theta_', num2str(theta), '.mat'];
-save(outFile, 'equilibrium')
+out_file = [out_folder, 'equilibrium_baseline_theta_', num2str(theta), '.mat'];
+save(out_file, 'equilibrium')
 
-if includeCounterfactuals
+if include_counterfactuals
     
     % Calculate counterfactual equilibria
-    nCounterfactuals = length(counterfactual);
+    n_counterfactuals = length(counterfactual);
     
-    for cf = 1:nCounterfactuals
-        equilibriumInput = baseline;
+    for cf = 1:n_counterfactuals
+        equilibrium_input = baseline;
         
         % Overwrite the inputs corresponding to the actual counterfactual
-        equilibriumInput.scenario = counterfactual(cf).scenario;
-        equilibriumInput.Z = counterfactual(cf).Z;
-        equilibriumInput.kappa = counterfactual(cf).kappa;
+        equilibrium_input.scenario = counterfactual(cf).scenario;
+        equilibrium_input.z = counterfactual(cf).z;
+        equilibrium_input.kappa = counterfactual(cf).kappa;
         
         
-        counterfactual_equilibrium = equilibrium_algorithm(equilibriumInput);
+        counterfactual_equilibrium = equilibrium_algorithm(equilibrium_input);
         
         
         equilibrium(cf + 1) = counterfactual_equilibrium;
         
-        outFile = [outFolder, sprintf('equilibrium_%d_theta_', cf),...
+        out_file = [out_folder, sprintf('equilibrium_%d_theta_', cf),...
             num2str(theta), '.mat'];
-        save(outFile, 'counterfactual_equilibrium')
+        save(out_file, 'counterfactual_equilibrium')
     end
 
-end % if includeCounterfactuals
+end % if include_counterfactuals
 
-outFile = [outFolder, 'equilibrium_theta_', num2str(theta), '.mat'];
-save(outFile, 'equilibrium')
+out_file = [out_folder, 'equilibrium_theta_', num2str(theta), '.mat'];
+save(out_file, 'equilibrium')
     

@@ -1,4 +1,4 @@
-function [w_nj_new, P_n, price_iterations, price_lambda, P_nj, d] = wage_update(w_nj, L_nj, L_n, Z_nj, P_n, t)
+function [w_nj_new, P_n, price_iterations, price_lambda, P_nj, d] = wage_update(w_nj, L_nj, L_n, z_nj, P_n, t)
 % This function is one iteration of the wage loop.
 % First it calculates prices corresponding to current wages,
 % then calculates new wages.
@@ -12,19 +12,19 @@ global alpha beta theta kappa
 D = zeros(N, N, J);
 for j = 1:J
     D(:, :, j) = ...
-        repmat(Z_nj(:, j)', N, 1) .* ...
+        repmat(z_nj(:, j)', N, 1) .* ...
         (repmat((L_n .* w_nj(:, j))'.^(- beta(j)), N, 1) .* ...
         kappa(:, :, j, t)).^theta;
 end
 
-% D = bsxfun(@times, permute((bsxfun(@power, bsxfun(@times, sum(L_nj, 2), w_nj)', -beta) .^ theta) .* Z_nj', [3 2 1]), kappa(:, :, :, t).^theta);
+% D = bsxfun(@times, permute((bsxfun(@power, bsxfun(@times, sum(L_nj, 2), w_nj)', -beta) .^ theta) .* z_nj', [3 2 1]), kappa(:, :, :, t).^theta);
 
 % Get aggregate prices. Note that this depends on current wages through D!
 [Ptheta_n, price_iterations, price_lambda] = get_prices(D, P_n.^theta, t);
 P_n = Ptheta_n .^ (1 / theta);
 
 % Calculate sectoral prices
-P_nj = recoversectoralprices(D, P_n);
+P_nj = recover_sectoral_prices(D, P_n);
 
 % preallocate and compute matrix for d values to be used in the wage equations
 d = zeros(N, N, J); 

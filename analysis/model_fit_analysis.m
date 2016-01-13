@@ -7,7 +7,7 @@ load('results\equilibrium_baseline_theta_2.mat')
 % load('results\equilibrium_baseline_theta_2.mat')
 load('algorithm_input\data_theta_2.mat')
 
-countryNames = baseline.countryNames;
+country_names = baseline.country_names;
 
 w_njt = equilibrium(1).w_njt;
 L_njt = equilibrium(1).L_njt;
@@ -19,7 +19,7 @@ P_nt = equilibrium(1).P_nt;
 P_njt = equilibrium(1).P_njt;
 
 [N, J, T] = size(L_njt);
-%iBase = N;
+%i_base = N;
 
 sectoral_value_added = w_njt .* L_njt;
 total_value_added = w_nt .* L_nt;
@@ -27,8 +27,8 @@ total_value_added = w_nt .* L_nt;
 rGDP = total_value_added ./ P_nt;
 rGDP_sectoral = sectoral_value_added ./ permute(repmat(P_nt, [1 1 J]), [1 3 2]);
 
-rGDP_data = realGdpTotal;
-rGDP_sectoral_data = realGdpSectoral; 
+rGDP_data = real_gdp_total;
+rGDP_sectoral_data = real_dgp_sectoral; 
 
 
 % Real GDP
@@ -44,7 +44,7 @@ for n = 1:N
     series1 = log(rGDP_data(n, :))';
 %     plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
     plot([series1, series2], 'LineWidth', 2.5)
-    title([countryNames{n}, ' Log Real GDP'])
+    title([country_names{n}, ' Log Real GDP'])
     xlim([1, 36])
     grid on
     set(gca, 'GridLineStyle', '-');
@@ -54,9 +54,9 @@ for n = 1:N
     if (mod(thisplot, ROWS * COLS) == 0) || (n == 25)
         set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
         if fig_number > 1
-            %export_fig('results\\all_countries_log_rGDP_FE_alpha.pdf', '-append')
+            %export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf', '-append')
         else
-            %export_fig('results\\all_countries_log_rGDP_FE_alpha.pdf')
+            %export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf')
         end % fig_number
         %close(pic_id)
     end % if
@@ -72,11 +72,11 @@ for n = 1:N
     thisplot = mod(n - 1, ROWS * COLS) + 1;
     subplot(ROWS, COLS, thisplot)
     series1 = log(total_value_added(n, :)');
-    series2 = log(vaTotal(:, n));
+    series2 = log(va_total(:, n));
 %     plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
     plot([series1, series2], 'LineWidth', 2.5)
     %plot(zscore([series1; series2]'), 'LineWidth', 2.5)
-    title([countryNames{n}, ' Log Value Added, baseline model'])
+    title([country_names{n}, ' Log Value Added, baseline model'])
     xlim([1, 36])
     grid on
     set(gca, 'GridLineStyle', '-');
@@ -109,7 +109,7 @@ for n = 1:N
 %     plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
     plot([series1, series2], 'LineWidth', 2.5)
     %plot(zscore([series1; series2]'), 'LineWidth', 2.5)
-    title([countryNames{n}, ' Log GDP Deflator'])
+    title([country_names{n}, ' Log GDP Deflator'])
     xlim([1, 36])
     grid on
     set(gca, 'GridLineStyle', '-');
@@ -119,9 +119,9 @@ for n = 1:N
     if (mod(thisplot, ROWS * COLS) == 0) || (n == 25)
         set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
         if fig_number > 1
-%             export_fig('results\\all_countries_log_GDP_deflator_FE_alpha.pdf', '-append')
+%             export_fig('results\\all_countries_log_GDP_deflator_fe_alpha.pdf', '-append')
         else
-%             export_fig('results\\all_countries_log_GDP_deflator_FE_alpha.pdf')
+%             export_fig('results\\all_countries_log_GDP_deflator_fe_alpha.pdf')
         end % fig_number
 %         close(pic_id)
     end % if
@@ -143,7 +143,7 @@ for n = 1:N
         series2 = log(squeeze(va(n, j, :)));
         %plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
         plot([series1, series2], 'LineWidth', 2.5)
-        title([countryNames{n}, ', Sec ', num2str(j)])
+        title([country_names{n}, ', Sec ', num2str(j)])
         xlim([1, 36])
         grid on
         set(gca, 'GridLineStyle', '-');
@@ -153,9 +153,9 @@ for n = 1:N
         if (mod(thisplot, ROWS * COLS) == 0)
             set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
             if fig_number > 1
-%                 export_fig(['results\\', countryNames{n}, '_sectoral_log_va_FE_alpha.pdf'], '-append')
+%                 export_fig(['results\\', country_names{n}, '_sectoral_log_va_fe_alpha.pdf'], '-append')
             else
-%                 export_fig(['results\\', countryNames{n}, '_sectoral_log_va_FE_alpha.pdf'])
+%                 export_fig(['results\\', country_names{n}, '_sectoral_log_va_fe_alpha.pdf'])
             end % fig_number
 %             close(pic_id)
         end % if
@@ -177,7 +177,7 @@ for n = 1:N
         series2 = log(squeeze(rGDP_sectoral_data(n, j, :)));
         %plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
         plot([series1, series2], 'LineWidth', 2.5)
-        title([countryNames{n}, ', Sec ', num2str(j)])
+        title([country_names{n}, ', Sec ', num2str(j)])
         xlim([1, 36])
         grid on
         set(gca, 'GridLineStyle', '-');
@@ -187,9 +187,9 @@ for n = 1:N
         if (mod(thisplot, ROWS * COLS) == 0)
             set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
             if fig_number > 1
-                export_fig(['results\\', countryNames{n}, '_sectoral_rGDP_FE_alpha.pdf'], '-append')
+                export_fig(['results\\', country_names{n}, '_sectoral_rGDP_fe_alpha.pdf'], '-append')
             else
-                export_fig(['results\\', countryNames{n}, '_sectoral_rGDP_FE_alpha.pdf'])
+                export_fig(['results\\', country_names{n}, '_sectoral_rGDP_fe_alpha.pdf'])
             end % fig_number
             close(pic_id)
         end % if
@@ -206,7 +206,7 @@ for j = 1:J
     thisplot = mod(j - 1, ROWS * COLS) + 1;
     subplot(ROWS, COLS, thisplot)
     series1 = log(squeeze(P_njt(iUs, j, :)));
-    series2 = log(pSectoralUs(:, j));   
+    series2 = log(p_sectoralUs(:, j));   
     %plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
     plot([series1, series2], 'LineWidth', 2.5)
     title(['UK Prices in Sector ', num2str(j), ', baseline model'])
@@ -271,11 +271,11 @@ for n = 1:N
         hold on
         thisplot = mod(j - 1, ROWS * COLS) + 1;
         subplot(ROWS, COLS, thisplot)
-        series1 = log(squeeze(Z_us(n, j, :)));
-        series2 = log(squeeze(Z_dk(n, j, :)));
+        series1 = log(squeeze(z_us(n, j, :)));
+        series2 = log(squeeze(z_dk(n, j, :)));
         %plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
         plot([series1, series2], 'LineWidth', 2.5)
-        title([countryNames{n}, ', Sector ', num2str(j), ', Log Productivity'])
+        title([country_names{n}, ', Sector ', num2str(j), ', Log Productivity'])
         xlim([1, 36])
         grid on
         set(gca, 'GridLineStyle', '-');
@@ -285,9 +285,9 @@ for n = 1:N
         if (mod(thisplot, ROWS * COLS) == 0)
             set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
             if fig_number > 1
-                export_fig(['sandbox_results\\', countryNames{n}, '_sectoral_productivity.pdf'], '-append')
+                export_fig(['sandbox_results\\', country_names{n}, '_sectoral_productivity.pdf'], '-append')
             else
-                export_fig(['sandbox_results\\', countryNames{n}, '_sectoral_productivity.pdf'])
+                export_fig(['sandbox_results\\', country_names{n}, '_sectoral_productivity.pdf'])
             end % fig_number
             close(pic_id)
         end % if
@@ -312,7 +312,7 @@ for j = 1:J
     subplot(ROWS, COLS, thisplot)
     series1 = squeeze(...
         mean(log(va_share_model(:, j, :) ./ va_share_data(:, j, :)), 1));
-%     series2 = log(pSectoralUs(:, j));   
+%     series2 = log(p_sectoralUs(:, j));   
     %plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
     plot([series1, zeros(36, 1)], 'LineWidth', 2.5)
     title(['Diff in VA share, Sector ', num2str(j),])

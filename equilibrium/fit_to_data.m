@@ -2,16 +2,16 @@ function [w_njt_new, w_nt_new, P_nt_new, P_njt_new] = fit_to_data(w_njt, w_nt, P
 
 global c
 
-inFolder = c.resultsFolder;
-iBase = c.iBase;
+in_folder = c.results_folder;
+i_base = c.i_base;
 
-load([inFolder, 'data_rgdp_and_volatility.mat'], 'pBase')
+load([in_folder, 'data_rgdp_and_volatility.mat'], 'p_base')
 
-[nCountries, nSectors, ~] = size(P_njt);
+[n_countries, n_sectors, ~] = size(P_njt);
 
 
-correction = repmat(pBase' ./ P_nt(iBase, :), [nCountries 1]);
-correction_full = permute(repmat(correction, [1 1 nSectors]), [1 3 2]);
+correction = repmat(p_base' ./ P_nt(i_base, :), [n_countries 1]);
+correction_full = permute(repmat(correction, [1 1 n_sectors]), [1 3 2]);
 
 P_nt_new = P_nt .* correction;
 w_nt_new = w_nt .* correction;

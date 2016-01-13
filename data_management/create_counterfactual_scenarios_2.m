@@ -4,33 +4,33 @@ function create_counterfactual_scenarios_2
 global c
 
 theta = c.theta;
-weights = c.filterWeights;
+weights = c.filter_weights;
 
-inFolder = c.dataFolderAlgorithmInput;
-outFolder = c.dataFolderAlgorithmInput;
+in_folder = c.data_folder_algorithm_input;
+out_folder = c.data_folder_algorithm_input;
 
-inFile = [inFolder, 'data_theta_', num2str(theta), '.mat'];
-load(inFile);
+in_file = [in_folder, 'data_theta_', num2str(theta), '.mat'];
+load(in_file);
 
 
 %% Decompose shocks
-Z = baseline.Z;
-% [Z_no_sector, Z_no_sector_residual] = decomposeshocks(Z, weights);
+z = baseline.z;
+% [z_no_sector, z_no_sector_residual] = decompose_shocks(z, weights);
 
 
 
 %% Trade costs
 kappa = baseline.kappa;
-[nCountries, ~, nSectors, nYears] = size(kappa);
-iServices = nSectors;
+[n_countries, ~, n_sectors, n_years] = size(kappa);
+i_services = n_sectors;
 
 % Fix trade costs on their initial level
-kappaInitial = repmat(kappa(:, :, :, 1), [1 1 1 nYears]);
+kappa_initial = repmat(kappa(:, :, :, 1), [1 1 1 n_years]);
 
 % Free trade kappa
 kappa_free_trade = ones(size(kappa));
-kappa_free_trade(:, :, iServices, :) = ...
-    repmat(eye(nCountries), [1, 1, 1, nYears]);
+kappa_free_trade(:, :, i_services, :) = ...
+    repmat(eye(n_countries), [1, 1, 1, n_years]);
 
 
 %% Interpolated trade costs
@@ -40,12 +40,12 @@ gamma = [1:-(1 / steps):0];
 
 for i = 1:(steps + 1)      
     scenario = sprintf('%.1f * 1972 costs   +   %.1f * free trade ', gamma(i), 1 - gamma(i));
-    scenarioId = i;
+    scenario_id = i;
     
-    kappa_actual_step = gamma(i) * kappaInitial + (1 - gamma(i)) * kappa_free_trade;
+    kappa_actual_step = gamma(i) * kappa_initial + (1 - gamma(i)) * kappa_free_trade;
     
-    savecounterfactual(outFolder, theta, scenario, scenarioId,...
-                       Z, kappa_actual_step);
+    save_counterfactual(out_folder, theta, scenario, scenario_id,...
+                       z, kappa_actual_step);
 end
                
                 

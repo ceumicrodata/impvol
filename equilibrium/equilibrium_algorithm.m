@@ -1,4 +1,4 @@
-function equilibriumOut = equilibrium_algorithm(equilibriumInput)
+function equilibrium_out = equilibrium_algorithm(equilibrium_input)
 
 % declare the constants used by most functions as global variables
 global alpha beta theta xi kappa K B verbose lambda_w lambda_p c
@@ -6,32 +6,32 @@ global alpha beta theta xi kappa K B verbose lambda_w lambda_p c
 
 theta = c.theta;
 
-lambda_L = c.dampeningLaborLoop;
-lambda_w = c.dampeningWageLoop;
-lambda_p = c.dampeningPriceLoop;
+lambda_L = c.dampening_labor_loop;
+lambda_w = c.dampening_wage_loop;
+lambda_p = c.dampening_price_loop;
 
 % load data:
 % aggregate labor: L (25 countries for 36 time periods)
-% shocks: Z (24 sectors for 25 countries and 36 time periods)
+% shocks: z (24 sectors for 25 countries and 36 time periods)
 % calibrated parameters: alpha, beta, theta, kappa, xi
 
 % ln_rGDP = zeros(36, 25, 8);
 
-% inFile = [inFolder, 'data_theta_', num2str(theta), '.mat'];
-% load(inFile, 'baseline')
+% in_file = [in_folder, 'data_theta_', num2str(theta), '.mat'];
+% load(in_file, 'baseline')
 
-scenario = equilibriumInput.scenario;
+scenario = equilibrium_input.scenario;
 
-B = equilibriumInput.B;
-K = equilibriumInput.K;
-alpha  = equilibriumInput.alpha;
-beta = equilibriumInput.beta;
-kappa =equilibriumInput.kappa;
-xi = equilibriumInput.xi;
+B = equilibrium_input.B;
+K = equilibrium_input.K;
+alpha  = equilibrium_input.alpha;
+beta = equilibrium_input.beta;
+kappa =equilibrium_input.kappa;
+xi = equilibrium_input.xi;
 
-L = equilibriumInput.L;
-Z = equilibriumInput.Z;
-psi = equilibriumInput.psi;
+L = equilibrium_input.L;
+z = equilibrium_input.z;
+psi = equilibrium_input.psi;
 
 % verbose is a global to control the amount of written output
 % 0: no output
@@ -55,9 +55,9 @@ verbose = c.verbosity;
 % t: time periods
 % This makes it easy to infer the content and the dimension of each variable immediately.
 L_nt = L; % total equipped labor
-Z_njt = Z; % compound shocks
+z_njt = z; % compound shocks
 
-[N, J, T] = size(Z_njt);
+[N, J, T] = size(z_njt);
 
 % initial guess on sector specific labor allocation
 % L_njt = zeros(N, J, T);
@@ -76,7 +76,7 @@ L_njt_iterations = zeros(N, J, T, 1);
 L_njt_iterations(:, :, :, 1) = L_njt;
 
 % technical values for the loop
-outer_dif = c.outer_dif; % a big number
+outer_dif = c.dif; % a big number
 outer_tol = c.outer_tol; % set the convergence tolerance
 outer_maxiter = c.outer_maxiter; % limit the maximum number of iterations
 
@@ -100,7 +100,7 @@ while outer_dif > outer_tol
     % get sectoral wages, aggregate prices and aggregate wages that correspond
     % to the current value of sectoral labor allocation
     tic
-    [w_njt, w_nt, P_nt, P_njt, d] = get_wages(L_njt, L_nt, Z_njt, outer_iteration);
+    [w_njt, w_nt, P_nt, P_njt, d] = get_wages(L_njt, L_nt, z_njt, outer_iteration);
     toc
     
     [w_njt, w_nt, P_nt, P_njt] = fit_to_data(w_njt, w_nt, P_nt, P_njt);
@@ -126,7 +126,7 @@ while outer_dif > outer_tol
     L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;
     
     
-    if (verbose > 0) && (mod(outer_iteration, c.outerPrintEvery) == 0) 
+    if (verbose > 0) && (mod(outer_iteration, c.outer_print_every) == 0) 
         fprintf('\n')
         fprintf('>>>> LABOR loop: Iteration %d, rel. diff.: %e \n',...
             outer_iteration, outer_dif)
@@ -142,7 +142,7 @@ end % if verbose > 0
 
 %diary off
 
-equilibriumOut = struct('scenario', scenario,...
+equilibrium_out = struct('scenario', scenario,...
                         'P_nt', P_nt, 'P_njt', P_njt,...
                         'w_nt', w_nt, 'w_njt', w_njt,...
                         'L_nt', L_nt, 'L_njt', L_njt,...

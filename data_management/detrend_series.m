@@ -1,4 +1,4 @@
-function [S_trend, S_cycle] = detrendseries(S, weights)
+function [S_trend, S_cycle] = detrend_series(S, weights)
 
 if ndims(S) == 3
     [N, J, T] = size(S);
@@ -11,7 +11,7 @@ elseif ismatrix(S) == 1
     J = 1;
     
 else
-    fprintf('Incorrect input in detrendseries.m \n')
+    fprintf('Incorrect input in detrend_series.m \n')
     error('Series cannot be detrended.')
 end %if
 

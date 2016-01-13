@@ -3,17 +3,17 @@ function analysis
 global c
 
 theta = c.theta;
-weights = c.filterWeights;
-inFolder = c.resultsFolder;
-outFolder = c.resultsFolder;
+weights = c.filter_weights;
+in_folder = c.results_folder;
+out_folder = c.results_folder;
 
-inFile = [inFolder, 'equilibrium_theta_', num2str(theta), '.mat'];
-load(inFile)
+in_file = [in_folder, 'equilibrium_theta_', num2str(theta), '.mat'];
+load(in_file)
 
 nScenarios = length(equilibrium);
-nCountries = size(equilibrium(1).L_nt, 1);
+n_countries = size(equilibrium(1).L_nt, 1);
 
-variances = zeros(nCountries, nScenarios);
+variances = zeros(n_countries, nScenarios);
 
 % load data
 for scenarioID = 1:nScenarios
@@ -22,10 +22,10 @@ for scenarioID = 1:nScenarios
     P_nt = equilibrium(scenarioID).P_nt;
     
     realGDP = valueAdded ./ P_nt;
-    [~, cycle] = detrendseries(log(realGDP), weights);
+    [~, cycle] = detrend_series(log(realGDP), weights);
     variances(:, scenarioID) = var(cycle, 0, 2);
 end
 
-outFile = [outFolder, 'variances_', num2str(theta), '.mat'];
-save(outFile, 'variances')
+out_file = [out_folder, 'variances_', num2str(theta), '.mat'];
+save(out_file, 'variances')
 

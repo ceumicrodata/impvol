@@ -13,7 +13,7 @@ inner_convergence = 0;
 for lambda = lambda_p
     Ptheta_n = Ptheta_n_start;
     inner_iteration = 0;
-    inner_dif = c.inner_dif;
+    inner_dif = c.dif;
     % loop contraction (?) until convergence or maximum number of iterations
     while inner_dif > inner_tol
         inner_iteration = inner_iteration + 1;
