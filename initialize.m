@@ -2,7 +2,7 @@ function c = initialize
 
 %% Specify run type
 % 0: no counterfactuals, 1: do counterfactuals
-c.includeCounterfactuals = 0; 
+c.includeCounterfactuals = 1; 
 
 % 0: const, 1: general(time-varying), 2: smooth
 c.alphaType = 2; 
@@ -21,7 +21,7 @@ assert(c.FE >= c.FE_prices,...
 
 %% Set main parameters
 % Set main model parameters
-c.theta = 8;
+c.theta = 4;
 c.eta = 2;
 
 % Specify base country. (Has to have sectoral prices available)
@@ -68,16 +68,16 @@ c.dampeningPriceLoop = 0.7:-0.05:0.1;
 
 % Technical values for the outer loop
 c.outer_dif = 1e9; % a big number
-c.outer_tol = 1e-4; % set the convergence tolerance
+c.outer_tol = 1e-2; % set the convergence tolerance
 c.outer_maxiter = 100; % limit the maximum number of iterations
 
 % Technical values for the middle loop
 c.middle_dif = 1e9; % a big number
-c.middle_tol = 1e-4; % set the convergence tolerance
+c.middle_tol = 1e-2; % set the convergence tolerance
 c.middle_maxiter = 2e2; % limit the maximum number of iterations
 
 % Technical values for the inner loop
 c.inner_dif = 1e9; % a big number
-c.inner_tol = 1e-4; % set the convergence tolerance
+c.inner_tol = 1e-2; % set the convergence tolerance
 c.inner_maxiter = 5e3; % limit the maximum number of iterations
 end

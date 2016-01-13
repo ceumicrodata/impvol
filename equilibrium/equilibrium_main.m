@@ -4,7 +4,7 @@ global c
 
 theta = c.theta;
 
-includeCounterfactuals = c. includeCounterfactuals;
+includeCounterfactuals = c.includeCounterfactuals;
 
 inFolder = c.dataFolderAlgorithmInput;
 outFolder = c.resultsFolder;

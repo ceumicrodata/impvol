@@ -10,7 +10,7 @@ addpath(genpath(pwd))
 global c
 
 %% Initialize program parameters
-c = initialize4;
+c = initialize;
 
 
 
@@ -24,7 +24,7 @@ data_management
 %% Create counterfactual scenarios
 % Compute alternative parameters and exogenous variables for the counterfactual
 % scenarios.
-create_counterfactual_scenarios_1972_actual
+create_counterfactual_scenarios
 
 
 
