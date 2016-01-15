@@ -1,0 +1,16 @@
+# ignore internal and temporary matlab data files
+*.mat
+
+# ignore everything related to stata (legacy)
+*.do
+*.dta
+
+# ignore image results
+*.png
+
+# keep only latex source of documentation
+*.pdf
+*.aux
+*.gz
+*.log
+*.out

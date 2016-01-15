@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+
+\usepackage[english, hungarian]{babel}
+\usepackage{graphicx}
+\usepackage[left=1.5in, right=1.5in, top=1.2in, bottom=1.2in]{geometry}
+%\usepackage[left=1in, right=2.3cm, top=1cm, bottom=1cm]{geometry}
+\usepackage{layout}
+\usepackage{setspace}
+%\onehalfspace
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{amsmath}
+
+%\usepackage{lmodern}
+%\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+%\usepackage[T1]{fontenc}
+
+\usepackage{xcolor}
+\definecolor{mycolor}{RGB}{100,0,0}
+\definecolor{mycolor2}{RGB}{100,0,0}
+%\definecolor{mycolor2}{RGB}{0,0,0}
+
+\usepackage{blindtext}
+\usepackage{lipsum}
+
+\parindent = 0pt
+\begin{document}
+\thispagestyle{empty}
+
+\section{Shock Decomposition}
+Calculate the growth rate of the compound shocks as 
+$$\hat{Z}^j_{n,t} = \log{Z^j_{n,t}} - \log{Z^j_{n,t - 1}} \quad \mbox{for} \quad t\geq2. $$
+
+Calculate the time average of the growth rate for each $(n,j)$ pair and subtract it from the growth rate to get the object to be decomposed, $\tilde{Z}^j_{nt}$.
+
+$$\tilde{Z}^j_{nt} = \hat{Z}^j_{n,t} - (T - 1)^{-1} \sum_{t=2}^T \hat{Z}^j_{n,t}$$
+
+The decomposition to sector and country specific parts is done in a way described in Koren and Tenreyro (2007). 
+In general $\tilde{Z}$ is decomposed as
+
+$$\tilde{Z}^j_{nt} = \lambda^j_t + \mu_{nt} + \epsilon^j_{nt},$$
+
+where $\lambda, \mu$ and $\epsilon$ are estimated as
+\begin{align*}
+\hat{\lambda}^j_t &= N^{-1} \sum_{n=1}^N  \tilde{Z}^j_{nt} \\
+\hat{\mu}_{nt} &= J^{-1} \sum_{j=1}^J \left(\tilde{Z}^j_{nt} - \hat{\lambda}^j_t\right)\\
+\hat{\epsilon}^j_{nt} &= \tilde{Z}^j_{nt} - \hat{\lambda}^j_t - \hat{\mu}_{nt}.
+\end{align*}
+\end{document} 
