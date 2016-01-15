@@ -1,0 +1,55 @@
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{harvard}
+\usepackage{sectsty}
+\usepackage{endnotes}
+\usepackage{graphicx}
+
+\begin{document}
+Import shares in sector $j$,
+\[
+(d_{nmt}^{j})^{1/\theta} = \frac 1 {\xi B^j}
+	\kappa_{nmt}^j
+	P_{nt}^j A_{mt}^j (T_m^j)^{1/\theta}
+	(w_{mt}^j)^{-\beta^j}
+	\prod_{k=1}^J
+		(P_{mt}^k)^{-\gamma^{kj}}
+\]
+in logs, and taking all observables to the LHS,
+\[
+\frac 1\theta \ln d_{nmt}^{j}
++ \ln(\xi B^j)
+-\ln \kappa_{nmt}^j
+	=
+	\ln P_{nt}^j +\ln A_{mt}^j 
+	+ \frac1\theta \ln T_m^j
+	-\beta^j\ln w_{mt}^j
+	-\sum_{k=1}^J
+		\gamma^{kj}\ln P_{mt}^k
+\]
+Stack the different $j$s into a column vector,
+\[
+\frac 1\theta \ln \mathbf d_{nmt}
++ \ln(\xi \mathbf B)
+-\ln \boldsymbol \kappa_{nmt}
+	=
+	\ln \mathbf P_{nt} +\ln \mathbf A_{mt} 
+	+ \frac1\theta \ln \mathbf T_m
+	-\boldsymbol\beta \circ \ln \mathbf w_{mt}
+	-\boldsymbol\Gamma \ln \mathbf P_{mt}
+\]
+Given our estimates on $\kappa$, the LHS is observable. The first term of the RHS is the only $nt$-specific unobservable, everything else is $mt$-specific. Subtract the same equation for $n=0$ (the US),
+\[
+\frac 1\theta 
+	(\ln \mathbf d_{nmt}-\ln \mathbf d_{0mt})
+	- (\ln \boldsymbol \kappa_{nmt} - \ln \boldsymbol \kappa_{0mt})
+	=
+	\ln \mathbf P_{nt} -  \ln \mathbf P_{0t}.
+\]
+Given measured prices in the US, this gives us an estimate for all sectoral prices in all countries. We then have an estimate of $\boldsymbol\Gamma \ln \mathbf P_{mt}$, the only new term among $mt$-unobservables. We can then proceed as before.
+\end{document}
