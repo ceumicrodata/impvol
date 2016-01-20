@@ -595,13 +595,11 @@ P_{t}^{j}=\xi B^{j}
 	\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}},
 \end{equation}%
 
-DONE UP TO HERE
-
-\input{ionotes.tex}
 
 where $\xi =\left[ \Gamma \left( \frac{\theta +1-\eta }{\theta }\right) %
 \right] ,$ and $\Gamma $ is the gamma function. Using (\ref{QJ}), (\ref%
 {Labor share}), and (\ref{Pt}) we obtain real GDP: 
+XX FIXME
 \begin{equation}
 Y_{t}=\sum_{j=1}^{J}\frac{w_{t}^{j}L_{t}^{j}}{P_{t}}=\prod_{j=1}^{J}R_{j}%
 \left[ A_{t}^{j}\right] ^{\frac{\alpha ^{j}}{\bar{\beta}}}\left(
@@ -621,6 +619,7 @@ The FOC are $\frac{\alpha ^{j}\beta ^{j}}{\bar{\beta}}E[u^{%
 \prime}(C_{t})C_{t}]=\upsilon L_{t}^{j}$ where $\upsilon $ is the multiplier
 for the resource constraint.} Substituting into (\ref{gdp}), GDP is given
 by: 
+XX FIXME
 \begin{equation}
 Y_{t}=\prod_{j=1}^{J}R_{j}\left( \alpha ^{j}\frac{\beta ^{j}}{\bar{\beta}}%
 \right) ^{\frac{\alpha ^{j}\beta ^{j}}{\bar{\beta}}}\left( A_{t}^{j}\right)^{%
@@ -635,10 +634,13 @@ The key difference in the internationally open economy is that inputs can
 potentially be sourced from different countries. Delivering a unit of good $%
 \omega ^{j}$ produced in country $m$ to country $n$ costs: 
 \begin{equation*}
-p_{nmt}^{j}(\omega ^{j})=\frac{B^{j}\left( w_{mt}^{j}\right) ^{\beta
-^{j}}P_{mt}^{1-\beta ^{j}}}{A_{mt}^{j}\kappa _{nmt}^{j}z_{m}(\omega ^{j})}
+p_{nmt}^{j}(\omega ^{j})=\frac{B^{j}
+	\left( w_{mt}^{j}\right) ^{\beta^{j}}
+	\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}}
+}
+	{A_{mt}^{j}\kappa _{nmt}^{j}z_{m}(\omega ^{j})}
 \end{equation*}%
-where $B^{j}\left( w_{mt}^{j}\right) ^{\beta ^{j}}P_{mt}^{1-\beta ^{j}}$ is
+where $B^{j}\left( w_{mt}^{j}\right) ^{\beta ^{j}}\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}}$ is
 the cost of the input bundle in country of origin $m$, sector $j$, at time $%
 t $. Because of perfect competition, the price paid in country $n$, denoted $%
 p_{nt}(\omega ^{j})$, will be the minimum price across all $N$ potential
@@ -651,17 +653,30 @@ time-invariant Fr\'{e}chet distribution: $F_{n}^{j}(z)=\exp
 (-T_{n}^{j}z^{-\theta }).$ Under this assumption, the distribution of prices
 in sector $j$ of country $n$, conditional on $\left\{ A_{mt}^{j}\right\}
 _{m=1,...N}$ is given by $G_{nt}^{j}(p)|_{\left\{ A_{t}^{j}\right\} }=\Pr
-(P_{nt}^{j}<p)=1-\exp \left[ -\Phi _{nt}^{j}p^{\theta }\right] $ where $\Phi
-_{nt}^{j}=\sum_{m=1}^{N}T_{m}^{j}\left( \frac{B^{j}\left( w_{mt}^{j}\right)
-^{\beta ^{j}}P_{mt}^{1-\beta ^{j}}}{A_{mt}^{j}\kappa _{nmt}^{j}}\right)
-^{-\theta }$. Given that there is a continuum of $\omega ^{j}$ in each
+(P_{nt}^{j}<p)=1-\exp \left[ -\Phi _{nt}^{j}p^{\theta }\right] $ 
+where 
+$\Phi_{nt}^{j}=
+	\sum_{m=1}^{N}
+	T_{m}^{j}
+	\left( 
+		\frac
+			{B^{j}\left( w_{mt}^{j}\right)^{\beta ^{j}}\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}}}
+			{A_{mt}^{j}\kappa _{nmt}^{j}}
+	\right)^{-\theta }
+$. Given that there is a continuum of $\omega ^{j}$ in each
 sector, by the law of large numbers the probability that country $m$
 provides a good in sector $j$ at the lowest price in country $n$ equals the
 fraction of goods that country $n$ buys from country $m$ in sector $j$: 
 \begin{equation}
-d_{nmt}^{j}=\frac{T_{m}^{j}\left( \frac{B^{j}\left( w_{mt}^{j}\right)
-^{\beta ^{j}}P_{mt}^{1-\beta ^{j}}}{A_{mt}^{j}\kappa _{nmt}^{j}}\right)
-^{-\theta }}{\Phi _{nt}^{j}}  \label{shares}
+d_{nmt}^{j}=
+	\frac
+		{T_{m}^{j}
+		\left( 
+			\frac
+				{B^{j}\left( w_{mt}^{j}\right)^{\beta ^{j}}\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}}}
+				{A_{mt}^{j}\kappa _{nmt}^{j}}
+		\right)^{-\theta }}
+		{\Phi _{nt}^{j}}  \label{shares}
 \end{equation}%
 that is, $d_{nmt}^{j}$ is the fraction of country $n$'s total spending on
 sector-$j$ goods from country $m$ at time $t$. The equilibrium in the open
@@ -685,25 +700,59 @@ P_{nt}=\prod_{j}^{J}\left( \frac{1}{\alpha _{n}^{j}}\right)
 P_{nt}^{j}=\xi\Phi _{nt}^{j^{-1/}\theta }  \label{eq2}
 \end{equation}
 \begin{equation}
-\Phi _{nt}^{j}=\left( B^{j}\right) ^{-\theta
-}\sum_{i=1}^{N}T_{i}^{j}\left(A_{it}^{j}\right) ^{\theta }\left[ \frac{%
-P_{it}^{1-\beta ^{j}}\left(w_{it}^{j}\right) ^{\beta ^{j}}}{\kappa _{nit}^{j}%
-}\right] ^{-\theta }  \label{eq3}
+\Phi _{nt}^{j}=
+	\left( B^{j}\right)^{-\theta}
+	\sum_{i=1}^{N}
+		T_{i}^{j}\left(A_{it}^{j}\right)^{\theta }
+		\left[ 
+			\frac
+				{\left(w_{it}^{j}\right) ^{\beta ^{j}}	\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}}}
+				{\kappa _{nit}^{j}}
+		\right]^{-\theta }  \label{eq3}
 \end{equation}
 \begin{equation}
-d_{nmt}^{j}=\frac{\left( B^{j}\right) ^{-\theta
-}T_{m}^{j}\left(A_{mt}^{j}\right) ^{\theta }\left( \frac{P_{mt}^{1-\beta
-^{j}}w_{mt}^{j\beta^{j}}}{\kappa _{nmt}^{j}}\right) ^{-\theta }}{\Phi
-_{nt}^{j}};\sum\limits_{m=1}^{N}d_{nmt}^{j}=1  \label{eq4}
+d_{nmt}^{j}=
+	\frac
+		{\left( B^{j}\right)^{-\theta}T_{m}^{j}\left(A_{mt}^{j}\right) ^{\theta }
+		\left( 
+			\frac
+				{w_{mt}^{j\beta^{j}}\prod_{k=1}^J (P_{t}^k)^{\gamma^{kj}}}
+				{\kappa _{nmt}^{j}}\right) ^{-\theta }}
+		{\Phi_{nt}^{j}};
+\sum\limits_{m=1}^{N}d_{nmt}^{j}=1  \label{eq4}
 \end{equation}
-\begin{equation}
-w_{nt}^{j}L_{nt}^{j}=\beta^{j}\sum_{m=1}^{N}d_{mnt}^{j}\left[\alpha^{j}+%
-\frac{1-\beta^{j}}{\beta^j} \cdot \frac{w_{mt}^{j}L_{mt}^{j}}{w_{mt}L_{mt}}%
-\right] w_{mt}L_{mt}  \label{eq5}
+Revenue in sector $j$ in country $n$ is equal to the total expenditure of all the countries on this sector, weighted by country $n$'s market share:
+\[
+R^j_{nt} =
+	\sum_{m=1}^N
+		d^j_{mnt}
+		E^j_{mt}
+\]
+Expenditure by agents in country $m$ on good $j$ comes from consumption (final demand) and intermediate demand:
+\[
+E^j_{mt} =
+	\alpha^j_t P_{mt}C_{mt}
+	+ \sum_{k=1}^J \gamma^{jk}R^k_{mt}
+\]
+Final consumption is domestic value added minus any trade surplus $S_{mt}$,
+\[
+P_{mt}C_{mt} = \sum_{j=1}^J w_{mt}^jL_{mt}^j - S_{mt}
+ = \sum_{j=1}^J \beta^j R_{mt}^j - S_{mt},
+\]
+where we have made use of the fact that $w^j_{mt}L^j_{mt} = \beta^j R^j_{mt}$.
+
+In vector notation ($J\times1$ column vector), international income accounting becomes
+\begin{equation}\label{eq5}
+	\mathbf R_{nt} =
+		\sum_{m=1}^N 
+			\text{diag}(\mathbf d_{mnt})
+			[
+				(\boldsymbol{\alpha\beta}'+\boldsymbol\Gamma)
+				\mathbf R_{mt}
+				- \boldsymbol\alpha S_{mt}
+			]
 \end{equation}
-\begin{equation}
-w_{nt}L_{nt}=\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}  \label{eq6}
-\end{equation}
+We can use \eqref{eq5} to pin down $\mathbf R_{mt}$ for any combination of import shares and trade deficit. 
 \begin{equation}
 \frac{L_{nt}^{j}}{L_{nt}}=E_{t-1}\left[ \frac{w_{nt}^{j}L_{nt}^{j}}{%
 \sum_{k=1}^J w_{nt}^{k}L_{nt}^{k}}\right]  \label{eq7}
@@ -718,20 +767,7 @@ says that the sum of spending shares on goods $j$ from all countries $m$ by
 country $n$ (including $n$ itself) add to 1, that is, imports plus domestic
 expenditures on goods $j$ by country $n$, add up to the overall spending
 value on goods $j$ by country $n.$ Equation (\ref{eq5}) gives the value of
-total sales accruing to the primitive factor in sector $j$ of country $n;$
-it already incorporates the balanced trade condition, i.e., total payments
-for goods flowing out of country $m$ to the rest of the world equal payments
-flowing in country $m$ from the rest of the world.\footnote{%
-In formulas, $\sum\nolimits_{j=1}^{J}X_{mt}^{j}=\sum\nolimits_{n=1}^{N}\sum%
-\nolimits_{j=1}^{J}d_{nmt}^{j}X_{nt}^{j}$, where $X_{nt}^{j}$ is total
-expenditure by country $n$ on sector-$j$ goods. The right-hand side is the
-total demand by all $N$ countries for goods produced in country $m$. The
-left-hand side is the total expenditures by country $m$, which, under trade
-balance also equals its total sales. Recall that $P_{m}^{j}Q_{m}^{j}$ is the
-total purchases of goods from sector $j$ by country $m.$ Note $%
-P_{mt}^{j}Q_{mt}^{j}$, the total purchases of goods from sector $j$ by
-country $m.$ Hence: $P_{mt}^{j}Q_{mt}^{j}=\alpha ^{j}w_{mt}L_{mt}+\frac{%
-1-\beta ^{j}}{\beta ^{j}}w_{mt}^{j}L_{mt}^{j}$.} Equation (\ref{eq4})
+total sales in sector $j$ of country $n$. Equation (\ref{eq4})
 expresses total value added in the economy as the sum of sectoral value
 added. (Real value added is given by $Y_{nt}=\frac{w_{nt}L_{nt}}{P_{nt}}$.)
 Finally, (\ref{eq7}) expresses the resource shares as a function of expected
@@ -751,6 +787,8 @@ $. As seen, with log utility the solution for $\frac{L_{n}^{j}}{L_{n}}$
 simplifies significantly as it is the expected value of sectoral value-added
 shares; in the implementation, we will use the data to help pin down these
 expectations.
+
+XX DONE UP TO HERE
 
 \subsection{Two Illustrative Cases: Autarky and Costless Trade}
 
