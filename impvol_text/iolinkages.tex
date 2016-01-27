@@ -739,9 +739,17 @@ Final consumption is domestic value added minus any trade surplus $S_{mt}$,
 P_{mt}C_{mt} = \sum_{j=1}^J w_{mt}^jL_{mt}^j - S_{mt}
  = \sum_{j=1}^J \beta^j R_{mt}^j - S_{mt},
 \]
-where we have made use of the fact that $w^j_{mt}L^j_{mt} = \beta^j R^j_{mt}$.
-
-In vector notation ($J\times1$ column vector), international income accounting becomes
+where we have made use of the fact that $w^j_{mt}L^j_{mt} = \beta^j R^j_{mt}$. Combining these three equations,
+\begin{equation}\label{eq5}
+	R_{nt}^j =
+		\sum_{m=1}^N 
+			d_{mnt}^j
+			\left[
+				\sum_{k=1}^J (\alpha^j_t\beta^k + \gamma^{jk}) R_{mt}^k 
+				- \alpha^j_t S_{mt}
+			\right]
+\end{equation}
+In vector notation (with $\mathbf R_{nt}$ being $J\times1$ column vector), international income accounting becomes
 \begin{equation}\label{eq5}
 	\mathbf R_{nt} =
 		\sum_{m=1}^N 
@@ -750,8 +758,10 @@ In vector notation ($J\times1$ column vector), international income accounting b
 				(\boldsymbol{\alpha\beta}'+\boldsymbol\Gamma)
 				\mathbf R_{mt}
 				- \boldsymbol\alpha S_{mt}
-			]
+			],
 \end{equation}
+where $\text{diag}(\mathbf d_{mnt})$ is $J\times J$ matrix with the $j$th diagonal element of $d^j_{mnt}$ and zero in all off-diagonal cells. 
+
 We can use \eqref{eq5} to pin down $\mathbf R_{mt}$ for any combination of import shares and trade deficit. 
 \begin{equation}
 \frac{L_{nt}^{j}}{L_{nt}}=E_{t-1}\left[ \frac{w_{nt}^{j}L_{nt}^{j}}{%
