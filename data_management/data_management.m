@@ -33,6 +33,8 @@ pwt = dlmread([input_folder,...
 va = dlmread([input_folder, 'sectoral_value_added.txt'], '\t', 1, 2);
 import_shares = dlmread([input_folder, 'import_share.txt'], '\t');
 
+% gammas = dlmread([input_folder, 'io_linkages_parameters.txt']);
+
 
 %% Get key constants of data dimensions
 n_countries = length(country_names);
@@ -126,7 +128,15 @@ d = correct_expenditure_shares(d, parameters);
 %% Calculate new matrices of constants.
 xi = gamma((theta + 1 - eta) / theta);
 
-B = beta.^(-beta) .* (1 - beta).^(beta - 1);
+
+% experimental gamma
+rng(0);
+gammas = rand(n_sectors, n_sectors);
+gammas = bsxfun(@times, gammas, (1 - beta') ./ sum(gammas));
+
+
+B = beta.^(-beta) .* prod(gammas.^(- gammas), 1)';
+
 K = zeros(n_years, 1);
 for t = 1:n_years
     K(t) = prod((xi * B ./ alpha(:, t)).^(alpha(:, t)))^theta;
@@ -144,7 +154,7 @@ parameters.B = B;
 parameters.beta = beta;
 parameters.xi = xi;
 parameters.kappa = kappa;
-
+parameters.gammas = gammas;
 
 
 %% Get expectations of value added shares (psi)
@@ -167,75 +177,32 @@ d_to_base_change = diff(log(squeeze(d(i_base, :, :, :))), 1, 3);
 
 
 
-%%
-if fe
-    zeta = compute_zeta(d, va, psi, pwt, p_base, parameters);
-    
-    %save('zeta.mat', 'zeta')
-    
-    tau_base_single = theta * log(p_sectoral_base(:, 1:(n_sectors - 1))');
-    tau_base = permute(repmat(tau_base_single, [1 1 n_countries]), [3 1 2]);
-    
-    zeta_base = zeta(i_base, :, :, :);
-    zeta_base = repmat(zeta_base, [n_countries 1 1 1]);
-    
-    tau = squeeze(mean(zeta - zeta_base, 2)) + tau_base;
-    tau_full = permute(repmat(tau, [1 1 1 n_countries]), [1 4 2 3]);
-    
-    lambda = squeeze(mean(zeta - tau_full, 1));
-    
-    z_traded = exp(lambda);
-    z = zeros(n_countries, n_sectors, n_years);
-    z(:, 1:(n_sectors - 1), :) = z_traded;
-    
-    p_sectoral = zeros(n_countries, n_sectors, n_years);
-    p_sectoral(:, 1:(n_sectors - 1), :) = exp(tau / theta);
-    
-else
-    % Compute Shocks - except for services
-    % Compute the normalized aggregate price in the US in 1972
-    p_base_1972 = p_base(1);
-    parameters.p_base_1972 = p_base_1972;
-    
-    no_base_index = [1:n_countries];
-    no_base_index(i_base) = [];
-    parameters.no_base_index = no_base_index;
-    
-    % Initialize z
-    z = zeros(n_countries, n_sectors, n_years);
-    
-    % Compute z in 1972 for all other countries based on (34) and (35)
-    % Note: z of services is computed only for the base country
-    z(:, :, 1) = compute_z_1972(d, va, psi, pwt, parameters);
-    
-    % Compute change of z(US, j, t) based on (33) and (31)
-    % Note: Change of z for services is computed only for the base country
-    change_z = compute_change_z(d_to_base_change, va_change, psi_change,...
-        p_base_change, p_sectoral_base_change, pwt_change,...
-        kappa_to_base_change, parameters);
-    
-    % Compute z(n, j, t) except for services from changes and init. values
-    z = rollout(change_z, z);
-end
-% 
-% 
-% 
-%% Compute Shocks - for services in all countires other than the US
-% Compute phi(n, j, t), except for services
-phi = compute_phi(z, va, psi, pwt, p_base, d, parameters);
-%
-% Compute sectoral prices
-if ~fe_prices
-    p_sectoral = zeros(n_countries, n_sectors, n_years);
-    p_sectoral(:, 1:(n_sectors - 1), :) = xi * (phi).^(- 1 / theta);
-end
+%% Calculate sectoral prices
+
+p_sectoral = ...
+    exp(squeeze(mean(1/theta * bsxfun(@minus, log(d), log(d(i_base, :, :, :))) - ...
+                bsxfun(@minus, log(kappa), log(kappa(i_base, :, :, :))), 2)) + ...
+        permute(repmat(log(p_sectoral_base), [1, 1, n_countries]), [3, 2, 1]));
 
 p_sectoral(:, i_services, :) = ...
     compute_p_services(pwt, p_sectoral, p_base, parameters);
-% 
-% % Compute z of services in 1972 in all countries
+
+
+%% Calculate productivity shocks
+
+
+
+%%
+
+zeta = compute_zeta(d, va, psi, pwt, p_sectoral, parameters);
+z_traded = exp(squeeze(mean(zeta - theta * permute(repmat(log(p_sectoral(:, 1:(n_sectors - 1), :)), [1 1 1 n_countries]), [1 4 2 3]), 2)));
+
+z = zeros(n_countries, n_sectors, n_years);
+z(:, 1:(n_sectors - 1), :) = z_traded;
+
+% Compute z of services in 1972 in all countries
 z(:, i_services, :) = ...
-    compute_z_services(va, psi, pwt, p_base, p_sectoral, parameters);
+    compute_z_services(va, psi, p_sectoral, parameters);
 
 
 %% Compute Equipped Labor - L
@@ -260,6 +227,7 @@ baseline.beta = beta;
 baseline.kappa = kappa;
 baseline.theta = theta;
 baseline.xi = xi;
+baseline.gammas = gammas;
 
 baseline.L = L;
 baseline.z = z;

@@ -1,24 +1,24 @@
-function zServices = compute_z_services(va, psi, pwt, p_base, p_sectoral, ...
-                                          parameters)
+function z_services = compute_z_services(va, psi, p_sectoral, parameters)
 
 B = parameters.B;
 xi = parameters.xi;
 theta = parameters.theta;
 beta = parameters.beta; 
 i_services = parameters.i_services;
+gammas = parameters.gammas;
 
 [n_countries, ~, n_years] = size(va);
 
-zServices = zeros(n_countries, n_years);
+z_services = zeros(n_countries, n_years);
 
 for n = 1:n_countries
     for t = 1:n_years
-        zServices(n, t) = ...
+        z_services(n, t) = ...
             xi^theta * ...
             B(i_services)^theta * ...
             (va(n, i_services, t) / psi(n, i_services, t))^...
                                             (theta * beta(i_services)) * ...
-            (pwt(t, n) * p_base(t))^(theta * (1 - beta(i_services))) * ...
+            prod(p_sectoral(n, :, t).^(gammas(:, i_services)'))^theta * ...
             p_sectoral(n, i_services, t)^(-theta);
     end % t
 end % n

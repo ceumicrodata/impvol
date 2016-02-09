@@ -1,10 +1,11 @@
-function zeta = compute_zeta(d, va, psi, pwt, p_base, parameters)
+function zeta = compute_zeta(d, va, psi, pwt, p_sectoral, parameters)
 
 theta = parameters.theta;
 B = parameters.B;
 xi = parameters.xi;
 beta = parameters.beta;
 kappa = parameters.kappa;
+gammas = parameters.gammas;
 
 [n_countries, n_sectors, n_years] = size(va);
 
@@ -19,7 +20,7 @@ for k = 1:n_countries
                     d(k, n, j, t) * ...
                     kappa(k, n, j, t)^(-theta) * ...
                     (va(n, j, t) / psi(n, j, t))^(theta * beta(j)) * ...
-                    (pwt(t, n) * p_base(t))^(theta * (1 - beta(j)));
+                    prod(p_sectoral(n, :, t).^(gammas(:, j)'))^theta;
             end % t
         end % j
     end % n
