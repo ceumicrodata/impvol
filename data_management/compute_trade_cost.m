@@ -30,6 +30,7 @@ end % j
 
 kappa(:, :, i_services, :) = repmat(eye(n_countries), [1, 1, 1, n_years]);
 
+% clip values to the [numerical_zero, 1] interval
 kappa(:, :, 1:(n_sectors - 1), :) = ...
     max(kappa(:, :, 1:(n_sectors - 1), :), numerical_zero);
 kappa = min(kappa, 1);

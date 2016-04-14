@@ -35,4 +35,5 @@ load(in_file)
 
 mean(data_volatility_total)
 mean(variances)
-bar([data_volatility_total, variances])
+
+plo

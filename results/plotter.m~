@@ -1,0 +1,102 @@
+clear all
+load('data_rgdp_and_volatility')
+load('equilibrium_baseline_theta_4')
+country_names = importdata(['../data/raw_imputed/country_name.txt']);
+
+
+for n = 1:2
+    figure(n)
+    plot(log([deflator(:, n), equilibrium.P_nt(n, :)']))
+end
+
+ROWS = 5;
+COLS = 5;
+N = 25;
+for n = 1:N
+    fig_number = floor((n - 1) / (ROWS * COLS)) + 1;
+    pic_id = figure(fig_number);
+    hold on
+    thisplot = mod(n - 1, ROWS * COLS) + 1;
+    subplot(ROWS, COLS, thisplot)
+    series1 = log(deflator(:, n));
+    series2 = log(equilibrium.P_nt(n, :)');
+    plot([series1, series2], 'LineWidth', 2.5)
+    title([country_names{n}, ' GDP Deflator'])
+    xlim([1, 36])
+    grid on
+    set(gca, 'GridLineStyle', '-');
+    %legend('Data', 'Model', 'Location', 'SouthEast')
+    set(gca,'XTick', 1:5:36)
+    set(gca,'XTickLabel', 1972:5:2007)
+%     if (mod(thisplot, ROWS * COLS) == 0) || (n == 25)
+%         set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
+%         if fig_number > 1
+%             export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf', '-append')
+%         else
+%             export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf')
+%         end % fig_number
+%         close(pic_id)
+%     end % if
+end
+
+ROWS = 5;
+COLS = 5;
+N = 25;
+for n = 1:N
+    fig_number = floor((n - 1) / (ROWS * COLS)) + 1;
+    pic_id = figure(fig_number);
+    hold on
+    thisplot = mod(n - 1, ROWS * COLS) + 1;
+    subplot(ROWS, COLS, thisplot)
+    series1 = log(real_gdp_total(n, :)');
+    series2 = log(equilibrium.L_nt(n, :)' .* equilibrium.w_nt(n, :)' ./ equilibrium.P_nt(n, :)');
+    plot([series1, series2], 'LineWidth', 2.5)
+    title([country_names{n}, ' Real GDP'])
+    xlim([1, 36])
+    grid on
+    set(gca, 'GridLineStyle', '-');
+    %legend('Data', 'Model', 'Location', 'SouthEast')
+    set(gca,'XTick', 1:5:36)
+    set(gca,'XTickLabel', 1972:5:2007)
+%     if (mod(thisplot, ROWS * COLS) == 0) || (n == 25)
+%         set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
+%         if fig_number > 1
+%             export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf', '-append')
+%         else
+%             export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf')
+%         end % fig_number
+%         close(pic_id)
+%     end % if
+end
+
+
+ROWS = 5;
+COLS = 5;
+J = 24;
+for j = 1:J
+    fig_number = floor((n - 1) / (ROWS * COLS)) + 1;
+    pic_id = figure(fig_number);
+    hold on
+    thisplot = mod(j - 1, ROWS * COLS) + 1;
+    subplot(ROWS, COLS, thisplot)
+    series1 = squeeze(log(real_dgp_sectoral(25, j, :)));
+    series2 = squeeze(log(equilibrium.L_njt(25,j, :) .* equilibrium.w_njt(25, j, :) ./ equilibrium.P_njt(25,j, :)));
+    plot([series1, series2], 'LineWidth', 2.5)
+    title('Sectoral GDP')
+    xlim([1, 36])
+    grid on
+    set(gca, 'GridLineStyle', '-');
+    %legend('Data', 'Model', 'Location', 'SouthEast')
+    set(gca,'XTick', 1:5:36)
+    set(gca,'XTickLabel', 1972:5:2007)
+%     if (mod(thisplot, ROWS * COLS) == 0) || (n == 25)
+%         set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
+%         if fig_number > 1
+%             export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf', '-append')
+%         else
+%             export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf')
+%         end % fig_number
+%         close(pic_id)
+%     end % if
+end
+

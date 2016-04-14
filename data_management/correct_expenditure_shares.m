@@ -24,12 +24,12 @@ d(:, :, :, 1) = ...
 % In the later years we approximate the negative domestic share with its
 % previous value and then renormalize again.
 for t = 2:n_years
-    dCurrentYear = d(:, :, :, t);
-    dPreviousYear = d(:, :, :, t - 1);
-    indexOfNegative = (dCurrentYear < 0);
-    dCurrentYear(indexOfNegative) = dPreviousYear(indexOfNegative);
+    d_current_year = d(:, :, :, t);
+    d_previous_year = d(:, :, :, t - 1);
+    index_of_negative = (d_current_year < 0);
+    d_current_year(index_of_negative) = d_previous_year(index_of_negative);
     d(:, :, :, t) = ...
-        dCurrentYear ./ repmat(sum(dCurrentYear, 2), [1, n_countries, 1]);
+        d_current_year ./ repmat(sum(d_current_year, 2), [1, n_countries, 1]);
 end
 
 % We will take logs and divide by shares, so we set a numerical zero
