@@ -41,6 +41,9 @@ intermediate_input_shares = dlmread([input_folder, 'intermediate_input_shares.cs
 trade_balance = dlmread([input_folder, 'trade_balance.csv'], ',', 1, 1);
 trade_balance = 1000 * trade_balance; % convert to millions from billions
 
+% trade_balance = dlmread([input_folder, 'trade_balance_new.csv'], ',', 1, 1);
+
+
 %% Get key constants of data dimensions
 n_countries = length(country_names);
 n_sectors = size(beta_panel, 2);

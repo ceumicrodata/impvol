@@ -12,14 +12,6 @@ global alpha beta theta kappa gammas S
 
 D = bsxfun(@times, permute((bsxfun(@power, bsxfun(@times, sum(L_nj, 2), w_nj)', -beta) .^ theta) .* z_nj', [3 2 1]), kappa(:, :, :, t).^theta);
 
-% D2 = zeros(N, N, J);
-% for j = 1:J
-%     D2(:, :, j) = ...
-%         repmat(z_nj(:, j)', N, 1) .* ...
-%         (repmat((L_n .* w_nj(:, j))'.^(- beta(j)), N, 1) .* ...
-%         kappa(:, :, j, t)).^theta;
-% end
-% max(abs((D(:) - D2(:))))
 
 % Get sectoral prices. Note that this step depends on current wages through D.
 [P_nj_new, price_iterations] = get_prices(P_nj, D, t);
@@ -36,7 +28,7 @@ end
 
 dd = reshape(permute(d, [3, 2, 1]), [N * J, N]);
 R_jn = bsxfun(@rdivide, w_nj .* L_nj, beta')';
-E_jn = (gammas(:, :, t) + alpha(:, t) * beta') * R_jn; % - alpha(:, t) * S(:, t)';
+E_jn = (gammas(:, :, t) + alpha(:, t) * beta') * R_jn  - alpha(:, t) * S(:, t)';
 R_jn_new = reshape(sum(repmat(E_jn, [N, 1]) .* dd, 2), [J, N]);
 
 % R_dif = 10;

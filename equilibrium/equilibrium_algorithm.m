@@ -106,7 +106,7 @@ while outer_dif > outer_tol
     [w_njt, w_nt, P_nt, P_njt, d] = get_wages(L_njt, L_nt, z_njt, outer_iteration);
     toc
     
-    [w_njt, w_nt, P_nt, P_njt] = fit_to_data(w_njt, w_nt, P_nt, P_njt);
+%     [w_njt, w_nt, P_nt, P_njt] = fit_to_data(w_njt, w_nt, P_nt, P_njt);
     
     % calculate sectoral value added
     wL_njt = w_njt .* L_njt;
