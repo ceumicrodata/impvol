@@ -1,5 +1,6 @@
 # ignore internal and temporary matlab data files
 *.mat
+*.m~
 
 # ignore everything related to stata (legacy)
 *.do
