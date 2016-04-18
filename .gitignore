@@ -6,6 +6,9 @@
 *.do
 *.dta
 
+# ignore ipython notebooks
+.ipynb_checkpoints/
+
 # ignore image results
 *.png
 
