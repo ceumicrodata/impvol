@@ -3,7 +3,7 @@ function [w_njt, w_nt, P_nt, P_njt, d_mnjt] = get_wages(L_njt, L_nt, z_njt, oute
 % sector-specific labor allocation.
 % The corresponding equilibrium aggregate wages and aggregate prices are also returned along the wages.
 
-global verbose lambda_w c
+global verbose c
 
 [N, J, T] = size(L_njt);
 
@@ -30,11 +30,11 @@ for t = 1:T
     % previous dampening parameters
     if t > 1
         w_nj_start = w_njt(:, :, t - 1);
-        P_n = P_nt(:, t - 1);
+        P_nj = P_njt(:, :, t - 1);
     else 
-        w_nj_start = 1 * ones(N, J);
-        P_n = 80 * ones(N, 1);
-    end % if t == T0
+        w_nj_start = 10 * ones(N, J);
+        P_nj = 1 * ones(N, J);
+    end % if t > 1
     
     w_nj = w_nj_start;
     
@@ -43,54 +43,48 @@ for t = 1:T
     middle_maxiter = c.middle_maxiter; 
     middle_convergence = 0;
     
-    damp_step = 0;
-    for lambda = lambda_w
-        damp_step = damp_step + 1;
-        middle_dif = c.dif;
-        middle_iteration = 0; % set current iteration to zero
-        
-        % update wage until convergence or maximum number of iterations
-        while middle_dif > middle_tol       
-            middle_iteration = middle_iteration + 1;
-            
-            if middle_iteration > middle_maxiter
-                break
-            end
-            
-            if middle_iteration > middle_maxiter
-                fprintf('Maximum number of iterations (%d) exceeded in wage loop.\n', middle_maxiter)
-                fprintf('The difference is %e \n', middle_dif)
-                error('No convergence in wage loop.')
-            end
-            
-            % calculate new sector specific wages (and associated prices)
-            % based on current values
-            [w_nj_new, P_n, price_iterations, price_lambda, P_nj, d] = ...
-                wage_update(w_nj, L_nj, L_n, z_nj, P_n, t);
-            
-            middle_dif = max(abs((w_nj_new(:) - w_nj(:)) ./ (1 + w_nj(:))));
-            
-            % update current values
-            w_nj = lambda * w_nj_new + (1 - lambda) * w_nj;
-            
-            if (verbose >= 3) && (mod(middle_iteration, c.middle_print_every) == 0)
-                fprintf('    Wage iteration %d, difference is %e\n', middle_iteration, middle_dif)
-                if (verbose == 4)
-                    fprintf('        Price loop converged in %d iterations and with %1.2f as the dampening parameter.\n', price_iterations, price_lambda)
-                    fprintf('        Mean aggregate price is %e \n', mean(P_n))
-                    fprintf('\n')
-                end % if (verbose == 4)
-            end % (verbose == 3) && (mod(iteration, 10) == 0)
-        end % while dif > tol
-        
-        if middle_dif < middle_tol
-            middle_convergence = 1;
-            break
-        end %if
-        
-    end % for lambda = lambda_w
+    middle_dif = c.dif;
+    middle_iteration = 0; % set current iteration to zero
     
+    % update wage until convergence or maximum number of iterations
+    while middle_dif > middle_tol
+        middle_iteration = middle_iteration + 1;
+        
+%         if middle_iteration > middle_maxiter
+%             break
+%         end
+        
+        if middle_iteration > middle_maxiter
+            fprintf('Maximum number of iterations (%d) exceeded in wage loop.\n', middle_maxiter)
+            fprintf('The difference is %e \n', middle_dif)
+            error('No convergence in wage loop.')
+        end
+        
+        % calculate new sector specific wages (and associated prices)
+        % based on current values
+        [w_nj_new, P_nj, price_iterations, P_n, d] = wage_update(w_nj, L_nj, z_nj, P_nj, t);
+        
+        step = w_nj_new - w_nj;
+        
+        middle_dif = max(abs(step(:)));
+                
+        % update current values
+        w_nj = w_nj + 0.5 * step;
+        
+        if (verbose >= 3) && (mod(middle_iteration, c.middle_print_every) == 0)
+            fprintf('    Wage iteration %d, difference is %e\n', middle_iteration, middle_dif)
+            if (verbose == 4)
+                fprintf('        Price loop converged in %d iterations.\n', price_iterations)
+                fprintf('        Mean aggregate price is %e \n', mean(P_n))
+                fprintf('\n')
+            end % if (verbose == 4)
+        end % (verbose == 3) && (mod(iteration, 10) == 0)
+    end % while dif > tol
     
+    if middle_dif < middle_tol
+        middle_convergence = 1;
+    end %if
+  
     
     if middle_convergence == 0
         fprintf('Maximum number of iterations (%d) exceeded in wage loop. \n', middle_maxiter)
@@ -111,11 +105,10 @@ for t = 1:T
     
     
     if verbose == 2
-        fprintf('    WAGE loop, period %d, labor iteration %d: Convergence in %d iterations. Dampening: %1.2f \n',...
-            t, outer_iteration,...
-            (damp_step - 1) * middle_maxiter + middle_iteration, lambda)
+        fprintf('    WAGE loop, period %d, labor iteration %d: Convergence in %d iterations.\n',...
+            t, outer_iteration, middle_iteration)
     elseif verbose >= 3
-        fprintf('    Convergence in %d iterations and with %1.1f as the dampening parameter.\n', middle_iteration, lambda)
+        fprintf('    Convergence in %d iterations.\n', middle_iteration)
         %fprintf('The minimum aggregate wage is %f \n', min(w_n))
         %fprintf('The maximum aggregate wage is %f \n', max(w_n))
         fprintf('----  END OF WAGE LOOP, period %d, labor iteration %d  ----\n', t, outer_iteration)

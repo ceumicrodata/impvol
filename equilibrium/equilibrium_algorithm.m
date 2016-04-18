@@ -1,7 +1,7 @@
 function equilibrium_out = equilibrium_algorithm(equilibrium_input)
 
 % declare the constants used by most functions as global variables
-global alpha beta theta xi kappa K B verbose lambda_w lambda_p c
+global alpha beta theta xi kappa K B verbose lambda_w lambda_p c gammas S
 % NOTE: see the definition of K in the documentation
 
 theta = c.theta;
@@ -23,11 +23,13 @@ lambda_p = c.dampening_price_loop;
 scenario = equilibrium_input.scenario;
 
 B = equilibrium_input.B;
-K = equilibrium_input.K;
+% K = equilibrium_input.K;
 alpha  = equilibrium_input.alpha;
 beta = equilibrium_input.beta;
 kappa =equilibrium_input.kappa;
 xi = equilibrium_input.xi;
+gammas = equilibrium_input.gammas;
+S = equilibrium_input.trade_balance;
 
 L = equilibrium_input.L;
 z = equilibrium_input.z;
@@ -69,6 +71,7 @@ z_njt = z; % compound shocks
 % end
 L_njt = psi .* permute(repmat(L_nt, [1 1 J]), [1 3 2]);
 
+%%
 %%%%% Outer loop: Search for sector specific labor allocation (L_njt)
 
 % Store resource allocation in each iteration for convergence analysis
@@ -120,7 +123,7 @@ while outer_dif > outer_tol
     %save('results/iterations.mat', 'L_njt_iterations', 'L_nt')
     
     % calculate difference from last iteration
-    outer_dif = max(abs((L_njt_new(:) - L_njt(:)) ./ (1 + L_njt(:))));
+    outer_dif = max(abs(L_njt_new(:) - L_njt(:)));
     
     % update sectoral labor allocations
     L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;
