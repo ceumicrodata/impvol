@@ -2,10 +2,10 @@ function c = initialize
 
 %% Specify run type
 % 0: no counterfactuals, 1: do counterfactuals
-c.include_counterfactuals = 0; 
+c.include_counterfactuals = 1; 
 
 % 0: const, 1: general(time-varying), 2: smooth
-c.alpha_type = 2; 
+c.alpha_type = 0; 
 
 % 0: Use structural model equations to compute the productivities (z)
 % 1: Use the fixed effects approach to compute the productivities (z)

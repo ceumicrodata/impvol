@@ -33,10 +33,10 @@ pwt = dlmread([input_folder,...
 va = dlmread([input_folder, 'sectoral_value_added.txt'], '\t', 1, 2);
 import_shares = dlmread([input_folder, 'import_share.txt'], '\t');
 
-% io_values = dlmread([input_folder, 'oecd_io_values.csv'], ',', 1, 3);
-% total_output = dlmread([input_folder, 'oecd_total_output.csv'], ',', 1, 2);
-% output_shares = dlmread([input_folder, 'output_shares.csv'], ',', 1, 1);
-% intermediate_input_shares = dlmread([input_folder, 'intermediate_input_shares.csv'], ',', 1, 1);
+io_values = dlmread([input_folder, 'oecd_io_values.csv'], ',', 1, 3);
+total_output = dlmread([input_folder, 'oecd_total_output.csv'], ',', 1, 2);
+output_shares = dlmread([input_folder, 'output_shares.csv'], ',', 1, 1);
+intermediate_input_shares = dlmread([input_folder, 'intermediate_input_shares.csv'], ',', 1, 1);
 
 trade_balance = dlmread([input_folder, 'trade_balance.csv'], ',', 1, 1);
 trade_balance = 1000 * trade_balance; % convert to millions from billions
@@ -66,46 +66,46 @@ beta = mean(beta_panel)';
 %     n_countries, n_sectors, n_years);
 
 %% Compute gammas
-% gammas = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
+gammas = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
 
 % bar([1 - beta, sum(gammas, 1)'])
 
 % normalize gammas
-% gammas = bsxfun(@times, gammas, (1 - beta') ./ sum(gammas, 1));
+gammas = bsxfun(@times, gammas, (1 - beta') ./ sum(gammas, 1));
 
 %% Compute alphas
 
 
-% alpha = compute_alphas(va, beta, gammas, weights);
+alpha = compute_alphas(va, beta, gammas, weights);
 
+gammas = repmat(gammas, [1, 1, n_years]);
 
 % compute old alphas
 % 
-if alpha_type == 0
-    % Constant alpha
-    va_sum_over_n_t = squeeze(sum(sum(va, 1), 3));
-    sectoral_va_share = va_sum_over_n_t / sum(va_sum_over_n_t);
-    alpha_old = (sectoral_va_share' ./ beta) / sum(sectoral_va_share' ./ beta);
-    alpha_old = repmat(alpha_old, [1 n_years]);
-else
-    % Time varying alpha
-    va_sum_over_n = squeeze(sum(va, 1));
-    sectoral_va_share = va_sum_over_n ./ ...
-                        repmat(sum(va_sum_over_n, 1), [n_sectors 1]);
-    sectoral_va_share_over_beta = sectoral_va_share ./ ...
-                                  repmat(beta, [1 n_years]);
-    
-    alpha_old = sectoral_va_share_over_beta ./ ...
-            repmat(sum(sectoral_va_share_over_beta, 1), [n_sectors 1]);
-      
-    % Smooth the time varying alphas using a band-pass filter
-    if alpha_type == 2
-        [alpha_trend, ~] = detrend_series(alpha_old, weights);
-        alpha_old = alpha_trend ./ repmat(sum(alpha_trend, 1), [n_sectors 1]);
-    end % if
-end % if
-% 
-% 
+% if alpha_type == 0
+%     % Constant alpha
+%     va_sum_over_n_t = squeeze(sum(sum(va, 1), 3));
+%     sectoral_va_share = va_sum_over_n_t / sum(va_sum_over_n_t);
+%     alpha_old = (sectoral_va_share' ./ beta) / sum(sectoral_va_share' ./ beta);
+%     alpha_old = repmat(alpha_old, [1 n_years]);
+% else
+%     % Time varying alpha
+%     va_sum_over_n = squeeze(sum(va, 1));
+%     sectoral_va_share = va_sum_over_n ./ ...
+%                         repmat(sum(va_sum_over_n, 1), [n_sectors 1]);
+%     sectoral_va_share_over_beta = sectoral_va_share ./ ...
+%                                   repmat(beta, [1 n_years]);
+%     
+%     alpha_old = sectoral_va_share_over_beta ./ ...
+%             repmat(sum(sectoral_va_share_over_beta, 1), [n_sectors 1]);
+%       
+%     % Smooth the time varying alphas using a band-pass filter
+%     if alpha_type == 2
+%         [alpha_trend, ~] = detrend_series(alpha_old, weights);
+%         alpha_old = alpha_trend ./ repmat(sum(alpha_trend, 1), [n_sectors 1]);
+%     end % if
+% end % if
+
 % alpha_const = repmat(mean(alpha, 2), [1, n_years]);
 % 
 % 
@@ -114,7 +114,6 @@ end % if
 %     alpha_linear(j, :) = linspace(alpha(j, 1), alpha(j, n_years), n_years);
 % end %j
 
-
 % alpha = alpha_linear;
 % alpha = alpha_const;
 
@@ -122,11 +121,11 @@ end % if
 % gammas = mean(alpha, 2) * (1 - beta)';
 
 
-alpha = alpha_old;
-gammas = zeros(n_sectors, n_sectors, n_years);
-for t = 1:n_years
-gammas(:, :, t) = alpha(:, t) * (1 - beta)';
-end
+% alpha = alpha_old;
+% gammas = zeros(n_sectors, n_sectors, n_years);
+% for t = 1:n_years
+% gammas(:, :, t) = alpha(:, t) * (1 - beta)';
+% end
 
 %% Import sectoral Prices
 % index of base country in sectoral price data

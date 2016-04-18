@@ -11,7 +11,7 @@ for t = 1:n_years
     alpha(:, t) = (eye(n_sectors) - gammas) * diag(1 ./ beta) * va_t / sum(va_t);
 end % for t
 
-% clip negativa alphas to zero
+% clip negative alphas to zero
 alpha(alpha < 0) = 0;
 
 % smooth the series
