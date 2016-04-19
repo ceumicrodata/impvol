@@ -2,7 +2,7 @@ function c = initialize
 
 %% Specify run type
 % 0: no counterfactuals, 1: do counterfactuals
-c.include_counterfactuals = 0; 
+c.include_counterfactuals = 1; 
 
 % 0: const, 1: general(time-varying), 2: smooth
 c.alpha_type = 0; 
