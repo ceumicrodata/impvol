@@ -286,9 +286,9 @@ baseline.gammas = gammas;
 
 
 deflator = pwt .* repmat(p_base, [1, n_countries]);
-% baseline.trade_balance = bsxfun(@rdivide, trade_balance, p_base');
+baseline.trade_balance = bsxfun(@rdivide, trade_balance, p_base');
 % baseline.trade_balance = trade_balance ./ deflator';
-baseline.trade_balance = trade_balance;
+% baseline.trade_balance = trade_balance;
 
 baseline.L = L;
 baseline.z = z;

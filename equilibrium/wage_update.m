@@ -3,7 +3,9 @@ function [w_nj_new, P_nj_new, price_iterations, P_n_new, d] = wage_update(w_nj, 
 % First it calculates prices corresponding to current wages,
 % then calculates new wages.
 
-global alpha beta theta kappa gammas S
+global c alpha beta theta kappa gammas S
+
+i_base = c.i_base;
 
 [N, J] = size(L_nj);
 
@@ -28,7 +30,7 @@ end
 
 dd = reshape(permute(d, [3, 2, 1]), [N * J, N]);
 R_jn = bsxfun(@rdivide, w_nj .* L_nj, beta')';
-E_jn = (gammas(:, :, t) + alpha(:, t) * beta') * R_jn  - alpha(:, t) * S(:, t)';
+E_jn = (gammas(:, :, t) + alpha(:, t) * beta') * R_jn  - alpha(:, t) * S(:, t)' * P_n_new(i_base);
 R_jn_new = reshape(sum(repmat(E_jn, [N, 1]) .* dd, 2), [J, N]);
 
 % R_dif = 10;
