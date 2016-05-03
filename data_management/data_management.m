@@ -38,10 +38,10 @@ total_output = dlmread([input_folder, 'oecd_total_output.csv'], ',', 1, 2);
 output_shares = dlmread([input_folder, 'output_shares.csv'], ',', 1, 1);
 intermediate_input_shares = dlmread([input_folder, 'intermediate_input_shares.csv'], ',', 1, 1);
 
-trade_balance = dlmread([input_folder, 'trade_balance.csv'], ',', 1, 1);
-trade_balance = 1000 * trade_balance; % convert to millions from billions
+% trade_balance = dlmread([input_folder, 'trade_balance.csv'], ',', 1, 1);
+% trade_balance = 1000 * trade_balance; % convert to millions from billions
 
-% trade_balance = dlmread([input_folder, 'trade_balance_new.csv'], ',', 1, 1);
+trade_balance = dlmread([input_folder, 'trade_balance_new.csv'], ',', 1, 1);
 
 
 %% Get key constants of data dimensions
@@ -80,7 +80,6 @@ gammas = bsxfun(@times, gammas, (1 - beta') ./ sum(gammas, 1));
 
 
 alpha = compute_alphas(va, beta, gammas, weights);
-
 gammas = repmat(gammas, [1, 1, n_years]);
 
 % compute old alphas
@@ -109,20 +108,8 @@ gammas = repmat(gammas, [1, 1, n_years]);
 %     end % if
 % end % if
 
-% alpha_const = repmat(mean(alpha, 2), [1, n_years]);
-% 
-% 
-% alpha_linear = alpha;
-% for j = 1:n_sectors
-%     alpha_linear(j, :) = linspace(alpha(j, 1), alpha(j, n_years), n_years);
-% end %j
-
-% alpha = alpha_linear;
-% alpha = alpha_const;
-
 % alpha = repmat(mean(alpha_old, 2), [1, n_years]);
 % gammas = mean(alpha, 2) * (1 - beta)';
-
 
 % alpha = alpha_old;
 % gammas = zeros(n_sectors, n_sectors, n_years);
@@ -286,9 +273,9 @@ baseline.gammas = gammas;
 
 
 deflator = pwt .* repmat(p_base, [1, n_countries]);
-baseline.trade_balance = bsxfun(@rdivide, trade_balance, p_base');
+% baseline.trade_balance = bsxfun(@rdivide, trade_balance, p_base');
 % baseline.trade_balance = trade_balance ./ deflator';
-% baseline.trade_balance = trade_balance;
+baseline.trade_balance = trade_balance;
 
 baseline.L = L;
 baseline.z = z;
@@ -307,7 +294,7 @@ real_gdp_sectoral = va ./ permute(repmat(deflator', [1 1 n_sectors]), [1 3 2]);
 data_volatility_total = var(data_cycle_total, 0, 2);
 
 output_folder = c.results_folder;
-save([output_folder, 'data_rgdp_and_volatility.mat'], 'country_names', 'real_gdp_sectoral',...
-     'real_gdp_total', 'data_volatility_total', 'deflator', 'pwt', 'p_base',...
-     'va_total', 'va', 'p_sectoral_base', 'p_sectoral_data', 'd');
+save([output_folder, 'data_rgdp_and_volatility.mat'], 'country_names',...
+     'data_volatility_total', 'deflator', 'pwt', 'p_base',...
+     'va_total', 'va', 'p_sectoral_base', 'p_sectoral_data', 'p_sectoral', 'd');
 end

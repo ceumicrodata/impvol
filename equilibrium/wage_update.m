@@ -30,17 +30,8 @@ end
 
 dd = reshape(permute(d, [3, 2, 1]), [N * J, N]);
 R_jn = bsxfun(@rdivide, w_nj .* L_nj, beta')';
-E_jn = (gammas(:, :, t) + alpha(:, t) * beta') * R_jn  - alpha(:, t) * S(:, t)' * P_n_new(i_base);
+E_jn = (gammas(:, :, t) + alpha(:, t) * beta') * R_jn  - alpha(:, t) * S(:, t)'; % * P_n_new(i_base);
 R_jn_new = reshape(sum(repmat(E_jn, [N, 1]) .* dd, 2), [J, N]);
-
-% R_dif = 10;
-% R_tol = 1e-4;
-% while R_dif > R_tol
-%     E_jn = (gammas + alpha(:, t) * beta') * R_jn - alpha(:, t) * S(:, t)' * 1000; % convert S to millions
-%     R_jn_new = reshape(sum(repmat(E_jn, [N, 1]) .* dd, 2), [J, N]);
-%     R_dif = max(abs(R_jn_new(:) - R_jn(:)));
-%     R_jn = R_jn_new;
-% end
 
 w_nj_new = bsxfun(@times, R_jn_new' ./ L_nj, beta');
 
