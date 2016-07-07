@@ -1,0 +1,14 @@
+For Miklos
+- check formulas for labourrel
+- add io/deficit formulas to all eq conditions
+- add io/deficit calibration 
+
+For Peter
+- Tables 1-3 as before (IO and S)
+- Table A1: no imbalances
+- Table A2: no I-O linkages
+- change Matlab outer loop: new updating rule as in labourrel.pdf
+- new section "Robustness": Tables sames as 1-3 but with labor adjustment costs
+
+For Silvana
+- work on response
