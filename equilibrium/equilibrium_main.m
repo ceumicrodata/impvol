@@ -19,10 +19,10 @@ equilibrium = struct('scenario', {},...
 
 %%
 % Calculate baseline equilibrium
-% equilibrium(1) = equilibrium_algorithm(baseline);
+equilibrium(1) = equilibrium_algorithm(baseline);
 
-% out_file = [out_folder, 'equilibrium_baseline_theta_', num2str(theta), '.mat'];
-% save(out_file, 'equilibrium')
+out_file = [out_folder, 'equilibrium_baseline_theta_', num2str(theta), '.mat'];
+save(out_file, 'equilibrium')
 
 
 %%
@@ -31,7 +31,7 @@ if include_counterfactuals
     % Calculate counterfactual equilibria
     n_counterfactuals = length(counterfactual);
     
-    for cf = 3:n_counterfactuals
+    for cf = 1:n_counterfactuals
         equilibrium_input = baseline;
         
         % Overwrite the inputs corresponding to the actual counterfactual
