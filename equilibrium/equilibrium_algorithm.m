@@ -1,7 +1,7 @@
 function equilibrium_out = equilibrium_algorithm(equilibrium_input)
 
 % declare the constants used by most functions as global variables
-global alpha beta theta xi kappa K B verbose lambda_w lambda_p c gammas S
+global alpha beta theta xi kappa B verbose lambda_w lambda_p c gammas S
 % NOTE: see the definition of K in the documentation
 
 theta = c.theta;
@@ -69,14 +69,19 @@ z_njt = z; % compound shocks
 % %        L_njt(:, j, t) = 1/24 * L_nt(:, t);
 %    end
 % end
-L_njt = psi .* permute(repmat(L_nt, [1 1 J]), [1 3 2]);
+
+L_share_njt = psi;
+
+L_nt_full = permute(repmat(L_nt, [1 1 J]), [1 3 2]);
+
+L_njt = L_share_njt .* L_nt_full;
 
 %%
 %%%%% Outer loop: Search for sector specific labor allocation (L_njt)
 
 % Store resource allocation in each iteration for convergence analysis
-L_njt_iterations = zeros(N, J, T, 1);
-L_njt_iterations(:, :, :, 1) = L_njt;
+% L_njt_iterations = zeros(N, J, T, 1);
+% L_njt_iterations(:, :, :, 1) = L_njt;
 
 % technical values for the loop
 outer_dif = c.dif; % a big number
@@ -102,9 +107,9 @@ while outer_dif > outer_tol
         
     % get sectoral wages, aggregate prices and aggregate wages that correspond
     % to the current value of sectoral labor allocation
-    tic
+%     tic
     [w_njt, w_nt, P_nt, P_njt, d] = get_wages(L_njt, L_nt, z_njt, outer_iteration);
-    toc
+%     toc
     
 %     [w_njt, w_nt, P_nt, P_njt] = fit_to_data(w_njt, w_nt, P_nt, P_njt);
     
@@ -117,17 +122,24 @@ while outer_dif > outer_tol
     % for each time period stack sectors (size: 25 x 1) on top of each other
     % these are going to be our dependent variables
     
-    L_njt_new = update_resource_allocation_bp(log_value_added_share, L_nt);
+%     L_njt_new = update_resource_allocation_bp(log_value_added_share, L_nt);
     
+    L_share_njt_new = update_resource_allocation_bp(log_value_added_share);
+    
+
     %L_njt_iterations(:, :, :, outer_iteration + 1) = L_njt_new;
     %save('results/iterations.mat', 'L_njt_iterations', 'L_nt')
+       
+    step = L_share_njt_new - L_share_njt;
     
     % calculate difference from last iteration
-    outer_dif = max(abs(L_njt_new(:) - L_njt(:)));
+    outer_dif = norm(step(:)) / (1 + norm(L_share_njt(:)));
     
     % update sectoral labor allocations
-    L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;
+%     L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;
+    L_share_njt = L_share_njt + 1 * step;
     
+    L_njt = L_share_njt .* L_nt_full;
     
     if (verbose > 0) && (mod(outer_iteration, c.outer_print_every) == 0) 
         fprintf('\n')
