@@ -1,12 +1,12 @@
-function c = initialize_io
+function c = initialize_parameters(theta, io_links, unbalanced_trade)
 
 %% Specify run type
 % 0: no counterfactuals, 1: do counterfactuals
 c.include_counterfactuals = 1; 
 
-c.io_links = 1;
+c.io_links = io_links;
 
-c.ubt = 0;
+c.ubt = unbalanced_trade;
 
 % 0: const, 1: general(time-varying), 2: smooth
 c.alpha_type = 2; 
@@ -22,10 +22,9 @@ assert(c.fe >= c.fe_prices,...
        'Can''t have fe prices without fe decomposition')
 
 
-
 %% Set main parameters
 % Set main model parameters
-c.theta = 4;
+c.theta = theta;
 c.eta = 2;
 
 % Specify base country. (Has to have sectoral prices available)
@@ -54,7 +53,7 @@ c.verbosity = 1;
 c.outer_print_every = 1;
 
 % specify how frequency of iteration display in wage loop
-c.middle_print_every = 1e3;
+c.middle_print_every = 5;
 
 % Band pass filter weights
 c.filter_weights = [0.774074394803123;...

@@ -1,123 +1,49 @@
-%% Main file to replicate the impvol project
-%% Preliminaries
-clear all
-clc
-format compact
-addpath(genpath(pwd))
-
-%tic
-
-global c
 
 %% Initialize program parameters
-c = initialize_io_ubt;
+for io_links = 0:1
+	for unbalanced_trade = 1-io_links:1
+		theta = 4;
+
+		%% Main file to replicate the impvol project
+		%% Preliminaries
+		clear all
+		clc
+		format compact
+		addpath(genpath(pwd))
+
+		%tic
+
+		global c
+
+		c = initialize_parameters(theta, io_links, unbalanced_trade);
 
 
 
-%% Data management
-% Import and process data:
-% Compute parameters and exogenous variables of the model.
-data_management
+		%% Data management
+		% Import and process data:
+		% Compute parameters and exogenous variables of the model.
+		data_management
 
 
 
-%% Create counterfactual scenarios
-% Compute alternative parameters and exogenous variables for the counterfactual
-% scenarios.
-create_counterfactual_scenarios
+		%% Create counterfactual scenarios
+		% Compute alternative parameters and exogenous variables for the counterfactual
+		% scenarios.
+		create_counterfactual_scenarios
 
 
 
-%% Model equilibrium
-equilibrium_main
+		%% Model equilibrium
+		equilibrium_main
 
 
 
-%% Volatility analysis
-analysis
+		%% Volatility analysis
+		analysis
 
 
 
-%% Model fit analysis
-% model_fit_analysis
-
-
-
-%% Main file to replicate the impvol project
-%% Preliminaries
-clear all
-% clc
-format compact
-addpath(genpath(pwd))
-
-%tic
-
-global c
-
-%% Initialize program parameters
-c = initialize_io;
-
-
-
-%% Data management
-% Import and process data:
-% Compute parameters and exogenous variables of the model.
-data_management
-
-
-
-%% Create counterfactual scenarios
-% Compute alternative parameters and exogenous variables for the counterfactual
-% scenarios.
-create_counterfactual_scenarios
-
-
-
-%% Model equilibrium
-equilibrium_main
-
-
-
-%% Volatility analysis
-analysis
-
-
-
-
-%% Main file to replicate the impvol project
-%% Preliminaries
-clear all
-% clc
-format compact
-addpath(genpath(pwd))
-
-%tic
-
-global c
-
-%% Initialize program parameters
-c = initialize_ubt;
-
-
-
-%% Data management
-% Import and process data:
-% Compute parameters and exogenous variables of the model.
-data_management
-
-
-
-%% Create counterfactual scenarios
-% Compute alternative parameters and exogenous variables for the counterfactual
-% scenarios.
-create_counterfactual_scenarios
-
-
-
-%% Model equilibrium
-equilibrium_main
-
-
-
-%% Volatility analysis
-analysis
+		%% Model fit analysis
+		% model_fit_analysis
+	end
+end
