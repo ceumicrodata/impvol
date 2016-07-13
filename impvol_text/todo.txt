@@ -8,6 +8,10 @@ For Peter
 - Table A1: no imbalances
 - Table A2: no I-O linkages
 - change Matlab outer loop: new updating rule as in labourrel.pdf
+	- new global parameter set in initialize, c.labor_adjustment_cost=1
+	- new global parameter c.rho = 1/25?
+	- in https://github.com/ceumicrodata/impvol/blob/unbalanced-trade/equilibrium/equilibrium_algorithm.m change the updated labor allocation after line 127, adjust by percentage wage gap / rho
+	- create new initialize.m, change lines 41 and 42 to save new results
 - new section "Robustness": Tables sames as 1-3 but with labor adjustment costs
 
 For Silvana
