@@ -5,7 +5,7 @@ function c = initialize
 c.include_counterfactuals = 1; 
 
 % 0: const, 1: general(time-varying), 2: smooth
-c.alpha_type = 2; 
+c.alpha_type = 0; 
 
 % 0: Use structural model equations to compute the productivities (z)
 % 1: Use the fixed effects approach to compute the productivities (z)
@@ -28,9 +28,9 @@ c.eta = 2;
 c.i_base = 25;
 
 % Specify countries that have sectoral price index
-c.have_prices = ...
+c.has_prices = ...
     logical([1 1 1 0 0 0 1 1 1 1 1 0 1 1 1 0 1 0 1 0 1 1 1 1 1])';
-assert(c.have_prices(c.i_base) == 1, 'No sectoral prices for base country.')
+assert(c.has_prices(c.i_base) == 1, 'No sectoral prices for base country.')
 
 % Set folder locations
 c.data_folder_original = 'data/raw_imputed/';
@@ -47,7 +47,7 @@ c.verbosity = 1;
 c.outer_print_every = 1;
 
 % specify how frequency of iteration display in wage loop
-c.middle_print_every = 20;
+c.middle_print_every = 1e3;
 
 % Band pass filter weights
 c.filter_weights = [0.774074394803123;...
@@ -70,14 +70,14 @@ c.dampening_price_loop = 0.7:-0.05:0.1;
 c.dif = 1e9; % a big number
 
 % Technical values for the outer loop
-c.outer_tol = 1e-2; % set the convergence tolerance
-c.outer_maxiter = 100; % limit the maximum number of iterations
+c.outer_tol = 1e-1; % set the convergence tolerance
+c.outer_maxiter = 1000; % limit the maximum number of iterations
 
 % Technical values for the middle loop
-c.middle_tol = 1e-2; % set the convergence tolerance
-c.middle_maxiter = 2e2; % limit the maximum number of iterations
+c.middle_tol = 1e-4; % set the convergence tolerance
+c.middle_maxiter = 1e4; % limit the maximum number of iterations
 
 % Technical values for the inner loop
-c.inner_tol = 1e-2; % set the convergence tolerance
-c.inner_maxiter = 5e3; % limit the maximum number of iterations
+c.inner_tol = 1e-4; % set the convergence tolerance
+c.inner_maxiter = 1e4; % limit the maximum number of iterations
 end

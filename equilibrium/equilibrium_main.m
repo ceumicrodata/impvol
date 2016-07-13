@@ -17,12 +17,15 @@ equilibrium = struct('scenario', {},...
                      'L_nt', {}, 'L_njt', {},...
                      'd', {});
 
+%%
 % Calculate baseline equilibrium
 equilibrium(1) = equilibrium_algorithm(baseline);
 
 out_file = [out_folder, 'equilibrium_baseline_theta_', num2str(theta), '.mat'];
 save(out_file, 'equilibrium')
 
+
+%%
 if include_counterfactuals
     
     % Calculate counterfactual equilibria

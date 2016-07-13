@@ -1,0 +1,161 @@
+\documentclass[11pt,oneside,a4paper]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{layout}
+\usepackage{fancyhdr}
+
+\usepackage{hyperref}
+%\hypersetup{pdfcolorlinks=true,allcolors=blue}
+
+%\pagestyle{fancy}
+%\headheight = 14.5 pt
+%\markright{Notes on \textsl{volatilitytrade.pdf} \hfill Peter Zsohar}
+
+\title{Computational Algorithm}
+\author{Peter Zsohar}
+
+\voffset = -10 pt
+\textheight = 650 pt
+\parindent = 0 pt
+
+\begin{document}
+\maketitle
+
+\section{Equilibrium Algorithm}
+%
+\subsection{Equilibrium Equations}
+Equations (\ref{eq1}) - (\ref{eq8}) describe the equilibrium of the model.
+\begin{align}
+% \nonumber to remove numbering (before each equation)
+  P_{nt} &= \prod_{j = 1}^J {\alpha_t^j}^{- \alpha_t^j} {P_{nt}^j}^{\alpha_t^j} \label{eq1}\\
+  %
+  P_{nt}^j &= \xi {\Phi_{nt}^j}^{-\frac{1}{\theta}} \label{eq2}\\
+  %
+  \Phi_{nt}^j &= {B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta} \left(\frac{{w_{it}^j}^{\beta^j} \prod_{k = 1}^{J}{P_{it}^k}^{\gamma^{kj}} }{\kappa_{nit}^j}\right)^{-\theta} \label{eq3}\\
+  %
+  d_{mnt}^j &= \frac{{B^j}^{-\theta} T_n^j {A_{nt}^j}^{\theta} \left(\frac{ {w_{nt}^j}^{\beta^j} \prod_{k = 1}^{J}{P_{nt}^k}^{\gamma^{kj}} }{\kappa_{mnt}^j}\right)^{-\theta}} {\Phi_{mt}^j} \label{eq4}\\
+  %
+  R^j_{nt} &= \sum_{m=1}^N d^j_{mnt} E^j_{mt} \label{eq5}\\
+  %
+  E^j_{mt} &= \alpha^j_t P_{mt}C_{mt} + \sum_{k=1}^J \gamma^{jk}R^k_{mt} \label{eq6}\\
+  %
+  P_{mt}C_{mt} &= \sum_{j=1}^J \beta^j R_{mt}^j - S_{mt} \label{eq7}\\
+  %
+  \frac{L_{nt}^{j}}{L_{nt}} &= E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right) \label{eq8}
+\end{align}
+
+Where
+\begin{align}
+  \nonumber
+  \xi &= \Gamma\left(\frac{\theta + 1 - \eta}{\theta}\right) \\
+  \nonumber
+  B^j &= {\beta^j}^{- \beta^j} (1 - \beta^j)^{-(1 - \beta^j)}
+\end{align}
+
+\newpage
+\subsection{Algorithm}
+Solves for $L_{nt}^j, w_{nt}^j, P_{nt}^j \in \mathbf{R}^{N \times J \times T}$ that satisfy equations (\ref{eq1}) - (\ref{eq8}) in three steps:
+\begin{itemize}
+  \item Inner loop: Solve for $P_{n}^j\!\left(L_{n}^j, w_{n}^j\right)$ that satisfies equations (\ref{eq1}) - (\ref{eq3}) as a function of $L_{n}^j$ and $w_{n}^j$ independently for all periods.
+  \item Middle loop: Solve for $w_{n}^j\!\left(L_{n}^j\right)$ that satisfies equations (\ref{eq1}) - (\ref{eq7}) as a function of $L_{n}^j$ independently for all periods.
+  \item Outer loop: Solve for $L_{nt}^j$ that satisfies equations (\ref{eq1}) - (\ref{eq7}) and a numerical approximation of equation (\ref{eq8}). 
+\end{itemize}
+% subsection steps (end)
+
+\newpage
+\subsection{Inner Loop}
+For a given pair of sectoral resource allocation $(L_{nt}^j)$ and sectoral wages $(w_{nt}^j)$ solve the system below for sectoral prices indexes $P_{nt}^j.$
+\begin{align*}
+P_{nt} &= \prod_{j = 1}^J {\alpha_t^j}^{- \alpha_t^j} {P_{nt}^j}^{\alpha_t^j} \\
+%
+P_{nt}^j &= \xi {\Phi_{nt}^j}^{-\frac{1}{\theta}}\\
+%
+\Phi_{nt}^j &= {B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta} \left(\frac{{w_{it}^j}^{\beta^j} \prod_{k = 1}^{J}{P_{it}^k}^{\gamma^{kj}} }{\kappa_{nit}^j}\right)^{-\theta}  
+\end{align*}
+
+Simplify $\Phi_{nt}^j:$
+\begin{eqnarray*}
+  \Phi_{nt}^j &=&  {B^j}^{-\theta} \sum_{i = 1}^N \underbrace{T_i^j {A_{it}^j}^{\theta}}_{\frac{Z_{it}^j}{{L_{it}}^{\beta^j\theta}}} \left(\frac{ {w_{it}^j}^{\beta^j} \prod_{k = 1}^{J}{P_{it}^k}^{\gamma^{kj}}}{\kappa_{nit}^j}\right)^{-\theta}\\
+  %
+  &=& {B^j}^{-\theta} \sum_{i = 1}^N Z_{it}^j {L_{it}}^{- \beta^j\theta} {w_{it}^j}^{-\beta^j\theta} {\kappa_{nit}^j}^{\theta} \prod_{k = 1}^{J}{P_{it}^k}^{-\theta\gamma^{kj}}\\
+  %
+  &=& {B^j}^{-\theta} \sum_{i = 1}^N \underbrace{Z_{it}^j {\left((L_{it}w_{it}^j)^{- \beta^j} \kappa_{nit}^j\right)}^{\theta}}_{D_{nit}^j} \prod_{k = 1}^{J}{P_{it}^k}^{-\theta\gamma^{kj}}\\
+  %
+  &=& {B^j}^{-\theta} \sum_{i = 1}^N D_{nit}^j \prod_{k = 1}^{J}{P_{it}^k}^{-\theta\gamma^{kj}}
+\end{eqnarray*}
+%
+Note that we can compute the coefficients of the equation (the $D$ values) before starting the search for prices.
+Now we can write the system of equations as
+\begin{align*}
+{P_{nt}^j}^{-\theta} &= \xi^{-\theta} {\Phi_{nt}^j}\\ 
+%
+{P_{nt}^j}^{-\theta} &= \xi^{-\theta} {{B^j}^{-\theta} \sum_{i = 1}^N D_{nit}^j \prod_{k = 1}^{J}{P_{it}^k}^{-\theta\gamma^{kj}}}
+\end{align*}
+or
+$$
+\mathcal{P}_{nt}^j = \left(\xi B^j\right)^{-\theta} \sum_{i = 1}^N D_{nit}^j \prod_{k = 1}^{J}{\mathcal{P}_{it}^k}^{\gamma^{kj}} 
+$$
+where $\mathcal{P}_{nt}^j \equiv {P_{nt}^j}^{-\theta}$.
+
+
+
+\newpage
+\subsection{Middle loop}
+For a given resource allocation, $L_{nt}^j$, this loop searches for sectoral wages $w_{nt}^j$ that solve the system of equations below.
+For notational simplicity we solve the system in terms of sectoral revenue and then calculate corresponding wages from $w_{nt}^j L_{nt}^j = \beta^j R_{nt}^j$.
+\begin{align*}
+R^j_{nt} &= \sum_{m=1}^N E^j_{mt} d^j_{mnt}\!\left(w_{nt}^j\right)  \\
+%
+E^j_{mt} &= \alpha^j_t P_{mt}C_{mt} + \sum_{k=1}^J \gamma^{jk}R^k_{mt} \\
+%
+P_{mt}C_{mt} &= \sum_{j=1}^J \beta^j R_{mt}^j - S_{mt} \\
+\end{align*}
+Note that $d^j_{mnt}$ depends on $w_{nt}^j$ through
+$$d_{mnt}^j = \frac{{B^j}^{-\theta} T_n^j {A_{nt}^j}^{\theta} \left(\frac{{w_{nt}^j}^{\beta^j} \prod_{k = 1}^{J}{P_{nt}^k}^{\gamma^{kj}} }{\kappa_{mnt}^j}\right)^{-\theta}}{{B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta} \left(\frac{{w_{it}^j}^{\beta^j} \prod_{k = 1}^{J}{P_{it}^k}^{\gamma^{kj}} }{\kappa_{mit}^j}\right)^{-\theta}},$$
+where prices were solved for in the inner loop.
+
+To facilitate computation we introduce $D$, the coefficients from the inner loop.
+We can rewrite the definition of $d$ as
+\begin{align*}
+  d_{mnt}^j &= \frac{\overbrace{T_n^j {A_{nt}^j}^{\theta}}^{\frac{Z_{nt}^j}{{L_{nt}}^{\beta^j\theta}}} \left(\frac{{P_{nt}}^{1 - \beta^j} {w_{nt}^j}^{\beta^j}}{\kappa_{mnt}^j}\right)^{-\theta}}{\sum_{i = 1}^N \underbrace{T_i^j {A_{it}^j}^{\theta}}_{\frac{Z_{it}^j}{{L_{it}}^{\beta^j\theta}}} \left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{mit}^j}\right)^{-\theta}}\\
+%
+  &= \frac{Z_{nt}^j {L_{nt}}^{- \beta^j\theta} {w_{nt}^j}^{-\beta^j\theta} {\kappa_{mnt}^j}^{\theta}{P_{nt}}^{\theta(\beta^j - 1)}}{\sum_{i = 1}^N Z_{it}^j {L_{it}}^{- \beta^j\theta} {w_{it}^j}^{-\beta^j\theta} {\kappa_{mit}^j}^{\theta}{P_{it}}^{\theta(\beta^j - 1)}}\\
+%
+  &= \frac{\overbrace{Z_{nt}^j {L_{nt}}^{- \beta^j\theta} {w_{nt}^j}^{-\beta^j\theta} {\kappa_{mnt}^j}^{\theta}}^{D_{mnt}^j}{P_{nt}}^{\theta(\beta^j - 1)}}{\sum_{i = 1}^N \underbrace{Z_{it}^j {L_{it}}^{- \beta^j\theta} {w_{it}^j}^{-\beta^j\theta} {\kappa_{mit}^j}^{\theta}}_{D_{mit}^j}{P_{it}}^{\theta(\beta^j - 1)}}\\
+%
+  &= \frac{D_{mnt}^j {P_{nt}}^{\theta(\beta^j - 1)}}{\sum_{i = 1}^N D_{mit}^j{P_{it}}^{\theta(\beta^j - 1)}}
+\end{align*}
+Note that $d$ does not depend on the resource allocation.
+
+
+
+\newpage
+\subsection{Outer loop}
+The goal of this loop is to find the sectoral resource allocations $L_{nt}^j$ that satisfy
+$$\frac{L_{nt}^{j}}{L_{nt}} = E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right).$$
+This loop runs over iterations of $L_{nt}^j$ until it converges up to a predefined threshold.
+
+To approximate the expectation we use a band pass filtered trend that allows for breaks in growth rates.
+
+\begin{enumerate}
+  \item We start from the initial value $(L_{nt}^j)^0 = \alpha^j L_{nt}$.
+  \item In iteration $i$ for the actual $(L_{nt}^j)^i$ we get sectoral and aggregate wages, $(w_{nt}^j)^i$ and $(w_{nt})^i$, from the middle loop.
+  \item We calculate the implied total value added and the sectoral value added shares as
+    $$\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = \frac{(w_{nt}^j)^i (L_{nt}^j)^i}{(w_{nt})^i L_{nt}}.$$
+  \item
+    \begin{enumerate}
+      \item Decompose all $N \cdot J$ value added share series to trend and cycle components using a band pass filter with the same specification as in the shock decomposition.
+        $$\log\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i = trend^j_{nt} + cycle_{nt}^j.$$
+      \item Normalize the trend values so that in each period in each country the trend values add up 1:
+        $$\widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i} = \frac{\exp(trend^j_{nt} + cycle_{nt}^j)}{\sum_k \exp(trend^k_{nt} + cycle_{nt}^k)}$$
+      \item Replace the expectation with the adjusted trend value.
+      $$E_{t - 1} \left( \frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right) = \widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i}$$
+    \end{enumerate} 
+  \item Update the resource allocations
+    $$(L_{nt}^j)^{i + 1} = L_{nt} \widehat{\left(\frac{w_{nt}^j L_{nt}^j}{w_{nt} L_{nt}}\right)^i}$$
+\end{enumerate}
+
+
+\end{document} 

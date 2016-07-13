@@ -1,11 +1,11 @@
 clear all
-load('results\data_rgdp_and_volatility.mat')
-load('results\equilibrium_baseline_theta_2.mat')
+% load('results\data)
+load('results\equilibrium_baseline_theta_4.mat')
 % load('data\sandbox_algorithm_input\data_theta_2.mat')
 
 % load('results\data_rgdp_and_volatility.mat')
 % load('results\equilibrium_baseline_theta_2.mat')
-load('algorithm_input\data_theta_2.mat')
+load('algorithm_input\data_theta_4.mat')
 
 country_names = baseline.country_names;
 
@@ -23,6 +23,9 @@ P_njt = equilibrium(1).P_njt;
 
 sectoral_value_added = w_njt .* L_njt;
 total_value_added = w_nt .* L_nt;
+
+% aa = squeeze(sum(sectoral_value_added, 2));
+% max(abs(aa(:) - total_value_added(:)));
 
 rGDP = total_value_added ./ P_nt;
 rGDP_sectoral = sectoral_value_added ./ permute(repmat(P_nt, [1 1 J]), [1 3 2]);
@@ -44,6 +47,7 @@ for n = 1:N
     series1 = log(rGDP_data(n, :))';
 %     plot([series1 - mean(series1), series2 - mean(series2)], 'LineWidth', 2.5)
     plot([series1, series2], 'LineWidth', 2.5)
+%     plot([series2], 'LineWidth', 2.5)
     title([country_names{n}, ' Log Real GDP'])
     xlim([1, 36])
     grid on
@@ -54,11 +58,11 @@ for n = 1:N
     if (mod(thisplot, ROWS * COLS) == 0) || (n == 25)
         set(pic_id, 'Units','normalized','position',[.1 .1 .9 .9])
         if fig_number > 1
-            %export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf', '-append')
+            export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf', '-append')
         else
-            %export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf')
+            export_fig('results\\all_countries_log_rGDP_fe_alpha.pdf')
         end % fig_number
-        %close(pic_id)
+        close(pic_id)
     end % if
 end
 
