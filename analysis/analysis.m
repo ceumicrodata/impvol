@@ -35,4 +35,11 @@ load(in_file)
 
 mean(data_volatility_total)
 mean(variances)
-bar([data_volatility_total, variances])
+
+% h = figure();
+% bar([data_volatility_total, variances])
+% title('Log Real GDP Volatility')
+% xlim([0.5 25.5])
+% xlabel('Country')
+% legend('data', 'model', 'Location', 'NE')
+% print(h, [out_folder, 'volatilities'], '-dpng', '-r0')

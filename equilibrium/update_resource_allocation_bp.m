@@ -1,4 +1,4 @@
-function [L_njt_new] = update_resource_allocation_bp(log_value_added_share, L_nt)
+function E_value_added_share = update_resource_allocation_bp(log_value_added_share)
 
 global c
 weights = c.filter_weights;
@@ -16,7 +16,7 @@ E_value_added_share = E_value_added_share ./ ...
                    repmat(sum(E_value_added_share, 2), [1 J 1]);
                
 % multiply by total labor to get sectoral employment
-L_nt_full = permute(repmat(L_nt, [1 1 J]), [1 3 2]);
+% L_nt_full = permute(repmat(L_nt, [1 1 J]), [1 3 2]);
 
-L_njt_new = L_nt_full .* E_value_added_share;
+% L_njt_new = L_nt_full .* E_value_added_share;
 end

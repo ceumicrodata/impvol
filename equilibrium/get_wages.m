@@ -3,7 +3,7 @@ function [w_njt, w_nt, P_nt, P_njt, d_mnjt] = get_wages(L_njt, L_nt, z_njt, oute
 % sector-specific labor allocation.
 % The corresponding equilibrium aggregate wages and aggregate prices are also returned along the wages.
 
-global verbose c
+global verbose c alpha beta gammas S
 
 [N, J, T] = size(L_njt);
 
@@ -12,6 +12,7 @@ P_njt = zeros(N, J, T); % Sector specific prices
 w_nt = zeros(N, T); % Aggregate wages
 w_njt = zeros(N, J, T); % Sector specific wages
 d_mnjt = zeros(N, N, J, T);
+
 
 for t = 1:T 
     
@@ -32,8 +33,10 @@ for t = 1:T
         w_nj_start = w_njt(:, :, t - 1);
         P_nj = P_njt(:, :, t - 1);
     else 
-        w_nj_start = 10 * ones(N, J);
-        P_nj = 1 * ones(N, J);
+        w_nj_start = 1e-1 * ones(N, J);
+        P_nj = 1e-1 * ones(N, J);
+%         w_nj_start = 10 * rand(N, J);
+%         P_nj = 10 * rand(N, J);
     end % if t > 1
     
     w_nj = w_nj_start;
@@ -46,6 +49,24 @@ for t = 1:T
     middle_dif = c.dif;
     middle_iteration = 0; % set current iteration to zero
     
+    load([c.results_folder, '/data_rgdp_and_volatility.mat'], 'va_total', 'p_base')
+    
+    va_t_total = sum(va_total(t, :));
+%     va_t_us = va_total(t, 25);
+    
+    va_to_fit = va_t_total;
+%     va_to_fit = va_t_us;
+    p_to_fit = p_base(t);
+    
+    
+    
+    B_gamma = kron(eye(N), sparse(gammas(:, :, t)));
+    B_beta = kron(eye(N), sparse(repmat(beta', [J, 1])));
+    D_alpha = diag(sparse(repmat(alpha(:, t), [N, 1])));
+    S_full = kron(S(:, t), ones([J, 1]));
+    beta_full = repmat(beta, [N, 1]);
+
+    
     % update wage until convergence or maximum number of iterations
     while middle_dif > middle_tol
         middle_iteration = middle_iteration + 1;
@@ -57,20 +78,37 @@ for t = 1:T
         if middle_iteration > middle_maxiter
             fprintf('Maximum number of iterations (%d) exceeded in wage loop.\n', middle_maxiter)
             fprintf('The difference is %e \n', middle_dif)
-            error('No convergence in wage loop.')
+            fprintf('The mean is %e. \n', mean(w_nj(:)))
+%             error('No convergence in wage loop.')
+            break
         end
         
         % calculate new sector specific wages (and associated prices)
         % based on current values
-        [w_nj_new, P_nj, price_iterations, P_n, d] = wage_update(w_nj, L_nj, z_nj, P_nj, t);
+        [w_nj_new, P_nj, price_iterations, P_n, d] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full);
+        
+%         quantile(w_nj_new(:), [0 0.1 0.25 0.5 0.75 0.9 1])
         
         step = w_nj_new - w_nj;
         
-        middle_dif = max(abs(step(:)));
-                
-        % update current values
-        w_nj = w_nj + 0.5 * step;
+%         middle_dif = max(abs(step(:))) / (1 + max(abs(w_nj(:))));   
+        middle_dif = norm(step(:)) / (1 + norm(w_nj(:)));   
+     
+%         w_nj = w_nj + 0.1 * step;
         
+        % update current values
+        mm = mod(floor(middle_iteration / 100), 4);
+        if mm == 0
+            w_nj = w_nj + 0.15 * step;
+        elseif mm == 1
+            w_nj = w_nj + 0.1 * step;
+        elseif mm == 2
+            w_nj = w_nj + 0.05 * step;
+        elseif mm == 3
+            w_nj = w_nj + 0.025 * step;
+        end %if        
+            
+         
         if (verbose >= 3) && (mod(middle_iteration, c.middle_print_every) == 0)
             fprintf('    Wage iteration %d, difference is %e\n', middle_iteration, middle_dif)
             if (verbose == 4)
@@ -88,8 +126,8 @@ for t = 1:T
     
     if middle_convergence == 0
         fprintf('Maximum number of iterations (%d) exceeded in wage loop. \n', middle_maxiter)
-        fprintf('The difference is %e. \n', middle_dif)
-        error('No convergence in wage loop.')
+        fprintf('The difference is %e. \n', middle_dif) 
+%         error('No convergence in wage loop.')
     end % if convergence == 0
     
     % calculate aggregate wages

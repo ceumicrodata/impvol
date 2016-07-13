@@ -28,9 +28,9 @@ i_services = n_sectors;
 kappa_initial = repmat(kappa(:, :, :, 1), [1 1 1 n_years]);
 
 % Free trade kappa
-kappa_free_trade = ones(size(kappa));
-kappa_free_trade(:, :, i_services, :) = ...
-    repmat(eye(n_countries), [1, 1, 1, n_years]);
+% kappa_free_trade = ones(size(kappa));
+% kappa_free_trade(:, :, i_services, :) = ...
+%     repmat(eye(n_countries), [1, 1, 1, n_years]);
 
 
 %% Save different scenarios
@@ -59,18 +59,18 @@ scenario_id = 5;
 save_counterfactual(out_folder, theta, scenario, scenario_id,...
                    z_no_sector_residual, kappa_initial);
                
-scenario = 'Free trade in agriculture and manufacturing';
-scenario_id = 6;
-save_counterfactual(out_folder, theta, scenario, scenario_id,...
-                   z, kappa_free_trade);
-
-scenario = 'No sectoral productivity shocks and free trade in agriculture and manufacturing';
-scenario_id = 7;
-save_counterfactual(out_folder, theta, scenario, scenario_id,...
-                   z_no_sector, kappa_free_trade);               
-
-scenario = 'No sectoral and residual productivity shocks and free trade in agriculture and manufacturing';
-scenario_id = 8;
-save_counterfactual(out_folder, theta, scenario, scenario_id,...
-                   z_no_sector_residual, kappa_free_trade);               
+% scenario = 'Free trade in agriculture and manufacturing';
+% scenario_id = 6;
+% save_counterfactual(out_folder, theta, scenario, scenario_id,...
+%                    z, kappa_free_trade);
+% 
+% scenario = 'No sectoral productivity shocks and free trade in agriculture and manufacturing';
+% scenario_id = 7;
+% save_counterfactual(out_folder, theta, scenario, scenario_id,...
+%                    z_no_sector, kappa_free_trade);               
+% 
+% scenario = 'No sectoral and residual productivity shocks and free trade in agriculture and manufacturing';
+% scenario_id = 8;
+% save_counterfactual(out_folder, theta, scenario, scenario_id,...
+%                    z_no_sector_residual, kappa_free_trade);               
 end
