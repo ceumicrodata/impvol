@@ -535,18 +535,20 @@ subscripts $n$ for convenience.
 
 Given the input-output structure captured by $\{\gamma^{jk}\}$, the total expenditure on good $j$ can decomposed into final demand and intermediate demand from each sector $k$ as
 \[
-P^j_t Q^j_t = \alpha^j_t P_t Q_t
+R^j_t\equiv P^j_t Q^j_t = \alpha^j_t P_t C_t
  + \sum_{k=1}^J
- 	\gamma^{jk} P^k_t Q^k_t,
+ 	\gamma^{jk} R^k_t,
 \]
-or, in vector notation,
+and we have made use of the fact that, in autarky, revenue equals expenditure in each sector.
+
+In vector notation,
 \[
-\mathbf P_t \circ \mathbf Q_t = \boldsymbol\alpha_t P_t Q_t
- + \boldsymbol\Gamma (\mathbf P_t \circ \mathbf Q_t)
+\mathbf R_t = \boldsymbol\alpha_t P_t C_t
+ + \boldsymbol\Gamma \mathbf R_t
 \]
-where $\boldsymbol\Gamma$ is the input-output matrix with elements $\gamma^{jk}$ and $X \circ Y$ denotes the elementwise product of two conforming vectors. Total revenue can be expressed as a function of final demand using the Leontief inverse,
+where $\boldsymbol\Gamma$ is the input-output matrix with elements $\gamma^{jk}$. Total revenue can be expressed as a function of final demand using the Leontief inverse,
 \begin{equation}
-\mathbf P_t \circ \mathbf Q_t = (\mathbf I - \boldsymbol\Gamma)^{-1}\boldsymbol\alpha_t P_t Q_t.
+\mathbf R_t = (\mathbf I - \boldsymbol\Gamma)^{-1}\boldsymbol\alpha_t P_t C_t.
 \label{QJ}
 \end{equation}%
 %% importantly, this remains the same in the open economy
@@ -573,9 +575,9 @@ M_{t}^k(\omega ^{j})=\gamma^{kj}\frac{p_{t}(\omega ^{j})q_{t}(\omega ^{j})}{%
 P_{t}^k}.$ Aggregating over all goods $\omega ^{j}$ in a given sector, we
 obtain 
 \begin{equation}
-w_{t}^{j}L_{t}^{j}=\beta ^{j}P_{t}^{j}Q_{t}^{j}  \label{Labor share}
+w_{t}^{j}L_{t}^{j}=\beta ^{j}R_{t}^{j}  \label{Labor share}
 \end{equation}%
-and, correspondingly, $P_{t}^kM_{t}^{kj}=\gamma^{kj}P_{t}^{j}Q_{t}^{j}.$
+and, correspondingly, $P_{t}^kM_{t}^{kj}=\gamma^{kj}R_{t}^{j}$.
 Using the input demand functions and the zero profit condition the autarky
 prices of intermediate goods are given by: 
 \begin{equation}
@@ -599,7 +601,7 @@ P_{t}^{j}=\xi B^{j}
 where $\xi =\left[ \Gamma \left( \frac{\theta +1-\eta }{\theta }\right) %
 \right] ,$ and $\Gamma $ is the gamma function. Using (\ref{QJ}), (\ref%
 {Labor share}), and (\ref{Pt}) we obtain real GDP: 
-XX FIXME
+XX FIXME: Silvana, how do you derive equ (12) in the original manuscript?
 \begin{equation}
 Y_{t}=\sum_{j=1}^{J}\frac{w_{t}^{j}L_{t}^{j}}{P_{t}}=\prod_{j=1}^{J}R_{j}%
 \left[ A_{t}^{j}\right] ^{\frac{\alpha ^{j}}{\bar{\beta}}}\left(
@@ -798,14 +800,12 @@ simplifies significantly as it is the expected value of sectoral value-added
 shares; in the implementation, we will use the data to help pin down these
 expectations.
 
-XX DONE UP TO HERE
-
 \subsection{Two Illustrative Cases: Autarky and Costless Trade}
 
 To illustrate the mechanism of diversification through trade, we analyze a
 one-sector version of the model (that is, the Eaton-Kortum model) under two
 extreme cases for which we have closed-form analytical solutions for GDP:
-autarky and costless trade. We accordingly drop the sector subscripts.
+autarky and costless trade. We accordingly drop the sector subscripts. Input-output linkages are also simplified: the final good is used as an intermediate..
 
 \subsubsection{Volatility under Autarky}
 
@@ -913,7 +913,7 @@ the world\textquotedblright\ (ROW).
 The equilibrium of the model is characterized by equations (\ref{eq1})-(\ref%
 {eq7}). We solve the model\ numerically, for which we need to calibrate the
 values of the exogenous trading costs $\kappa _{nmt}^{j}$, the productivity
-process $Z_{nt}^{j}$, and the parameters $\alpha ^{j}$, $\beta ^{j}$, $%
+process $Z_{nt}^{j}$, and the parameters $\alpha ^{j}$, $\gamma ^{kj}$, $%
 \theta $, and $\eta $. We consider 24 sectors in the analysis (agriculture,
 22 manufacturing sectors, and services). Throughout the study, services are
 treated as a nontradable sector (that is, $\kappa _{nmt}^{j}=0$ for all $%
@@ -921,7 +921,7 @@ n\neq m$ and $\kappa _{nmt}^{j}=1$ for $n=m$), whereas agriculture and\ all
 manufacturing sectors are treated as tradables, with potentially different
 trading costs.
 
-We set $\alpha ^{j}$ so as to match the average share of each sector on
+XX FIXME for Peter: We set $\alpha ^{j}$ so as to match the average share of each sector on
 total final uses in the OECD Input-Output tables across all countries. The
 betas for each sector are calculated as the ratio of value added to total
 output. A detailed description of the data and the calculations are
@@ -953,6 +953,8 @@ use price data for a benchmark country. We explain the procedure in detail
 and with formulas in the next section.
 
 \subsection{Implementation}
+
+XX NOTE TO SELF: unbalanced trade
 
 \paragraph{Kappas}
 
@@ -986,18 +988,29 @@ To back out the productivities, we proceed as follows. First, using the
 formula for $d_{nm}^{j}$ in equation (\ref{eq4}), after some algebra, we
 obtain: 
 \begin{equation}
-d_{nm}^{j}=\frac{\left( B^{j}\right) ^{-\theta }\left( \psi _{m}^{j}\right)
-^{\beta ^{j}\theta }Z_{m}^{j}\left( \kappa _{nm}^{j}\right) ^{\theta }\left(
-y_{m}^{j}\right) ^{-\theta \beta ^{j}}}{P_{m}^{\theta }\Phi _{n}^{j}}\text{, 
-}  \label{produc}
+d_{nm}^{j} = \frac 1 {(\xi B^j)^\theta}
+	(\kappa_{nm}^j)^\theta
+	(P_{n}^j)^\theta Z_m^j
+	(\psi_{m}^j)^{\theta\beta^j}
+	(y_m^j)^{-\theta\beta^j}
+	(P_m)^{-\theta\beta^j}
+	\prod_{k=1}^J
+		(P_{m}^k)^{-\theta\gamma^{kj}},
+  \label{produc}
 \end{equation}%
 where $\psi _{m}^{j}\equiv \frac{L_{m}^{j}}{L_{m}}$ and $y_{m}^{j}\equiv 
 \frac{L_{m}^{j}w_{m}^{j}}{P_{m}}$. We can exploit this to recover $%
 Z_{m}^{j}. $ In particular, inverting (\ref{produc}) we have: 
 \begin{equation}
-Z_{mt}^{j}={B^{j}}^{\theta }{\xi }^{\theta }d_{nmt}^{j}\left(
+Z_{mt}^{j}
+=
+{B^{j}}^{\theta }{\xi }^{\theta }d_{nmt}^{j}\left(
 y_{m}^{j}\right) ^{\theta \beta ^{j}}\left( \kappa _{nmt}^{j}\right)
-^{-\theta }\left( \frac{P_{nt}^{j}}{P_{mt}}\right) ^{-\theta }\left( \psi
+^{-\theta }\left( \frac{P_{nt}^{j}}
+	{P_{mt}^{\beta^j}
+	\prod_{k=1}^J
+		(P_{mt}^k)^{\gamma^{kj}}}
+	\right) ^{-\theta }\left( \psi
 _{mt}^{j}\right) ^{-\theta \beta ^{j}}  \label{productivity}
 \end{equation}%
 To approximate terms on the right hand side we use data on sectoral import
@@ -1008,12 +1021,19 @@ back out directly from data are sectoral prices. We thus use the model in
 conjunction with the data to infer them. Note first that equation~(\ref%
 {productivity}) holds for all $(n,k)$ pairs of countries and all sectors $j$
 (except for services). The procedure becomes clear when we collect known and
-unknown terms as follows:%
+unknown terms as follows:
+XX WORKING ON EQ BELOW
 \begin{align}
-Z_{nt}^{j}& =\underbrace{\xi ^{\theta }{B^{j}}^{\theta }d_{k,n,t}^{j}\left(
-\kappa _{k,n,t}^{j}\right) ^{-\theta }\left( w_{n,t}^{j}L_{n,t}^{j}\right)
-^{\theta \beta ^{j}}\left( \psi _{n,t}^{j}\right) ^{-\theta \beta ^{j}}{%
-P_{n,t}}^{\theta (1-\beta ^{j})}}_{\equiv \exp (\zeta _{k,n,t}^{j})}{%
+Z_{nt}^{j}& =\underbrace
+	{
+		{B^{j}}^{\theta }{\xi }^{\theta }d_{knt}^{j}\left(
+		y_{n}^{j}\right) ^{\theta \beta ^{j}}\left( \kappa _{knt}^{j}\right)
+		^{-\theta }\left( \frac{P_{kt}^{j}}
+			{P_{nt}^{\beta^j}
+			\prod_{m=1}^J
+				(P_{nt}^m)^{\gamma^{mj}}}
+			\right) ^{-\theta }\left( \psi_{nt}^{j}\right) ^{-\theta \beta ^{j}}	
+	}_{\equiv \exp (\zeta _{k,n,t}^{j})}{%
 P_{k,t}^{j}}^{-\theta }  \notag \\
 & =\exp (\zeta _{k,n,t}^{j}){P_{k,t}^{j}}^{-\theta }
 \end{align}%
