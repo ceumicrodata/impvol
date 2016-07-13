@@ -1,4 +1,4 @@
-function c = initialize_parameters(theta, io_links, unbalanced_trade)
+function c = initialize_parameters(theta, io_links, unbalanced_trade, labor_adjustment_cost)
 
 %% Specify run type
 % 0: no counterfactuals, 1: do counterfactuals
@@ -7,6 +7,8 @@ c.include_counterfactuals = 1;
 c.io_links = io_links;
 
 c.ubt = unbalanced_trade;
+
+c.labor_adjustment_cost = labor_adjustment_cost;
 
 % 0: const, 1: general(time-varying), 2: smooth
 c.alpha_type = 2; 
@@ -36,9 +38,10 @@ c.has_prices = ...
 assert(c.has_prices(c.i_base) == 1, 'No sectoral prices for base country.')
 
 % Set folder locations
+fname = ['_io_', num2str(c.io_links), '_ubt_', num2str(c.ubt), '_lac_', num2str(c.labor_adjustment_cost)];
 c.data_folder_original = 'data/raw_imputed/';
-c.data_folder_algorithm_input = ['data/algorithm_input_io_', num2str(c.io_links), '_ubt_', num2str(c.ubt), '/'];
-c.results_folder = ['results_io_', num2str(c.io_links), '_ubt_', num2str(c.ubt), '/'];
+c.data_folder_algorithm_input = ['data/algorithm_input', fname, '/'];
+c.results_folder = ['results', fname, '/'];
 
 mkdir(c.data_folder_algorithm_input)
 mkdir(c.results_folder)

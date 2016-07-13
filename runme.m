@@ -17,7 +17,7 @@ for io_links = 0:1
 
 		global c
 
-		c = initialize_parameters(theta, io_links, unbalanced_trade);
+		c = initialize_parameters(theta, io_links, unbalanced_trade, 0);
 
 
 
