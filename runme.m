@@ -1,15 +1,17 @@
-
+clear all
 %% Initialize program parameters
 for io_links = 0:1
 	for unbalanced_trade = 1-io_links:1
-		theta = 4;
+
 
 		%% Main file to replicate the impvol project
 		%% Preliminaries
-		clear all
+		%%clear all
 		clc
 		format compact
 		addpath(genpath(pwd))
+
+		theta = 4;
 
 		%tic
 
