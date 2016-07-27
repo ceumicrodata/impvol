@@ -8,6 +8,7 @@ c.io_links = io_links;
 
 c.ubt = unbalanced_trade;
 
+% 0: infinite adjustment cost, >0: 1/rho
 c.labor_adjustment_cost = labor_adjustment_cost;
 
 % 0: const, 1: general(time-varying), 2: smooth
