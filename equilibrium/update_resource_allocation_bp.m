@@ -14,6 +14,6 @@ input_series = exp(log_value_added_share) - sectoral_wage_gap*c.labor_adjustment
 % adjust so that expectations sum up to one in each country
 E_value_added_share = (value_added_share_trend ./ ...
                    repmat(sum(value_added_share_trend, 2), [1 J 1])) ...
-					+ sectoral_wage_gap*c.labor_adjustment_cost);
+					+ sectoral_wage_gap*c.labor_adjustment_cost;
                
 end
