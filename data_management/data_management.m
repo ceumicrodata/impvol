@@ -28,20 +28,20 @@ parameters.i_base = i_base;
 
 %% Import files from data folder.
 country_names = importdata([input_folder, 'country_name.txt']);
-beta_panel = dlmread([input_folder, 'beta_panel.txt'], '\t', 1, 2);
+beta_panel = wrapper(dlmread([input_folder, 'beta_panel.txt'], '\t', 1, 2));
 
-pwt = dlmread([input_folder,...
-    'aggregate_price_relative_to_US.csv'], ',', 0, 2);
+pwt = wrapper(dlmread([input_folder,...
+    'aggregate_price_relative_to_US.csv'], ',', 0, 2));
 
-va = dlmread([input_folder, 'sectoral_value_added.txt'], '\t', 1, 2);
-import_shares = dlmread([input_folder, 'import_share.txt'], '\t');
+va = wrapper(dlmread([input_folder, 'sectoral_value_added.txt'], '\t', 1, 2));
+import_shares = wrapper(dlmread([input_folder, 'import_share.txt'], '\t'));
 
-io_values = dlmread([input_folder, 'oecd_io_values.csv'], ',', 1, 3);
-total_output = dlmread([input_folder, 'oecd_total_output.csv'], ',', 1, 2);
-output_shares = dlmread([input_folder, 'output_shares.csv'], ',', 1, 1);
-intermediate_input_shares = dlmread([input_folder, 'intermediate_input_shares.csv'], ',', 1, 1);
+io_values = wrapper(dlmread([input_folder, 'oecd_io_values.csv'], ',', 1, 3));
+total_output = wrapper(dlmread([input_folder, 'oecd_total_output.csv'], ',', 1, 2));
+output_shares = wrapper(dlmread([input_folder, 'output_shares.csv'], ',', 1, 1));
+intermediate_input_shares = wrapper(dlmread([input_folder, 'intermediate_input_shares.csv'], ',', 1, 1));
 
-trade_balance = dlmread([input_folder, 'trade_balance_new.csv'], ',', 1, 1);
+trade_balance = wrapper(dlmread([input_folder, 'trade_balance_new.csv'], ',', 1, 1));
 trade_balance = bsxfun(@minus, trade_balance, mean(trade_balance)); 
 
 if ubt == 0
