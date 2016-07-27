@@ -27,7 +27,7 @@ assert(c.fe >= c.fe_prices,...
 %% Set main parameters
 % Set main model parameters
 c.theta = theta;
-c.eta = 2;
+c.eta = 4;
 
 % Specify base country. (Has to have sectoral prices available)
 c.i_base = 25;
