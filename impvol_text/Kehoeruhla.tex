@@ -1,0 +1,289 @@
+%2multibyte Version: 5.50.0.2960 CodePage: 65001
+
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2960}
+%TCIDATA{Codepage=65001}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=Manual}
+%TCIDATA{Created=Monday, February 29, 2016 10:30:29}
+%TCIDATA{LastRevised=Wednesday, March 16, 2016 08:53:36}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Standard LaTeX\Blank - Standard LaTeX Article">}
+%TCIDATA{CSTFile=40 LaTeX article.cst}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\input{tcilatex}
+\begin{document}
+
+
+\subsection{The Kehoe--Ruhl Critique}
+
+Many scholars, including Kehoe and Ruhl (2008), have documented that
+terms-of-trade improvements positively impact real GDP. This empirical
+result is consistent with the intuitive and fairly old result that
+international trade can generate real productivity gains, mediated by
+changes in relative prices.
+
+Kehoe and Ruhl (2008), however, argue that the empirical evidence, far from
+intuitive, poses a challenge to standard models of international trade.
+Specifically, they argue that if GDP is measured as a chain-weighted
+quantity index of value added, then terms-of-trade changes (and in
+particular, import price changes) should not affect real GDP up to a
+first-order approximation. In what follows, we explain their reasoning---and
+the solution to their puzzle. In particular, we explain why, contrary to
+Kehoe and Ruhl's theoretical result, terms-of-trade changes lead to changes
+in measured real GDP, both in practice and in a broad set of models.
+
+Kehoe and Ruhl (2008) focus on a representative firm producing one final
+good using a single\ imported material input, denoted by $m_{t}$, and
+labour, $l$, the latter fixed over time (or at least not responding to the
+material input's price). Production is characterized as%
+\begin{equation}
+q_{t}=f(l,m_{t})  \label{quant}
+\end{equation}%
+where $q_{t}$ is the quantity of the final good sold and $f$ is a concave,
+continuously differentiable function with constant returns to scale. Nominal
+value added is given by: 
+\begin{equation*}
+y_{t}=p_{t}^{y}q_{t}-p_{t}^{m}m_{t}\text{,}
+\end{equation*}%
+where $p_{t}^{y}$ is the price of output and $p_{t}^{m}$ is the price of the
+imported product. Real GDP in Kehoe and Ruhl (2008), is constructed as
+output minus the cost of inputs, both evaluated at base year prices,
+indicated here by $0$: 
+\begin{equation}
+y_{t}^{\func{real}}=p_{0}^{y}q_{t}-p_{0}^{m}m_{t}.  \label{realgdp}
+\end{equation}%
+Chain-weighed real GDP growth in Kehoe Ruhl (2008) is defined as:\footnote{%
+This formula is another simplification by Kehoe and Ruhl (2008). As
+discussed later, the chain-weighted indexes produced by the BLS are actually
+based on the Fisher formula, which is a combination of a Paasche and a
+Laspeyres index.}%
+\begin{equation}
+\frac{p_{0}^{y}f(l,m_{t})-p_{0}^{m}m_{t}}{p_{0}^{y}f(l,m_{0})-p_{0}^{m}m_{0}}%
+.  \label{chain}
+\end{equation}%
+As the authors argued, $m_{t}$ is chosen in response to $p_{t}$, so that 
+\begin{equation*}
+f_{m}(l,m_{t})=\frac{p_{t}^{m}}{p_{t}^{y}}.
+\end{equation*}%
+Taking a first-order Taylor approximation of $q_{t}=f(l,m_{t})$ around $%
+m_{0} $, 
+\begin{equation}
+q_{t}=f(l,m_{t})\approx f(l,m_{0})+f_{m}(l,m_{0})(m_{t}-m_{0})=f(l,m_{0})+%
+\frac{p_{0}^{m}}{p_{0}^{y}}(m_{t}-m_{0})  \label{result}
+\end{equation}%
+Substituting $q_{t}$ from (\ref{result}) into (\ref{realgdp}), period-$t$
+real GDP (to a first-order approximation) is given by: 
+\begin{equation*}
+y_{t}^{\func{real}}\approx p_{0}^{y}f(l,m_{0})-p_{0}^{m}m_{0},
+\end{equation*}%
+which is \emph{base-period's} quantities evaluated at base-period's prices.
+Hence, the authors conclude that there is no first-order change in the 
+\textit{measured} chain-weighted quantity index, as can be easily seen by
+replacing the latest expression into (\ref{chain}). In other words, any
+change in $p_{t}^{m}$ from the base-period price $p_{0}^{m}$ will not affect
+measured real GDP.
+
+\subsubsection{Multiple goods}
+
+Kehoe and Ruhl (2008)'s conclusion is correct in the one-good economy they
+analyse, which cannot capture the nuisances of price index contruction in a
+multiple-good setting. We explain next how in a setting with multiple goods,
+their argument breaks down, given the way price indexes are computed in
+practice. We focus on a very simple example to keep the parallel with Kehoe
+and Ruhl (2008), but the argument goes through in a more complex setting.
+
+Suppose that the input bundle consists of multiple goods indexed by $i$.
+Different inputs $i$ are imperfect substitutes, but any single $i$ can be
+sourced from either the home country, denoted by $H,$ or the foreign
+country, $F$.\footnote{%
+To illustrate the idea, consider an input bundle of the form $m_{t}=\left\{
+\int_{0}^{1}[m_{Ft}(i)+m_{Ht}(i)]^{\alpha }di\right\} ^{1/\alpha },$ where
+different inputs $i$ have a constant elasticity of substituion, and each
+input $i$ can be supplied by a foreign or domestic producer.(This particular
+functional form is not needed to make our point, which is more general.)
+\par
+In practice (as in our model), there will be multiple foreign countries
+potentially supplying the good. This creates even more margins of supplier
+substitution, and will reinfornce the result that changes in prices of
+foreign inputs lead to changes in measured real GDP.} In equilibrium, good $i
+$ is supplied by the lowest-cost producer. We assume as Kehoe-Ruhl, that
+there is a single final good whose price is denoted by $p_{t}^{y}$ and whose
+quantity produced is represented by $q_{t}$. Denoting by $p_{Ht}(i)$ the
+domestic cost of input $i$ at time $t$; $p_{Ft}(i)$ the cost of good $i$
+when bought from the foreign producer; and $m_{Ht}(i)$ and $m_{Ft}(i)$ the
+corresponding quantities of the inputs, nominal GDP is given by: 
+\begin{equation}
+y_{t}=p_{t}^{y}q_{t}-\sum\limits_{i\in \mathcal{\Psi }%
+_{t}}p_{Ht}(i)m_{Ht}(i)-\sum\limits_{i\in \mathcal{M}_{t}}p_{Ft}(i)m_{Ft}(i)
+\label{nominal}
+\end{equation}%
+where $\mathcal{M}_{t}$ denotes the set of products in which the foreign
+supplier is cheaper, $p_{Ht}(i)>p_{Ft}(i),$ so that the goods are imported,
+and $\mathcal{\Psi }_{t}$ denotes the set of products in which the domestic
+supplier is cheaper: $p_{Ht}(i)\leq p_{Ft}(i)$.
+
+\subsubsection{Real GDP}
+
+What does real GDP look like in this setting? It would be tempting to
+replace current-period prices in nominal GDP with base-period prices. This
+direct-valuation method is how Kehohe and Ruhl (2008) construct real values
+in their one-good economy, but this is not how NIPA series are constructed.
+In NIPA, nominal quantities are deflated by \emph{price indices} to obtain
+real quantities. More specifically, real GDP is obtained as: 
+\begin{equation}
+y_{t}^{\func{real}}=\underset{\text{real domestic component}}{\underbrace{%
+\frac{1}{P_{Ht}}\left[ p_{t}^{y}q_{t}-\sum\limits_{i\in \mathcal{\Psi }%
+_{t}}p_{Ht}(i)m_{Ht}(i)\right] }}-\underset{\text{real imports}}{\underbrace{%
+\frac{1}{P_{Ft}}\sum\limits_{i\in \mathcal{M}_{t}}p_{Ft}(i)m_{Ft}(i)}},
+\label{real}
+\end{equation}%
+where $\left[ p_{t}^{y}q_{t}-\sum\limits_{i\in \mathcal{\Psi }%
+_{t}}p_{Ht}(i)m_{Ht}(i)\right] $ is nominal gross output minus the value of
+domestic inputs; $\sum\limits_{i\in \mathcal{M}_{t}}p_{Ft}(i)m_{Ft}(i)$ is
+the nominal value of imports; $P_{Ht}$ is the (domestic price index based on
+a Fisher formula) and $P_{Ft}$ is the import price index (also based on the
+Fisher formula). Price indexes are prepared by the Bureau of Labour
+Statistics, which deliberately does not mix up import prices with domestic
+prices.\footnote{%
+We could assume a different basket for exports and domestic sales, but to
+keep matters simple, we maintain the assumption of a single final-use good.}
+
+To understand how terms-of-trade affect measured productivity, note first
+that nominal GDP in (\ref{nominal}) increases when the price of foreign
+inputs $p_{Ft}(i)$ decrease, all else equal. The question we want to address
+now is whether real GDP also increases, once the\ price-index adjustment is
+carried out.
+
+Price indexes in general, and $P_{Ft}$ in particular, only measure a subset
+of goods, and, more importantly, a \emph{non-random} subset of goods. To be
+included in the current price index, a product had to be transacted both in
+the base period, as well as in the current period. Intuitively, this biases
+the import price index $P_{Ft}$ in (\ref{real}) towards \emph{no change}.
+This bias in the import price index is known in the pass-through literature
+as the product-replacement bias (see for example Nakamura and Steinsson,
+2012). With $P_{Ft}$ relatively unchanged, real GDP is clearly influenced by
+the change in current import prices, $p_{Ft}(i)^{\prime }s.$
+
+To illustrate the idea, consider a drop in the foreing price of a given
+product $i,$ previously sourced from domestic suppliers. As the foreign
+price drops, domestic expenditures switch to the foreign supplier. The
+product is hence dropped from the domestic price index $P_{Ht}$ but it does
+not enter in the import price index $P_{Ft},$ as this is a new entry for
+that product in the index basket. (Recall that two price entries of the same
+product are needed for a given product to make it to the index.) Hence,
+effectively, the decline in the input price is not recorded in the import
+price index $P_{Ft}$ (or the domestic index $P_{Ht}$ for that matter). $%
+P_{Ft}$ remains unchanged, and as a consequences $y_{t}^{\func{real}}$
+increases with the fall in product $i$'s price, as nominal value added
+increases when input expenditures switch to the lower-cost supplier abroad.
+(For simplicity, and to keep Kehoe-Ruhl first-order approximation exercise,
+we assume here that the actual quantity of the input used in production does
+not change, only the supplier changes, but the argument naturally goes
+through with quantity adjustments). In what follows, we explain in more
+detail the bias towards no change in $P_{Ft}$ and how in the Eaton-Kortum
+mechanism, this bias implies that increases in productivity abroad (declines
+in import prices), lead to domestic real productivity gains.
+
+\subsubsection{What does the Bureau of Labor Statistics (BLS) measure?}
+
+The price indexes produced by the BLS are weighted averages of price changes
+for goods or services that are in the sample in both periods. They are based
+on the Fisher formula. The indexes produced cover different components of
+output; the import price index in particular is computed over the set of
+goods imported in both the current and base period. Calling $0$ the base
+period and $t$ the curent period, the actual formula is a weighted average
+between the Laspeyres and the Paasche indexes: 
+\begin{equation*}
+P_{Ft}\equiv \left[ \frac{\sum\limits_{i\in \mathcal{M}_{0}\cup \mathcal{M}%
+_{t}}p_{Ft}(i)m_{F0}(i)}{\sum\limits_{i\in \mathcal{M}_{0}\cup \mathcal{M}%
+_{t}}p_{F0}(i)m_{F0}(i)di}\right] ^{0.5}\left[ \frac{\sum\limits_{i\in 
+\mathcal{M}_{0}\cup \mathcal{M}_{t}}p_{Ft}(i)m_{Ft}(i)}{\sum\limits_{i\in 
+\mathcal{M}_{0}\cup \mathcal{M}_{t}}p_{F0}(i)m_{Ft}(i)di}\right] ^{0.5}
+\end{equation*}%
+As stressed earlier, BLS compares current import prices to the past prices
+of the \emph{same good} from the \emph{same supplier}. If a firm switches
+from a Mexican to a Chinese supplier, because the latter is cheaper, the BLS
+will miss this price change in the index. Moreover, the BLS certainly does
+not mix up import prices with domestic prices: it creates separate price
+indices. So if the substitution is from an American supplier to a Chinese
+supplier, the BLS's index will certainly miss this change in price. (There
+is even a risk that a change within Chinese suppliers due to a price change
+gets lost in translation.) This implies that both in practice as well as in
+models in which price changes lead to a change in suppliers terms of trade
+changes will affect measured real GDP.
+
+In the EK model in particular, the switch in suppliers is at the heart of
+the productivity gains from trade. In such model, the BLS procedure will not
+record any of the price changes in its index, which will remain unchanged,
+hence leading to measured productivity gains and increases in real GDP. Put
+differently, the Kehoe--Ruhl's argument does not apply in this setting. The
+intuition should now be clear. Suppose Chinese goods have become 10 percent
+cheaper. Due to the winner-take-all nature of Ricardian competition, the
+Chinese will be competitive in a wider range of goods. These goods are off
+the radar from the BLS---they have been switched from an American or
+higher-cost foreign supplier to Chinese firms. The goods that the BLS \emph{%
+does} measure are not a random sample from all goods: they are the ones in
+which China is still relatively expensive (otherwise, a switch would have
+occurred). The BLS index will hence miss the price change and real value
+added will be directly affected by the decline in Chinese input prices.
+
+To sum up, the Eaton-Kortum mechanism can indeed account for the empirical
+association between terms of trade and productivity in the data. Indeed,
+there is no is no puzzle: changes in measured real GDP capture the foreign
+gains in productivity transmitted through lower import prices.\footnote{%
+While economists may view this result favourably---gains from trade should
+be somehow reflected in real GDP!---it has generated some degree of
+discomfort in other cirles. In particular, a series of articles in the
+Business Week Review have lamented the fact that real GDP is reflecting
+\textquotedblleft ghost\textquotedblright\ gains in productivity---gains
+coming from other countries---due to substitution towards lower-cost
+suppliers abroad.}
+
+\bigskip 
+
+\bigskip 
+
+First order appoximation with multiple goods:$m_{t}=\left\{
+\sum_{0}^{1}[m_{Ft}(i)+m_{Ht}(i)]^{\alpha }di\right\} ^{1/\alpha }$
+
+\bigskip 
+
+\begin{equation}
+q_{t}=f(l,m_{t})
+\end{equation}%
+\begin{equation}
+y_{t}^{\func{real}}=\underset{\text{real domestic component}}{\underbrace{%
+\frac{1}{P_{Ht}}\left[ p_{t}^{y}q_{t}-\sum\limits_{i\in \mathcal{\Psi }%
+_{t}}p_{Ht}(i)m_{Ht}(i)\right] }}-\underset{\text{real imports}}{\underbrace{%
+\frac{1}{P_{Ft}}\sum\limits_{i\in \mathcal{M}_{t}}p_{Ft}(i)m_{Ft}(i)}},
+\end{equation}
+
+\end{document}
