@@ -117,17 +117,18 @@ while outer_dif > outer_tol
     wL_njt = w_njt .* L_njt;
     
     % get wagebill shares (in logs)
-    log_value_added_share = log(wL_njt ./ repmat(sum(wL_njt, 2), [1, J, 1]));
+%     value_added_share_2 = wL_njt ./ repmat(sum(wL_njt, 2), [1, J, 1]);
+    value_added_share = bsxfun(@rdivide, wL_njt, sum(wL_njt, 2));
     
     % wage gap in percentage points (see labourrel.tex)
-    sectoral_wage_gap = (repmat(mean(w_njt, 2), [1, J, 1])-w_njt).*L_nt_full./repmat(sum(wL_njt, 2), [1, J, 1]);
-
+%     sectoral_wage_gap_2 = (repmat(mean(w_njt, 2), [1, J, 1]) - w_njt) .* L_nt_full ./ repmat(sum(wL_njt, 2), [1, J, 1]);
+    sectoral_wage_gap =  bsxfun(@rdivide, bsxfun(@minus, mean(w_njt, 2), w_njt) .* L_nt_full, sum(wL_njt, 2));
     % for each time period stack sectors (size: 25 x 1) on top of each other
     % these are going to be our dependent variables
     
 %     L_njt_new = update_resource_allocation_bp(log_value_added_share, L_nt);
     
-    L_share_njt_new = update_resource_allocation_bp(log_value_added_share, sectoral_wage_gap);
+    L_share_njt_new = update_resource_allocation_bp(value_added_share, sectoral_wage_gap);
     
 
     %L_njt_iterations(:, :, :, outer_iteration + 1) = L_njt_new;
@@ -148,7 +149,7 @@ while outer_dif > outer_tol
         fprintf('\n')
         fprintf('>>>> LABOR loop: Iteration %d, rel. diff.: %e \n',...
             outer_iteration, outer_dif)
-        fprintf('Mean sectoral wage gap: %e \n', mean(sectoral_wage_gap)) 
+        fprintf('Mean sectoral wage gap: %e \n', mean(sectoral_wage_gap(:))) 
 %         fprintf('\n')
     end % if (verbose > 0)
 end % while

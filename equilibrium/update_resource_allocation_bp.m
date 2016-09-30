@@ -1,19 +1,17 @@
-function E_value_added_share = update_resource_allocation_bp(log_value_added_share, sectoral_wage_gap)
+function L_share_njt = update_resource_allocation_bp(value_added_share, sectoral_wage_gap)
 
 global c
 weights = c.filter_weights;
 
-% if rho<infty, value added share should differ from ex ante optimal
-input_series = exp(log_value_added_share) - sectoral_wage_gap*c.labor_adjustment_cost;
-
-[~, J, ~] = size(input_series);
-
 [value_added_share_trend, ~] = ...
-    detrend_series(input_series, weights);
-   
-% adjust so that expectations sum up to one in each country
-E_value_added_share = (value_added_share_trend ./ ...
-                   repmat(sum(value_added_share_trend, 2), [1 J 1])) ...
-					+ sectoral_wage_gap*c.labor_adjustment_cost;
-               
+    detrend_series(value_added_share, weights);
+
+L_share_star = bsxfun(@rdivide, value_added_share_trend, sum(value_added_share_trend, 2));
+
+% if rho<infty, value added share should differ from ex ante optimal
+L_share_njt = L_share_star + c.labor_adjustment_cost * sectoral_wage_gap; 
+
+% adjust so that expectations are non-negative and sum up to one in each country 
+L_share_njt = max(L_share_njt, c.numerical_zero);
+L_share_njt = bsxfun(@rdivide, L_share_njt, sum(L_share_njt, 2));
 end
