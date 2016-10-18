@@ -4,7 +4,7 @@ function equilibrium_out = equilibrium_algorithm(equilibrium_input)
 global alpha beta theta xi kappa B verbose lambda_w lambda_p c gammas S
 % NOTE: see the definition of K in the documentation
 
-theta = c.theta;
+theta = c.th;
 
 lambda_L = c.dampening_labor_loop;
 lambda_w = c.dampening_wage_loop;
