@@ -41,6 +41,41 @@
 \input{tcilatex}
 \begin{document}
 
+\subsection{}
+Real import growth, as measured by the BLS:
+\[
+\frac 
+	{\sum p_{it}m_{it}}
+	{\sum p_{i0}m_{i0}}
+\frac 
+	{\sum p_{i0}w_{i}}
+	{\sum p_{it}w_{i}}
+\]
+The first term is the nominal growth of imports. The second term is the inverse of the change in the import price index. The weights of the import price index are $w_i$. If (and only if?) $w_i\equiv m_{it}$ does this equal to a fixed-price import basket as assumed in Kehoe-Ruhl.
+\[
+\frac
+	{\sum
+	\frac 
+		{p_{it}m_{it}}
+		{p_{i0}m_{i0}}
+		\mu_{i0}}
+	{\sum
+	\frac 
+		{p_{it}}
+		{p_{i0}}
+		\alpha_{i0}}
+\]
+where $\mu_{i0}=p_{i0}m_{i0}/\sum p_{j0}m_{j0}$ is the base-period share of good $i$ in the import basket, and $\alpha_{i0}=p_{i0}w_{i}/\sum p_{j0}w_{j}$ is the weight assigned by the BLS.
+
+Let $w_i = m_{it}$ if $m_{i0}>0$ and $w_i = 0$ if $m_{i0}=0$. Let 
+\[
+\frac 
+	{\sum p_{it}m_{it}}
+	{\sum p_{i0}m_{i0}}
+\frac 
+	{\sum p_{i0}w_{i}}
+	{\sum p_{it}w_{i}}
+\]
 
 \subsection{The Kehoe--Ruhl Critique}
 
