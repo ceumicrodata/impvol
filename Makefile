@@ -8,7 +8,7 @@ MAP_END		= '), catch, exit(1), end, exit(0);"
 
 all: table1
 
-table1: models/table1_baseline/volatilities.csv 
+table1: models/table1_baseline/volatilities.csv models/table1_kappa1972/volatilities.csv
 
 models/%/volatilities.csv: model_specifications/%.m 
 	$(MAP_BEGIN)$(notdir $<)$(MAP_END)
