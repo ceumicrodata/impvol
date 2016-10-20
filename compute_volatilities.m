@@ -19,5 +19,3 @@ fprintf(fid, '%25s, %12.10f', country_names{end}, volatilities(end));
 fclose(fid);
 
 
-aa = csvread([c.model_folder, 'volatilities.csv'], 1, 1);
-
