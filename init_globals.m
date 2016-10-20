@@ -78,4 +78,9 @@ c.middle_maxiter = 4e2; % limit the maximum number of iterations
 % Technical values for the inner loop
 c.inner_tol = 1e-3; % set the convergence tolerance
 c.inner_maxiter = 2e2; % limit the maximum number of iterations
+
+
+% save model specification in model folder
+save([c.model_folder, 'specification.mat'], '-struct', 'c');
+
 end
