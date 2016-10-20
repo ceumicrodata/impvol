@@ -2,56 +2,26 @@ function equilibrium_main
 
 global c
 
-theta = c.theta;
-
-include_counterfactuals = c.include_counterfactuals;
-
-in_folder = c.data_folder_algorithm_input;
-out_folder = c.results_folder;
-in_file = [in_folder, 'data_theta_', num2str(theta), '.mat'];
-load(in_file)
-
-equilibrium = struct('scenario', {},...
-                     'P_nt', {}, 'P_njt', {},...
-                     'w_nt', {}, 'w_njt', {},...
-                     'L_nt', {}, 'L_njt', {},...
-                     'd', {});
-
+% include_counterfactuals = c.include_counterfactuals;
+load([c.model_folder, 'alg_inputs.mat']);
+equilibrium_input = baseline;
 %%
 % Calculate baseline equilibrium
-equilibrium(1) = equilibrium_algorithm(baseline);
+equilibrium = equilibrium_algorithm(equilibrium_input);
+save([c.model_folder, 'equilibrium.mat'], 'equilibrium')
 
-out_file = [out_folder, 'equilibrium_baseline_theta_', num2str(theta), '.mat'];
-save(out_file, 'equilibrium')
+% Save nominal GDP and deflator in *.csv
+country_names = importdata([c.data_folder_original, 'country_name.txt']);
+fid = fopen([c.model_folder, 'ngdp.csv'], 'w');
+fprintf(fid, '%s,',  'year', country_names{1:end-1});
+fprintf(fid, '%s\n', country_names{end});
+fclose(fid);
+dlmwrite([c.model_folder, 'ngdp.csv'], [(1972:2007)', (equilibrium.L_nt .* equilibrium.w_nt)'], '-append', 'precision','%12.4f')
 
 
-%%
-if include_counterfactuals
-    
-    % Calculate counterfactual equilibria
-    n_counterfactuals = length(counterfactual);
-    
-    for cf = 1:n_counterfactuals
-        equilibrium_input = baseline;
-        
-        % Overwrite the inputs corresponding to the actual counterfactual
-        equilibrium_input.scenario = counterfactual(cf).scenario;
-        equilibrium_input.z = counterfactual(cf).z;
-        equilibrium_input.kappa = counterfactual(cf).kappa;
-        
-        
-        counterfactual_equilibrium = equilibrium_algorithm(equilibrium_input);
-        
-        
-        equilibrium(cf + 1) = counterfactual_equilibrium;
-        
-        out_file = [out_folder, sprintf('equilibrium_%d_theta_', cf),...
-            num2str(theta), '.mat'];
-        save(out_file, 'counterfactual_equilibrium')
-    end
+fid = fopen([c.model_folder, 'deflator.csv'], 'w');
+fprintf(fid, '%s,',  'year', country_names{1:end-1});
+fprintf(fid, '%s\n', country_names{end});
+fclose(fid);
+dlmwrite([c.model_folder, 'deflator.csv'], [(1972:2007)', equilibrium.P_nt'], '-append', 'precision','%10.4f')
 
-end % if include_counterfactuals
-
-out_file = [out_folder, 'equilibrium_theta_', num2str(theta), '.mat'];
-save(out_file, 'equilibrium')
-    

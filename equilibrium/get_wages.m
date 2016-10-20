@@ -49,7 +49,7 @@ for t = 1:T
     middle_dif = c.dif;
     middle_iteration = 0; % set current iteration to zero
     
-    load([c.results_folder, '/data_rgdp_and_volatility.mat'], 'va_total', 'p_base')
+    load([c.model_folder, '/data_rgdp_and_volatility.mat'], 'va_total', 'p_base')
     
     va_t_total = sum(va_total(t, :));
 %     va_t_us = va_total(t, 25);
@@ -57,7 +57,6 @@ for t = 1:T
     va_to_fit = va_t_total;
 %     va_to_fit = va_t_us;
     p_to_fit = p_base(t);
-    
     
     
     B_gamma = kron(eye(N), sparse(gammas(:, :, t)));
@@ -94,7 +93,7 @@ for t = 1:T
 %         middle_dif = max(abs(step(:))) / (1 + max(abs(w_nj(:))));   
         middle_dif = norm(step(:)) / (1 + norm(w_nj(:)));   
      
-%         w_nj = w_nj + 0.1 * step;
+%         w_nj = w_nj + 0.5 * step;
         
         % update current values
         mm = mod(floor(middle_iteration / 100), 4);
