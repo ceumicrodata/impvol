@@ -141,7 +141,7 @@ while outer_dif > outer_tol
     
     % update sectoral labor allocations
 %     L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;
-    L_share_njt = L_share_njt + 1 * step;
+    L_share_njt = L_share_njt + lambda_L * step;
     
     L_njt = L_share_njt .* L_nt_full;
     
