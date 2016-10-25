@@ -43,7 +43,7 @@ c.verbosity = 2;
 c.outer_print_every = 1;
 
 % specify how frequency of iteration display in wage loop
-c.middle_print_every = 5;
+c.middle_print_every = 25;
 
 % Band pass filter weights
 c.filter_weights = [0.774074394803123;...
@@ -66,16 +66,16 @@ c.dampening_price_loop = 0.7:-0.05:0.1;
 c.dif = 1e9; % a big number - really unnecessary...
 
 % Technical values for the outer loop
-c.outer_tol = 1e-2; % set the convergence tolerance
-c.outer_maxiter = 50; % limit the maximum number of iterations
+c.outer_tol = 1e-4; % set the convergence tolerance
+c.outer_maxiter = 1e2; % limit the maximum number of iterations
 
 % Technical values for the middle loop
-c.middle_tol = 1e-3; % set the convergence tolerance
-c.middle_maxiter = 4e2; % limit the maximum number of iterations
+c.middle_tol = 1e-6; % set the convergence tolerance
+c.middle_maxiter = 5e2; % limit the maximum number of iterations
 
 % Technical values for the inner loop
-c.inner_tol = 1e-3; % set the convergence tolerance
-c.inner_maxiter = 2e2; % limit the maximum number of iterations
+c.inner_tol = 1e-6; % set the convergence tolerance
+c.inner_maxiter = 5e2; % limit the maximum number of iterations
 
 
 % save model specification in model folder
