@@ -1,4 +1,4 @@
-CODES		= run_model.m init_globals.m calibrate_shocks.m create_counterfactual_scenarios.m equilibrium_main.m
+CODES		= run_model.m init_globals.m calibrate_shocks.m create_counterfactual_scenarios.m equilibrium_main.m compute_volatilities.m
 MATLAB		=  matlab
 #/Applications/MATLAB_R2014b.app/bin/matlab
 MATLAB_BEGIN	= $(MATLAB) -nodisplay -r "try, 
@@ -13,5 +13,5 @@ tables/%.csv: create_table.m $(foreach specification,$(COLUMNS),models/%_$(speci
 	echo $(filter-out $<,$(patsubst models/%/volatilities.csv,%,$^)) > $*.txt
 	$(MATLAB_BEGIN) create_table('$*.txt', '$@')$(MATLAB_END)
 
-models/%/data_rgdp_and_volatility.mat: model_specifications/%.m 
-	$(MATLAB_BEGIN) run_model('$(notdir $<)')$(MATLAB_END)
+models/%/data_rgdp_and_volatility.mat: model_specifications/%.m $(CODES)
+	$(MATLAB_BEGIN) run_model('$(notdir $(basename $<))')$(MATLAB_END)
