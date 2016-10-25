@@ -1,4 +1,4 @@
-CODES		= run_model.m init_globals.m calibrate_shocks.m create_counterfactual_scenarios.m equilibrium_main.m compute_volatilities.m
+CODES		= run_model.m init_globals.m data_management/calibrate_shocks.m data_management/create_counterfactual_scenarios.m equilibrium/equilibrium_main.m compute_volatilities.m
 MATLAB		=  matlab
 #/Applications/MATLAB_R2014b.app/bin/matlab
 MATLAB_BEGIN	= $(MATLAB) -nodisplay -r "try, 
