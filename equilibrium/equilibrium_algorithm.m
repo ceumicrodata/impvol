@@ -76,6 +76,10 @@ L_nt_full = permute(repmat(L_nt, [1 1 J]), [1 3 2]);
 
 L_njt = L_share_njt .* L_nt_full;
 
+P_njt = 1e-1 * ones(N, J, T); % Sector specific prices
+w_njt = 1e-1 * ones(N, J, T); % Sector specific wages
+
+
 %%
 %%%%% Outer loop: Search for sector specific labor allocation (L_njt)
 
@@ -108,7 +112,7 @@ while outer_dif > outer_tol
     % get sectoral wages, aggregate prices and aggregate wages that correspond
     % to the current value of sectoral labor allocation
 %     tic
-    [w_njt, w_nt, P_nt, P_njt, d] = get_wages(L_njt, L_nt, z_njt, outer_iteration);
+    [w_njt, w_nt, P_nt, P_njt] = get_wages(L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt);
 %     toc
     
 %     [w_njt, w_nt, P_nt, P_njt] = fit_to_data(w_njt, w_nt, P_nt, P_njt);

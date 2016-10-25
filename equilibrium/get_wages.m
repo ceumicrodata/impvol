@@ -1,4 +1,4 @@
-function [w_njt, w_nt, P_nt, P_njt, d_mnjt] = get_wages(L_njt, L_nt, z_njt, outer_iteration)
+function [w_njt, w_nt, P_nt, P_njt] = get_wages(L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt)
 % This function calculates equilibrium sector-specific wages for any given set of
 % sector-specific labor allocation.
 % The corresponding equilibrium aggregate wages and aggregate prices are also returned along the wages.
@@ -7,11 +7,11 @@ global verbose c alpha beta gammas S
 
 [N, J, T] = size(L_njt);
 
-P_nt = zeros(N, T); % Aggregate prices
-P_njt = zeros(N, J, T); % Sector specific prices
-w_nt = zeros(N, T); % Aggregate wages
-w_njt = zeros(N, J, T); % Sector specific wages
-d_mnjt = zeros(N, N, J, T);
+% P_nt = zeros(N, T); % Aggregate prices
+% P_njt = zeros(N, J, T); % Sector specific prices
+% w_nt = zeros(N, T); % Aggregate wages
+% w_njt = zeros(N, J, T); % Sector specific wages
+% d_mnjt = zeros(N, N, J, T);
 
 
 for t = 1:T 
@@ -29,6 +29,13 @@ for t = 1:T
     % Use previous period values in later periods
     % Note: Subsequent dampening parameters will start with values of the
     % previous dampening parameters
+%     if (t > 1) && (outer_iteration == 1) 
+%         w_nj_start = w_njt(:, :, t - 1);
+%         P_nj = P_njt(:, :, t - 1);
+%     else 
+%         w_nj_start = w_njt(:, :, t);
+%         P_nj = P_njt(:, :, t);
+%     end % if
     if t > 1
         w_nj_start = w_njt(:, :, t - 1);
         P_nj = P_njt(:, :, t - 1);
@@ -84,7 +91,7 @@ for t = 1:T
         
         % calculate new sector specific wages (and associated prices)
         % based on current values
-        [w_nj_new, P_nj, price_iterations, P_n, d] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full);
+        [w_nj_new, P_nj, price_iterations, P_n] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full);
         
 %         quantile(w_nj_new(:), [0 0.1 0.25 0.5 0.75 0.9 1])
         
@@ -93,20 +100,20 @@ for t = 1:T
 %         middle_dif = max(abs(step(:))) / (1 + max(abs(w_nj(:))));   
         middle_dif = norm(step(:)) / (1 + norm(w_nj(:)));   
      
-%         w_nj = w_nj + 0.5 * step;
+        w_nj = w_nj + 0.1 * step;
         
         % update current values
-        mm = mod(floor(middle_iteration / 100), 4);
-        if mm == 0
-            w_nj = w_nj + 0.15 * step;
-        elseif mm == 1
-            w_nj = w_nj + 0.1 * step;
-        elseif mm == 2
-            w_nj = w_nj + 0.05 * step;
-        elseif mm == 3
-            w_nj = w_nj + 0.025 * step;
-        end %if        
-            
+%         mm = mod(floor(middle_iteration / 100), 4);
+%         if mm == 0
+%             w_nj = w_nj + 0.15 * step;
+%         elseif mm == 1
+%             w_nj = w_nj + 0.1 * step;
+%         elseif mm == 2
+%             w_nj = w_nj + 0.05 * step;
+%         elseif mm == 3
+%             w_nj = w_nj + 0.025 * step;
+%         end %if        
+%             
          
         if (verbose >= 3) && (mod(middle_iteration, c.middle_print_every) == 0)
             fprintf('    Wage iteration %d, difference is %e\n', middle_iteration, middle_dif)
@@ -137,9 +144,7 @@ for t = 1:T
     P_nt(:, t) = P_n;
     P_njt(:, :, t) = P_nj;
     w_nt(:, t) = w_n;
-    w_njt(:, :, t) = w_nj;
-    d_mnjt(:, :, :, t) = d;
-    
+    w_njt(:, :, t) = w_nj;    
     
     if verbose == 2
         fprintf('    WAGE loop, period %d, labor iteration %d: Convergence in %d iterations.\n',...
