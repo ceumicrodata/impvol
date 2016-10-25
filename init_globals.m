@@ -1,7 +1,7 @@
 function c = init_globals(model)
 
 %% Load values from specification
-run(['model_specifications/', model, '.m'])
+load(['model_specifications/', model, '.mat'])
 c = spec;
 
 % Specify base country. (Has to have sectoral prices available)
@@ -25,10 +25,8 @@ assert(c.has_prices(c.i_base) == 1, 'No sectoral prices for base country.')
 %         '_tc_', num2str(c.tc),...
 %         '_sh_', num2str(c.sh)];
 
-fname = model;
-
 c.data_folder_original = 'data/raw_imputed/';
-c.model_folder = ['models/', fname, '/'];
+c.model_folder = ['models/', model, '/'];
 
 mkdir(c.model_folder)
 
