@@ -141,7 +141,7 @@ while outer_dif > outer_tol
     step = L_share_njt_new - L_share_njt;
     
     % calculate difference from last iteration
-    outer_dif = norm(step(:)) / (1 + norm(L_share_njt(:)));
+    outer_dif = norm(step(:));
     
     % update sectoral labor allocations
 %     L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;
