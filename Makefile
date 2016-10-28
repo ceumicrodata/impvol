@@ -3,10 +3,11 @@ MATLAB		=  /Applications/MATLAB_R2014b.app/bin/matlab
 MATLAB_BEGIN	= $(MATLAB) -nodisplay -r "try, 
 MATLAB_END		= , catch, exit(1), end, exit(0);"
 COLUMNS 		= baseline nosectoral kappa1972 kappa1972_nosectoral
+TABLES  		= table1 table2a table2b table3 table4
 
 .PHONY: all
 
-all: tables/table5.csv
+all: $(foreach table,$(TABLES),tables/$(table).csv)
 
 tables/%.csv: create_table.m $(foreach specification,$(COLUMNS),models/%_$(specification)/data_rgdp_and_volatility.mat)
 	echo $(filter-out $<,$(patsubst models/%/volatilities.csv,%,$^)) > $*.txt
