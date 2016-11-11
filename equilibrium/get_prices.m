@@ -2,14 +2,16 @@ function [P_nj_new, inner_iteration] = get_prices(P_nj, D, t)
 
 global c theta
 
+lambda_p = c.dampening_price_loop;
+
 % technical values
 inner_tol = c.inner_tol;
 inner_maxiter = c.inner_maxiter;
 inner_convergence = 1;
 
-% Pmtheta_nj = P_nj.^(-theta);
 inner_iteration = 0;
 inner_dif = c.dif;
+
 
 while inner_dif > inner_tol
 
@@ -25,17 +27,12 @@ while inner_dif > inner_tol
     
     P_nj_update = Pmtheta_nj_update.^(- 1 / theta);
     
-%     step = Pmtheta_nj_update - Pmtheta_nj;
    
     step = P_nj_update - P_nj;
 
-%     inner_dif = max(abs(step(:))) / (1 + max(abs(P_nj(:))));
-    inner_dif = max(abs(step(:))) / (1 + norm(P_nj(:)));
+    inner_dif = norm(step(:)) / (1 + norm(P_nj(:)));
 
-
-    P_nj = P_nj + step;
-    
-%     Pmtheta_nj = Pmtheta_nj + 1 * step;
+    P_nj = P_nj + lambda_p * step;    
     
 end % while
 

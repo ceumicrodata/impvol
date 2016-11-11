@@ -1,0 +1,8 @@
+model, baseline, nosectoral, kappa1972, kappa1972_nosectoral
+io_link, 1, 1, 1, 1
+balanced_trade, 0, 0, 0, 0
+labor_adjustment_cost, 0, 0, 0, 0
+theta, 8, 8, 8, 8
+eta, 2, 2, 2, 2
+trade_cost, 0, 0, 1, 1
+shock, 0, 1, 0, 1

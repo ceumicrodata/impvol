@@ -7,8 +7,6 @@ global alpha beta theta xi kappa B verbose lambda_w lambda_p c gammas S
 theta = c.th;
 
 lambda_L = c.dampening_labor_loop;
-lambda_w = c.dampening_wage_loop;
-lambda_p = c.dampening_price_loop;
 
 % load data:
 % aggregate labor: L (25 countries for 36 time periods)
@@ -141,7 +139,8 @@ while outer_dif > outer_tol
     step = L_share_njt_new - L_share_njt;
     
     % calculate difference from last iteration
-    outer_dif = norm(step(:));
+%     outer_dif = norm(step(:));
+    outer_dif = norm(step(:)) / (norm(L_share_njt(:)));
     
     % update sectoral labor allocations
 %     L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;

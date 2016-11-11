@@ -28,7 +28,9 @@ beta_panel = wrapper(dlmread([input_folder, 'beta_panel.txt'], '\t', 1, 2));
 pwt = wrapper(dlmread([input_folder,...
     'aggregate_price_relative_to_US.csv'], ',', 0, 2));
 
-va = wrapper(dlmread([input_folder, 'sectoral_value_added.txt'], '\t', 1, 2));
+% va = wrapper(dlmread([input_folder, 'sectoral_value_added.txt'], '\t', 1, 2));
+va = wrapper(dlmread([input_folder, 'sectoral_value_added.csv'], ',', 1, 2));
+
 import_shares = wrapper(dlmread([input_folder, 'import_share.txt'], '\t'));
 
 io_values = wrapper(dlmread([input_folder, 'oecd_io_values.csv'], ',', 1, 3));
