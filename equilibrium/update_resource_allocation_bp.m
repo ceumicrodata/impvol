@@ -12,7 +12,7 @@ L_share_star = bsxfun(@rdivide, value_added_share_trend, sum(value_added_share_t
 if c.lac == 0
     L_share_njt = L_share_star;
 else
-    L_share_njt = L_share_star + (1 / c.lac) * sectoral_wage_gap; 
+    L_share_njt = L_share_star - (1 / c.lac) * sectoral_wage_gap; 
 end
     
 % adjust so that expectations are non-negative and sum up to one in each country 

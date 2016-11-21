@@ -387,7 +387,8 @@ L = squeeze(L);
 
 
 baseline = struct;
-baseline.scenario = 'Baseline';
+load([c.model_folder, 'specification.mat'], 'model');
+baseline.scenario = model;
 
 baseline.country_names = country_names;
 baseline.B = B;

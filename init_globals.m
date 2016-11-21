@@ -56,7 +56,7 @@ c.filter_weights = [0.774074394803123;...
 c.numerical_zero = 1e-12;
 
 % Dampening parameters for the equilibrium search loops
-c.dampening_labor_loop = 1;
+c.dampening_labor_loop = 0.25;
 c.dampening_wage_loop = 0.1;
 c.dampening_price_loop = 0.25;
 
