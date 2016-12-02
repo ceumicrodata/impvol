@@ -56,24 +56,24 @@ c.filter_weights = [0.774074394803123;...
 c.numerical_zero = 1e-12;
 
 % Dampening parameters for the equilibrium search loops
-c.dampening_labor_loop = 0.1;
-c.dampening_wage_loop = 0.4:-0.05:0.2;
-c.dampening_price_loop = 0.7:-0.05:0.1;
+c.dampening_labor_loop = 0.25;
+c.dampening_wage_loop = 0.1;
+c.dampening_price_loop = 0.25;
 
 % Technical values for the loops
 c.dif = 1e9; % a big number - really unnecessary...
 
 % Technical values for the outer loop
-c.outer_tol = 1e-4; % set the convergence tolerance
+c.outer_tol = 1e-3; % set the convergence tolerance
 c.outer_maxiter = 1e2; % limit the maximum number of iterations
 
 % Technical values for the middle loop
-c.middle_tol = 1e-6; % set the convergence tolerance
-c.middle_maxiter = 5e2; % limit the maximum number of iterations
+c.middle_tol = 1e-4; % set the convergence tolerance
+c.middle_maxiter = 2e3; % limit the maximum number of iterations
 
 % Technical values for the inner loop
-c.inner_tol = 1e-6; % set the convergence tolerance
-c.inner_maxiter = 5e2; % limit the maximum number of iterations
+c.inner_tol = 1e-4; % set the convergence tolerance
+c.inner_maxiter = 2e3; % limit the maximum number of iterations
 
 
 % save model specification in model folder

@@ -7,8 +7,6 @@ global alpha beta theta xi kappa B verbose lambda_w lambda_p c gammas S
 theta = c.th;
 
 lambda_L = c.dampening_labor_loop;
-lambda_w = c.dampening_wage_loop;
-lambda_p = c.dampening_price_loop;
 
 % load data:
 % aggregate labor: L (25 countries for 36 time periods)
@@ -126,7 +124,7 @@ while outer_dif > outer_tol
     
     % wage gap in percentage points (see labourrel.tex)
 %     sectoral_wage_gap_2 = (repmat(mean(w_njt, 2), [1, J, 1]) - w_njt) .* L_nt_full ./ repmat(sum(wL_njt, 2), [1, J, 1]);
-    sectoral_wage_gap =  bsxfun(@rdivide, bsxfun(@minus, w_njt, mean(w_njt, 2)) .* L_nt_full, sum(wL_njt, 2));
+    sectoral_wage_gap =  bsxfun(@rdivide, bsxfun(@minus, mean(w_njt, 2), w_njt) .* L_nt_full, sum(wL_njt, 2));
     % for each time period stack sectors (size: 25 x 1) on top of each other
     % these are going to be our dependent variables
     
@@ -141,7 +139,8 @@ while outer_dif > outer_tol
     step = L_share_njt_new - L_share_njt;
     
     % calculate difference from last iteration
-    outer_dif = norm(step(:));
+%     outer_dif = norm(step(:));
+    outer_dif = norm(step(:)) / (norm(L_share_njt(:)));
     
     % update sectoral labor allocations
 %     L_njt = lambda_L * L_njt_new + (1 - lambda_L) * L_njt;
