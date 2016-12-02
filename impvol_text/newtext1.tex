@@ -189,7 +189,7 @@ sectoral specialization does not always lead to higher volatility: Austria,
 Belgium-Luxembourg, Candada, India, the Netherlands, Norway, South Korea,
 and Sweden, all experienced a decline in volatility due to the trade-induced
 change in sectoral specialization. For over two thirds of the countries,
-however, the sectoral-specialization channel contributed to increase
+however, the sectoral-specialization channel contributed to increased
 volatility. As with the overall net effect of trade on volatility, the
 relative importance of the two mechanisms we highlight varies across
 countries, though the effect of the specialization mechanism is on average
@@ -256,7 +256,7 @@ Buch (2006) exploit variation across firms in Germany and infer that
 exposure to international trade increases firm-level and aggregate
 volatility. While the use of sector- or firm-level data allows researchers
 to control for a number of country-specific determinants of volatility,
-omitted-variable biases at lower levels of aggregation, reverse causality,
+omitted-variable biases at higher levels of aggregation, reverse causality,
 and possibly heterogenous effects of trade openness across countries remain
 important concerns.\footnote{%
 Trade is by no means the only determinant of volatility. For studies of
@@ -281,7 +281,7 @@ emerging countries on labour markets; Burstein and Vogel (2012) and Parro
 (2013) study the effect of international trade on the skill premium;
 Caliendo, Rossi-Hansberg, Parro, and Sarte (2013) study the impact of
 regional productivity changes on the U.S. economy, and so on.\footnote{%
-For other appliations, see also Cotinot, Donaldson and Komunjer (2012) and
+For other appliations, see also Costinot, Donaldson and Komunjer (2012) and
 Levchenko and Zhang (2014).} None of these applications, however, focuses on
 the impact of openness to trade on volatility. The closest paper to ours,
 both on question and modelling framework, is Burgess and Donaldson (2012),
@@ -460,10 +460,12 @@ sectors.}
 
 The representative consumer's budget constraint in each period is: 
 \begin{equation*}
-P_{nt}C_{nt}=\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j},
+P_{nt}C_{nt}=\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}-S_{nt},
 \end{equation*}
 where $P_{nt}$ is the price of the aggregate good (\ref{aggregate}), $%
-w_{nt}^{j}L_{nt}^{j}$ is the nominal value-added generated in sector $j$.
+w_{nt}^{j}L_{nt}^{j}$ is the nominal value-added generated in sector $j$,
+and $S_{nt}$ is an exogenously given current account surplus of country $n$,
+with $\sum_n S_{nt}=0$ for all $t$.
 Lifetime utility is given by 
 \begin{equation*}
 U_{n}=\sum\limits_{t=0}^{\infty }\delta^{t}u(C_{nt}),
@@ -472,8 +474,7 @@ where $u^{\prime} > 0$, $u^{\prime\prime} \leq 0$ and $\delta$ is the
 discount factor. Because there is no intertemporal trade and no capital in
 the economy, each period consumers maximize the expected static utility flow 
 $E\left[ u\left( C_{nt}\right) \right] $ and the equilibrium is simply a
-sequence of static equilibria (in the quantitative section, we allow for
-trade imbalances). In making his labor allocation decisions the
+sequence of static equilibria. In making his labor allocation decisions the
 representative consumer takes into account the joint probability
 distribution function of sectoral productivities, $A_{nt}^{j}$s.
 
@@ -509,7 +510,7 @@ expenditures (and sales) shares---and log-utility implies the shares
 determine the sectoral allocation of resources. (In the open economy this
 result no longer holds as a country's sectoral shares depend on its absolute
 and comparative advantage as well as trading costs vis-\`{a}-vis other
-countries.
+countries.)
 
 \subsection{Model Solution}
 
@@ -591,7 +592,7 @@ Expenditure by agents in country $m$ on good $j$ comes from consumption
 \begin{equation*}
 E_{mt}^{j}=\alpha _{t}^{j}P_{mt}C_{mt}+\sum_{k=1}^{J}\gamma ^{jk}R_{mt}^{k}
 \end{equation*}%
-Final consumption is domestic value added minus any trade surplus $S_{mt}$, 
+Final consumption is domestic value added minus the trade surplus $S_{mt}$, 
 \begin{equation*}
 P_{mt}C_{mt}=\sum_{j=1}^{J}w_{mt}^{j}L_{mt}^{j}-S_{mt}=\sum_{j=1}^{J}\beta
 ^{j}R_{mt}^{j}-S_{mt},
@@ -754,7 +755,7 @@ changes in trade barriers on GDP volatility for a diverse sample of 24\ core
 countries and an aggregate of the remaining countries\ to which we refer as
 \textquotedblleft rest of the world\textquotedblright\ (ROW). Volatility in
 the model, as in the data, is measured as the variance (or standard
-deviation, where indicated), of Real GDP deviations from country-specific
+deviation, where indicated), of real GDP deviations from country-specific
 trends. Real GDP in the model is given by total value added deflated by the
 optimal expenditure-based price index, $Y_{nt}=\frac{w_{nt}L_{nt}}{P_{nt}},$
 to match the data counterpart of total value-added deflated by the country's
@@ -868,9 +869,9 @@ unknown terms as follows:
 \begin{align}
 Z_{nt}^{j}& =\underbrace{{B^{j}}^{\theta }{\xi }^{\theta }d_{knt}^{j}\left(
 y_{n}^{j}\right) ^{\theta \beta ^{j}}\left( \kappa _{knt}^{j}\right)
-^{-\theta }\left( \frac{P_{kt}^{j}}{P_{nt}^{\beta
-^{j}}\prod_{m=1}^{J}(P_{nt}^{m})^{\gamma ^{mj}}}\right) ^{-\theta }\left(
-\psi _{nt}^{j}\right) ^{-\theta \beta ^{j}}}_{\equiv \exp (\zeta
+^{-\theta }
+\left(P_{nt}^{\beta^{j}} \prod_{m=1}^{J}(P_{nt}^{m})^{\gamma ^{mj}}\right) ^{\theta }
+\left(\psi _{nt}^{j}\right) ^{-\theta \beta ^{j}}}_{\equiv \exp (\zeta
 _{k,n,t}^{j})}{P_{k,t}^{j}}^{-\theta }  \notag \\
 & =\exp (\zeta _{k,n,t}^{j}){P_{k,t}^{j}}^{-\theta }
 \end{align}%
@@ -880,7 +881,7 @@ from observable data. We decompose $\exp (\zeta
 _{k,n,t}^{j})=Z_{nt}^{j}\left( {P_{k,t}^{j}}\right) ^{\theta }$ according to
 the following procedure. We first take logs and rename terms for brevity. 
 \begin{equation}
-\zeta _{k,n,t}^{j}=\equiv \chi _{nt}^{j}+\tau _{k,t}^{j}
+\zeta _{k,n,t}^{j}= \chi _{nt}^{j}+\tau _{k,t}^{j}
 \end{equation}%
 where $\chi _{nt}^{j}\equiv \ln {Z_{nt}^{j}}$ and $\tau _{k,t}^{j}\equiv
 \theta \ln {P_{k,t}^{j}}$. We need a benchmark country, so we use sectoral
@@ -889,7 +890,7 @@ prices in the US:
 \tau _{US,t}^{j}\equiv \theta \ln {P_{US,t}^{j}}
 \end{equation*}%
 We choose units of accounts for each sector so that U.S. nominal sectoral
-prices are equal to 1 in 1972. We can then btain $\tau _{k,t}^{j}$ for all
+prices are equal to 1 in 1972. We can then obtain $\tau _{k,t}^{j}$ for all
 other countries as: 
 \begin{equation}
 \tau _{k,t}^{j}=\frac{1}{N}\sum_{n=1}^{N}\left( \zeta _{k,n,t}^{j}-\zeta
@@ -940,7 +941,7 @@ The changes in productivity retrieved above,
 \frac{1}{\beta ^{j}\theta }\hat{Z}_{m}^{j}\equiv \frac{1}{\beta ^{j}}\hat{A}%
 _{mt}^{j}+\hat{L}_{mt},  \label{prodchanges}
 \end{equation}%
-can be decompose into two factors: a sectoral factor, $\frac{1}{\beta ^{j}}%
+can be decomposed into two factors: a sectoral factor, $\frac{1}{\beta ^{j}}%
 \hat{A}_{mt}^{j}$, and an aggregate factor $\hat{L}_{mt}$. The
 interpretation of $L_{mt}$ as \textquotedblleft equipped
 labour\textquotedblright\ means that it embeds a productivity component too.
@@ -978,11 +979,8 @@ need to identify the sources of shocks to productivity. We resort to a
 factor model that decomposes productivity shocks into sector- and
 country-specific components, as described in Koren and Tenreyro (2007). To
 separate per period shocks from trends we use a band pass filter to detrend
-each $\left\{ \log {Z_{n,t}^{j}}\right\} _{t=1}^{T}$ series. Then we
-calculate the time average of the shocks for each $(n,j)$ pair and subtract
-it from the growth rate to get the object to be decomposed, $\tilde{Z}%
-_{nt}^{j}=\hat{Z}_{n,t}^{j}-(T-1)^{-1}\sum_{t=2}^{T}\hat{Z}_{n,t}^{j}$. XX.
-Without loss of generality, we decompose $\tilde{Z}_{nt}^{j}$ as: 
+each $\left\{ \log {Z_{n,t}^{j}}\right\} _{t=1}^{T}$ series. 
+Without loss of generality, we decompose the cycle component $\tilde{Z}_{nt}^{j}$ as: 
 \begin{equation*}
 \tilde{Z}_{nt}^{j}=\lambda _{t}^{j}+\mu _{nt}+\epsilon _{nt}^{j},
 \end{equation*}%
@@ -1075,12 +1073,13 @@ Column (5) shows the percent change in average volatility due to actual
 changes in trading costs since 1972, that is, the percent difference between
 columns (1) and (3). Column (6) shows the contribution of the
 diversification channel to the change in volatility in (5) and Column (7)
-shows the\ corresponding contribution of the specializcation channel. The
+shows the\ corresponding contribution of the specialization channel. The
 contribution of diversification to the change in volatility is computed as
 the difference between the volatility in the absence of sectoral shocks
 (Column 2) and the volatility under 1970's trading costs, in the absence of
-sectoral shocks (Column 4); the difference is expressed relative to the
-volatility under the 1972's trading cost levels\ (Column 3). This measures
+sectoral shocks (Column 4). The difference is expressed relative to the
+volatility under the 1972's trading cost levels\ (Column 3), so it may even be lower than $-100\%$. 
+This measure
 captures the trade in volatility due exclusively to the
 country-diversification effect, as the sectoral shocks are muted. The
 volatility due to specialization is computed as the difference between
@@ -1260,7 +1259,7 @@ be reallocated after incurring the ajustment costs. The ex-post sectoral
 input allocation solves:%
 \begin{equation}
 L_{nt}^{k}=\arg \max \left[ \ln \left( \frac{%
-\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}{P_{nt}}\right) +\frac{\varrho }{2}%
+\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}{P_{nt}}\right) -\frac{\varrho }{2}%
 \sum_{j=1}^{J}\left[ \psi _{nt}^{j}-\psi _{nt}^{j\ast }\right] ^{2}\right] ,%
 \text{ }s.t.:\sum\nolimits_{j=1}^{J}L_{nt}^{j}=L_{nt}
 \end{equation}%
@@ -1268,16 +1267,19 @@ with $\psi _{nt}^{j}\equiv \frac{L_{nt}^{j}}{L_{nt}}$ and $%
 \sum_{j=1}^{J}\psi _{nt}^{j}=\sum_{j=1}^{J}\psi _{nt}^{j\ast }=1.$ The
 first-order conditions lead to:%
 \begin{equation}
-\psi _{nt}^{k}=\psi _{nt}^{k\ast }+\frac{1}{\varrho }\left[ \frac{\frac{1}{J}%
-\sum_{j=1}^{J}w_{nt}^{j}-w_{nt}^{k}}{%
-\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}/L_{nt}}\right]  \label{estimate}
+\psi _{nt}^{k}=\psi _{nt}^{k\ast }
++\frac{1}{\varrho }
+\left[ 
+	\frac
+		{w_{nt}^{k}-\frac{1}{J}\sum_{j=1}^{J}w_{nt}^{j}}
+		{\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}/L_{nt}}
+\right]  \label{estimate}
 \end{equation}%
 In words, the ex post input shares $\psi _{nt}^{k}$ equal the ex-ante
 optimal shares $\psi _{nt}^{k\ast }$ plus a fraction of the percentage
-differential between the average equipped labour cost in the economy $\frac{1%
-}{J}\sum_{j=1}^{J}w_{nt}^{j}$ and the sectoral input cost $w_{nt}^{k}$.
+differential between the sectoral input cost $w_{nt}^{k}$ and the average equipped labour cost in the economy $\frac{1}{J}\sum_{j=1}^{J}w_{nt}^{j}$.
 (Note that the denominator is the average input cost in the economy.) The
-adjustment cost parameter $\varrho $ determines the elasticity of sectoral
+adjustment cost parameter $\varrho $ determines the semi-elasticity of sectoral
 adjustment to the cost differential. In the extreme, when adjustment costs
 are infinite, $\varrho \rightarrow \infty $, the economy simply stays at the
 initial sectoral input shares $\psi _{nt}^{k}=\psi _{nt}^{k\ast }$. As
@@ -1293,9 +1295,9 @@ as variance) due to changes in trading costs. Baseline calibration with ex
 post sectoral reallocation costs.}\centering\includegraphics[width=%
 \textwidth]{Table5a.pdf}
 \end{table}
-We compute labour shares and sectoral wage differentials $\left( \frac{1}{J}%
-\sum_{j=1}^{J}w_{nt}^{j}-w_{nt}^{k}/%
-\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}/L_{nt}\right) $ as in equation (\ref%
+We compute labour shares and sectoral wage differentials $\left(w_{nt}^{k}- \frac{1}{J}%
+\sum_{j=1}^{J}w_{nt}^{j}\right)/
+\left(\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}/L_{nt}\right) $ as in equation (\ref%
 {estimate}). We then regress yearly changes in labour shares on yearly
 changes in the wage differentials to obtain estimates of $\frac{1}{\varrho }$%
 . The estimated regression coefficient is 0.001 (p-value 0.03). We solve the
@@ -2141,7 +2143,8 @@ Z}_{nt}^{j}$.
 \begin{equation*}
 \tilde{Z}_{nt}^{j}=\hat{Z}_{n,t}^{j}-(T-1)^{-1}\sum_{t=2}^{T}\hat{Z}%
 _{n,t}^{j}
-\end{equation*}%
+\end{equation*}
+(Note that the bandpass filter already removes the mean, but we allow our algorithm to use other filters for detrending.)
 Without loss of generality, we decompose $\tilde{Z}_{nt}^{j}$ as: 
 \begin{equation*}
 \tilde{Z}_{nt}^{j}=\lambda _{t}^{j}+\mu _{nt}+\epsilon _{nt}^{j},
