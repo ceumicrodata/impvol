@@ -1,0 +1,639 @@
+%2multibyte Version: 5.50.0.2953 CodePage: 65001
+
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amssymb}
+\usepackage{lettopti,sw20let1}
+\usepackage{setspace}
+
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{Codepage=65001}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=Manual}
+%TCIDATA{Created=Monday, October 04, 2004 07:21:58}
+%TCIDATA{LastRevised=Tuesday, November 29, 2016 17:48:43}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Other Documents\SW\Letter - SW Letter #1">}
+%TCIDATA{Language=British English}
+%TCIDATA{CSTFile=tcilett.cst}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\newfield{letterfromtele}{From phone: }
+\newfield{letterfromloca}{From location: }
+\newfield{letterretaddr}{Return address: }
+\input{tcilatex}
+\begin{document}
+
+
+\begin{letterfromaddr}
+Silvana Tenreyro
+
+London School of Economics
+
+Department of Economics
+
+Houghton St.
+
+London WC2A 2AE
+
+\bigskip
+\end{letterfromaddr}
+
+\begin{letterto}
+Professor Robert Barro
+\end{letterto}
+
+\begin{lettertoaddr}
+Quarterly Journal of Economics
+
+Editorial Office
+\end{lettertoaddr}
+
+\begin{letterdate}
+December 3, 2016\bigskip
+\end{letterdate}
+
+\begin{lettersubj}
+MS \textquotedblleft Diversification through Trade\textquotedblright \bigskip
+\end{lettersubj}
+
+\begin{letteropening}
+Dear Robert:
+\end{letteropening}
+
+\setstretch{1.5}We thank you, Pol, and the referees very much for the
+detailed and helpful comments on the manuscript \textquotedblleft
+Diversification through Trade.\textquotedblright\ We are enclosing a revised
+version of the manuscript that addresses the issues raised in your letter
+and in the referee reports. Attached is also a Supplemental Appendix, which
+contains the mathematical derivations and\ calibration details.
+
+In your letter, you kindly asked us to revise the paper along five
+dimensions: (1) clarifying the connection between value-added changes in the
+model and in the data; (2) relaxing the assumption on the immobility of
+equipped labour; (3) allowing for input-output linkages and current account
+deficits; (4) reorganizing the writing of the paper, with a new Appendix
+for\ part of the more technical material; and (5) changing the elasticity of
+substitution across varieties. We have followed your advice and are happy
+with the changes, which we think have led to a better paper. We have
+furthermore addressed the questions and suggestions raised in the individual
+referee reports, as we explain in the enclosed responses to the referees.
+
+In what follows, we describe each of the issues mentioned in your letter and
+the steps taken to address them in this revised version.\bigskip
+
+\textbf{1. Relation between measured GDP changes in the data and model}
+
+We agree that this issue was not clearly addressed in the previous version
+of the manuscript. The new version clearly explains the measurement of real
+GDP in the model, which has a straighforward correspondence to that in the
+data and quantitative exercise.
+
+Real GDP in the model is defined as value-added ($w_{t}L_{t}$ in the paper's
+notation) deflated by the welfare-based price index ($P_{t})$. This is the
+welfare-relevant measure of real GDP. In the data, real GDP is measured as
+nominal value-added (in local currency) divided by the consumer price index
+(CPI), which is an expenditure-based Laspeyres price index. It can be easily
+shown that the change in the welfare-based price index in the model, to a
+first-order Taylor approximation, is equal to the change in a Laspeyres
+price index. In other words, there is a very close mapping between measured
+real value-added\ changes in the data\ and in the model.
+
+To be clear, we focus on the nominal value-added deflated by the CPI because
+it maps closely and transparently into the welfare-relevant measure of real
+GDP dictated by the model. Hence, deliberately we stay away from the real
+GDP measure on which Kehoe and Ruhl (2008) focus. The latter measure has no
+clear relation with welfare, and, from a practical point of view, it does
+not correspond either to what the BLS actually does. Kehoe and Ruhl (2008)
+assume direct valuation, while in practice the BLS uses a very complicated
+(and opaque) combination of double deflation, extrapolation, direct
+valuation and rules for basket replacement that would be nearly impossible
+to replicate following their instruction manuals. The problem gets
+compounded when trying to understand the procedure of other national
+statistical offices. In contrast, changes in expenditure-based indexes like
+the CPI are in this regard more transparent, and hence preferable.
+
+We have modified the text so that the new version of the manuscript makes
+the mapping between data and model-generated volatility clear.\bigskip
+
+\textbf{2. Labour Mobility}
+
+Following Pol's and the referees' suggestions, the new manuscript studies
+the sensitivity of the results to the assumption of labour immobility across
+sectors within a period. In Section V we extend the model by introducing
+sectoral reallocation costs and quantitatively study their role. As Pol
+conjectured, based on our paper-and-pencil results for the one-sector model,
+the main qualitative results of the model remain unchanged. Moreoever, the
+quantitative results do not appear to be hugely sensitive when we calibrate
+the adjustment cost's parameter to match sectoral mobility data from EU
+KLEMS.
+
+\bigskip
+
+\textbf{3. Input-output linkages and trade imbalances}
+
+The new version of the paper allows for input-output linkages and trade
+imbalances in the baseline calibration. The results are summarized in Table
+1. We close each channel in turn to assess their bearing on the results. The
+outcomes from these exercises are shown in Tables 3 and 4. When we compare
+the results from the baseline case in Table 1 (detailed input-output matrix)
+with our original specification in Table 3 (simple input-output linkages),
+the main patterns are unchanged and the quantitative outcomes are remarkably
+close for most countries. To understand the similarity in results, recall
+that our original model already allowed for input-output linkages, though
+admittedly a simpler fashion. In light of the results, we conclude the
+simpler original structure appears to be a very good approximation to the
+more complex input-output structure that we now use as baseline calibration.
+
+Similarly,\ closing down trade imbalances does not change the sign of the
+effects and indeed, for most countries the quantitative results with and
+without trade imbalances are very close.\bigskip
+
+\textbf{4. Re-writing}
+
+\bigskip Following Pol's suggestions, we have reorganized the writing of the
+paper and moved most technical derivations to an Appendix.
+
+\textbf{5. The value of }$\eta $\textbf{\ }
+
+As suggested by Pol, we have done all the quantitative exercises under the
+calibrated value of $\eta =4$, in line with Broda and Weinstein (2006)'s
+median value for this elasticity.\bigskip
+
+We hope you will find the changes to the paper satisfactory. We thank you
+very much again for your comments and suggestions. With best regards,\bigskip
+
+Francesco Caselli, Miklos Koren, Milan Lisicky, and Silvana Tenreyro
+
+encl: New Manuscript, Reply to Referees (3)
+
+\begin{center}
+\pagebreak
+
+\thispagestyle{plain}\setcounter{page}{1}Reply to Referee 1's comments on
+
+{\Large Diversification through Trade}
+
+by Francesco Caselli, Miklos Koren, Milan Lisicky and Silvana
+Tenreyro\medskip
+
+\bigskip \bigskip
+\end{center}
+
+We thank the Referee for his/her insightful comments and suggestions, which
+we have tried to incorporate in the revised version of the paper. Below is a
+reply to the points raised in the report and the steps we took to address
+them. (We reproduce the referee report's headings for convenience.)\bigskip
+
+\textbf{1. Methodology: }
+
+Following the referee's suggestion, the new manuscript has added to the
+literature review other papers that use quantitative models of trade to
+address a variety of questions in Development or International Economics. In
+particular, the paper now cites Costinot, Donaldson and Komunjer (2012),
+Levchenko and Zhang (2013), Levchenko and Zhang (2014), di Giovanni,
+Levchenko and Zhang (2014), and Allen,  Arkolakis, Takahashi (2014. The
+difference with these papers lies in the\ actual research question, not in
+the method (alhough there are differences in the implementation and
+modelling assumptions that would be apparent to readers comparing the
+various papers to ours).\bigskip 
+
+\textbf{2. Adjustment costs:}
+
+Following the referee's advice, we now study the sensitivity of our results
+to the assumption of labour immobility across sectors within a period. In
+Section V we extend the model by introducing ex post sectoral reallocation
+of equipped labour. We assume this can be done at a cost. We calibrate the
+adjustment cost parameter to match data on sectoral mobility from EU Klems.
+The results, displayed in Table 5, appear robust to this modification.
+
+Regarding sectoral complementarities, we allowed for a more complex
+production structure with input-output linkages in line with the data. This
+did not lead to material differences in the quantitative results. 
+
+The most important parameter in the model in terms of sensitivity is $\theta 
+$, the parameter governing the scope for comparative advantage. We provide
+results for a wide parametric range so that readers can asses the effects
+depending on their priors.\bigskip 
+
+\textbf{3. Stochastic process}
+
+We think the new version of the paper clarifies this point. We feed in the
+model the stochastic processes inferred from the data. There is an
+anticipated component of productivity embedded in the trend, which certainly
+plays a quantitatively important role in firms' allocation decisions. The
+shocks in the paper are the (unanticipated) deviations from trends.\bigskip 
+
+\textbf{4. Disaggregation}
+
+As the referee points out, the main constraint to further disaggragation is
+data availability, particularly for less developed countries. Twenty two
+sectors is the best we can do without sacrificing the number of countries in
+the analysis. We are fully aware that the gain in number of countries comes
+at a loss in terms of aggregation. Taking a more granular approach will
+certainly be helpful in many instances, but in this context, it would entail
+focusing on one---or two---countries. We discuss this point in the paper,
+and cite work by di Giovanni and Levchenko (2012) and di Giovanni, Levchenko
+and Mejean (2015) for readers interested in firm-level data.\bigskip 
+
+\textbf{5. Counterfactuals}
+
+We have followed the referee's advice and expanded the counterfactual
+analysis, studying the role of different variables, one at a time. In
+particular, in Section V of the new manuscript, we carry out the analysis
+with and without labour mobility across sectors, with and without
+input-output linkages, with and without trade imbalances. The results are
+summarized in Tables 1 through 5.
+
+We retained the focus on the question we want to address, namely the effect
+of trade costs (which in principle could be influenced by policy) on
+volatility. Regarding one of the possibilities discussed by the referee, we
+opted for keeping the trade costs constant (as opposed to keeping the trade
+volumes constant) in line with our motivation, as trade volumes are not deep
+parameters and hence a counterfactual that artificially kept trade volumes
+constant would be subject to well-known objections based on the Lucas'
+critique. The framework is very flexible and we will make our programs
+available if readers wish to perform additional experiments.\bigskip 
+
+\textbf{6. Welfare}
+
+The focus of the paper is on the positive effects of trade openness. If
+volatility decreases with trade openness, as it does in the majority of
+cases in our quantitative analysis, trade openness becomes a win-win option.
+Theoretically, volatility could increase and of course in extremes in which
+this increase is large and/or a country puts a high value on stability,
+welfare may actually decline. In the cases in which we observe increases in
+volatility due to trade openness in our quantitative analysis, these
+increases tend to be small, suggesting that the increases in productivity
+would still dominate the tradeoff and trade would be welfare enhancing for
+the representative agent.\bigskip
+
+\textbf{7. Measurement}
+
+We thank the referee for bringing this to our attention. As the referee
+notes, real GDP in our paper is defined as value added divided by absortion
+prices. More concretely, real GDP in the model is defined as value-added ($%
+w_{t}L_{t}$ in the paper's notation) deflated by the welfare-based price
+index ($P_{t})$. This is the welfare-relevant measure of real GDP. In the
+data, real GDP is measured as nominal value-added (in local currency)
+divided by the consumer price index (CPI), which is an expenditure-based
+Laspeyres price index. It can be easily shown that the change in the
+welfare-based price index in the model, to a first-order Taylor
+approximation, is equal to the change in a Laspeyres price index. In other
+words, there is a very close mapping between measured real value-added\
+changes in the data\ and in the model.
+
+To be clear, we focus on the nominal value-added deflated by the CPI because
+it maps closely and transparently into the welfare-relevant measure of real
+GDP dictated by the model. Hence, deliberately we stay away from the real
+GDP measure on which Kehoe and Ruhl (2008) focus. The latter measure has no
+clear relation with welfare, and, from a practical point of view, it does
+not correspond either to what the BLS actually does. Kehoe and Ruhl (2008)
+assume direct valuation, while in practice the BLS uses a very complicated
+(and opaque) combination of double deflation, extrapolation, direct
+valuation and rules for basket replacement that would be nearly impossible
+to replicate following their instruction manuals. The problem gets
+compounded when trying to understand the procedure of other national
+statistical offices. In contrast, changes in expenditure-based indexes like
+the CPI are in this regard more transparent, and hence preferable.
+
+The mapping between data and model should address (up to a first order
+approximation) the referee's advice to \textquotedblleft define the
+statistic that they look at in the data, and measure these variables in the
+model in exactly the same way.\textquotedblright\ \bigskip 
+
+\textbf{8. Other minor comments}
+
+i) Following the referee's suggestion, we now comment on the inferred values
+of trade costs in the text.
+
+ii) We have\ now meged the two sections in the appendix.
+
+iii) We have altered the order of the columns in the footnote, as suggested.
+We believe the new footnote should be clear to readers.\bigskip
+
+Once again, thank you very much for your constructive and insightful
+comments, which have helped improving the paper.\medskip \medskip \bigskip
+
+Francesco Caselli, Miklos Koren, Milan Lisicky, and Silvana Tenreyro
+
+\thispagestyle{plain}\pagebreak
+
+\begin{center}
+\thispagestyle{plain}\setcounter{page}{1}Reply to Referee 2's comments on
+
+{\Large Diversification through Trade}
+
+by Francesco Caselli, Miklos Koren, Milan Lisicky and Silvana
+Tenreyro\medskip
+
+\bigskip
+\end{center}
+
+We thank the Referee for his/her insightful comments and suggestions, which
+we have tried to incorporate in the revised version of the paper. Below is a
+reply to the points raised in the report and the steps we took to address
+them. (For convenience, we reproduce in italics the referee's first sentence
+in each of the comments.)\bigskip
+
+1)\textit{\ \textquotedblleft Donna Costello took a look at a very closely
+related question in a 1993 (uncited) JPE article titled `A Cross Country,
+Cross Industry Comparison of Productivity Growth'.\textquotedblright }
+
+We found the reference to Costello (1993)'s work relevant for our work and
+thank the referee for referring us to her work. Costello (1993) empirically
+studies the Sollow residuals of five industrialized countries, finding that
+nation-specific shocks are quantitatively more important than
+industry-specific shocks. Our work explores, through a different approach
+and a broader set of countries, what happens when countries open up to
+international trade. When nation-specific shocks are prevalent, as in
+Costello (1993)'s sample and many of the countries in our sample, volatility
+declines as the diversification of shocks outweighs the effects of sectoral
+specialization.\bigskip
+
+2)\textit{\ \textquotedblleft First, I think it would help if the authors
+could cast their procedure for identifying separately the role of bilateral
+trade costs and national and sector productivities in terms of the language
+developed in the paper `Universal Gravity'.\textquotedblright }
+
+Following the Referee's suggestion, we now relate our work to Allen,
+Arkolakis and Takahashi (2014). In terms of the language developed in their
+paper \textquotedblleft Universal Gravity,\textquotedblright\ our
+multi-sector model is underidentified, in the sense that (sectoral) trade
+flows alone are not sufficient to identify what the authors call
+\textquotedblleft gravity constants.\textquotedblright\ This is why we need
+to resort to additional assumptions (e.g., symetric trading costs) and
+sources of data, in particular, sectoral prices,\ in order to identify
+sectoral productivity changes. \bigskip
+
+3) \textit{\textquotedblleft Second, I would like to see a better resolution
+of the issues surrounding the measurement of GDP.\textquotedblright }
+
+We have clarified the relation with Burstein and Cravino (2015), as
+suggested by the Referee. We agree that this issue was not clearly addressed
+in the previous version of the manuscript. The new version clearly explains
+the measurement of real GDP in the model, which has a straighforward
+correspondence to that in the data and quantitative exercise.
+
+Real GDP in the model is defined as value-added ($w_{t}L_{t}$ in the paper's
+notation) deflated by the welfare-based price index ($P_{t})$. This is the
+welfare-relevant measure of real GDP. In the data, real GDP is measured as
+nominal value-added (in local currency) divided by the consumer price index
+(CPI), which is an expenditure-based Laspeyres price index. It can be easily
+shown that the change in the welfare-based price index in the model, to a
+first-order Taylor approximation, is equal to the change in a Laspeyres
+price index. In other words, there is a very close mapping between measured
+real value-added\ changes in the data\ and in the model. There is no
+contradiction with Burstein and Cravino (2015) and indeed we cite their
+paper in the new version of the manuscript.\bigskip
+
+Once again, thank you very much for your constructive and insightful
+comments, which have helped improving the paper.\medskip \medskip \bigskip
+
+Francesco Caselli, Miklos Koren, Milan Lisicky, and Silvana
+Tenreyro\pagebreak
+
+\begin{center}
+\thispagestyle{plain}\setcounter{page}{1}
+
+Reply to Referee 3's comments on
+
+{\Large Diversification through Trade}
+
+by Francesco Caselli, Miklos Koren, Milan Lisicky and Silvana
+Tenreyro\medskip \medskip \bigskip
+\end{center}
+
+We thank the Referee for his/her insightful comments and suggestions, which
+we have tried to incorporate in the revised version of the paper. Below is a
+reply to the points raised in the report and the steps we took to address
+them.
+
+\bigskip
+
+1) Input-output linkages
+
+Following the suggestion made by the Referee, the new version of the paper
+incorporates input-output linkages in the baseline model. The results are
+summarized in Table 1. We close the input-output linkages as explained in
+Section V to assess their bearing on the results. The outcomes from this
+exercise are shown in Tables 3. When we compare the results from the
+baseline case in Table 1 (detailed input-output matrix) with our original
+specification in Table 3 (simple input-output linkages), the main
+qualitative patterns are unchanged and the quantitative outcomes are
+remarkably close for most countries. To understand the robustness of the
+results, note that our original model already allowed for input-output
+linkages, though admittedly a simpler fashion. In light of the results, we
+conclude that the simpler original structure appears to be a very good
+approximation to the more complex input-output structure that we now use as
+baseline calibration.\bigskip 
+
+2) Trade imbalances
+
+We thank the referee for bringing up this issue, which we now discuss in
+more detail in the paper. Section V in the new version of the paper now
+makes clear the role that trade imbalances play in the quantitative effects
+of trade opennes on volatility. We have not endogenized the trade
+imbalances, however. The model is already very complex and bringing in a
+realistic treatment of sovereign debt, lending, and defaults would be beyond
+our programming capabilities. 
+
+The baseline results in Table 1 incorporate trade imbalances, calibrated to
+match the data. Table 3 presents the results when those imbalances are set
+to zero.\bigskip 
+
+3) Robustness checks I
+
+There is no strong a priori reason to expect the backed-out sectoral
+productivities would align with those computed by EU KLEMS. The backed-out
+sectoral productivities in our quantitative exercise correspond to the
+intrinsic or primitive productivities, after having purged the influence of
+international trade. The sectoral productivities measured in the data as a
+residual should be in principle different from the primitive productivities
+we back out because, with international trade, these residuals will embed
+not simply the intrinsic productivity of the sector but also the
+productivities of all other countries (and sectors) from which the given
+sector buys its inputs. Hence, we could not convince ourselves that this
+exercise could act as a test for robustness.\bigskip 
+
+4) Robustness checks II
+
+We believe the new version of the paper provides a number of informative
+robustness checks. The effect of trade on volatility will indeed change if
+we alter the sample of countries parrticipating in international trade in
+the counterfactual.\ (This would be akin to increasing trading costs to
+infinity to some countries.) The possibilities for counterfactuals here are
+incredibly large, if one takes into account all possible configurations with
+different numbers and combination of countries in global trade. We were not
+clear whether the referee wanted to see one country or set of countries in
+particular being removed from the sample. After discussing the
+possibilities, we concluded it would be best to make our matlab programs
+available and ready to use for readers interested in exploring other
+counterfactuals. But answering the final question of the referee, our
+results indicate that international trade has, for most countries, led to a
+reduction in volatility, though, as shown, the size of the effect has been
+highly heterogeneous.
+
+\medskip \medskip \bigskip
+
+Once again, thank you very much for your constructive and insightful
+comments.
+
+Francesco Caselli, Miklos Koren, Milan Lisicky, and Silvana Tenreyro
+
+\pagebreak
+
+\begin{center}
+\thispagestyle{plain}\setcounter{page}{1}
+
+Reply to Referee 4's comments on
+
+{\Large Diversification through Trade}
+
+by Francesco Caselli, Miklos Koren, Milan Lisicky and Silvana
+Tenreyro\medskip \medskip \bigskip
+\end{center}
+
+We thank the Referee for his/her insightful comments and suggestions, which
+we have tried to incorporate in the revised version of the paper. Below is a
+reply to the points raised in the report and the steps we took to address
+them.
+
+\bigskip
+
+1) Specialization and Volatility
+
+The Referee correctly points out the trade offs present in our paper. The
+role of diversification indeed can be seen clearly in the pencil-and-paper
+one-sector version of our model and the effect of sectoral specialization on
+volatility is already well understood. Given that one of the editors has
+explicitly asked us to cut on material that is already understood and focus
+on the main quantitative exercise, we decided not to present the two-country
+version of the model in the paper, as requested. However, we connected the
+diversification result to the diminishing results in Acemoglu and Ventura
+(2002). 
+
+We have also follow the Referee's advice regarding our discussion of Kehoe
+and Ruhl (2008), which we agree was confusing. More specifically, measurment
+was not clearly addressed in the previous version of the manuscript. The new
+version clearly explains the measurement of real GDP in the model, which has
+a straighforward correspondence to that in the data and quantitative
+exercise.
+
+Real GDP in the model is defined as value-added ($w_{t}L_{t}$ in the paper's
+notation) deflated by the welfare-based price index ($P_{t})$. This is the
+welfare-relevant measure of real GDP. In the data, real GDP is measured as
+nominal value-added (in local currency) divided by the consumer price index
+(CPI), which is an expenditure-based Laspeyres price index. It can be easily
+shown that the change in the welfare-based price index in the model, to a
+first-order Taylor approximation, is equal to the change in a Laspeyres
+price index. In other words, there is a very close mapping between measured
+real value-added\ changes in the data\ and in the model.
+
+To be clear, we focus on the nominal value-added deflated by the CPI because
+it maps closely and transparently into the measure of real GDP dictated by
+the model. Hence, deliberately we stay away from the real GDP measure on
+which Kehoe and Ruhl (2008) focus. The latter measure has no clear relation
+with welfare, and, from a practical point of view, it does not correspond
+either to what the BLS actually does. Kehoe and Ruhl (2008) assume direct
+valuation, while in practice the BLS uses a very complicated (and opaque)
+combination of double deflation, extrapolation, direct valuation and rules
+for basket replacement that would be nearly impossible to replicate
+following their instruction manuals. The problem gets compounded when trying
+to understand the procedure of other national statistical offices. In
+contrast, changes in expenditure-based indexes like the CPI are in this
+regard more transparent, and hence preferable.
+
+We have modified the text so that the new version of the manuscript makes
+the mapping between data and model-generated volatility clear.
+
+\bigskip
+
+2) The Extensive Margin of Trade
+
+This point is related to the comment above, and stems in part from our
+confusing discussion of Kehoe and Ruhl in the previous version of the paper.
+(We apologize for the confusion.) Since we measure real income as value
+added deflated by an expenditure-based price index both in the model and in
+the data, changes in productivity at home or abroad will be reflected in
+real income even if they come entirely from the intensive margin of trade.
+To give a concrete example, suppose the United States consumes Colombian
+coffee and Colombia sees an aggregate (or sectoral) increase in
+productivity, which leads to a decline in the price of coffee. The decline
+in the retail price of coffee\ in the US will be reflected in the US CPI and
+contribute to higher real income in the US. In other words, our mechanism
+also operates through the intensive margin.
+
+We have tried to make this point clear in the new version of the paper.
+
+\bigskip
+
+3) The One-Period Immobility of Labour
+
+We have followed Referee's advice and studied an extension of the model
+which allows for sectoral reallocation of equipped labour. We assume
+reallocation is costly and calibrate the ajdustment cost parameter to match
+sectoral mobilita data from EU KLEMS. The results are shown and discussed in
+Table 5 and Section V of the new manuscript.
+
+\bigskip
+
+4) Other Points/Comments
+
+-We think the new version of the paper provides a number of informative
+robustness checks that help understand what drives the results. A parameter
+playing a key role in the results is $\theta $, which measures the scope of
+comparative advantage. When there is significant scope for comparative
+advantage, reductions in trade costs can significantly reduce volatility. We
+also learnt\ (or confirmed) that the relative quantitative importance of
+sectoral versus aggregate shocks is critical for the results. Sectoral
+shocks in the data are not as prevalent when compared with aggregate shocks,
+and hence the diversification channel is quantitatively more important than
+the specialization channel.
+
+-We agree with the Referee's comment on Backus-Kehoe-Kydland. Our point is
+that, in practice, consumption and output move in the same direction most of
+the time (in fact consumption volatility and output volatility have an
+extremely high correlation). Hence, focusing on GDP volatility is a good
+proxy for consumption volatility.
+
+-The time dimension becomes important when it comes to equipped labour's
+adjustment \ A two-period version could suffice, but we think a
+multiple-period version makes it clear that there is also a trend-component
+playing a role in the quantitative calibration.
+
+-At the calibration stage, since we need to back out the productivity
+series, we need to calibrate the labour shares, which, ex ante, equal the
+trend components. (Nothing changes if we calibrate this using the actual
+shares.)
+
+\medskip \medskip \bigskip
+
+Once again, thank you very much for your constructive and insightful
+comments.
+
+Francesco Caselli, Miklos Koren, Milan Lisicky, and Silvana Tenreyro
+
+\end{document}
