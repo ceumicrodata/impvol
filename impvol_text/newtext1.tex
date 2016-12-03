@@ -1879,7 +1879,7 @@ is 1 in all periods.
 
 \subsection{Numerical Procedure for Model Equilibrium}
 
-We use nested loops to compute the model equilibrium.
+We use nested iterations to compute the model equilibrium.
 
 \subsubsection{Inner loop}
 
@@ -1890,20 +1890,13 @@ P_{nt}.$
 P_{nt} &=& \prod_{j = 1}^J {\alpha^j}^{- \alpha^j} {P_{nt}^j}^{\alpha^j}
 \label{aggr1} \\
 P_{nt}^j &=& \xi {\Phi_{nt}^j}^{-\frac{1}{\theta}}  \label{aggr2} \\
-\Phi_{nt}^j &=& {B^j}^{-\theta} \sum_{i = 1}^N T_i^j {A_{it}^j}^{\theta}
-\left(\frac{{P_{it}}^{1 - \beta^j} {w_{it}^j}^{\beta^j}}{\kappa_{nit}^j}%
-\right)^{-\theta}
+\Phi _{nt}^{j}=\left( B^{j}\right) ^{-\theta
+}\sum\nolimits_{i=1}^{N}T_{i}^{j}\left( A_{it}^{j}\right) ^{\theta }\left[ 
+\frac{\left( w_{it}^{j}\right) ^{\beta
+^{j}}\prod_{k=1}^{J}(P_{t}^{k})^{\gamma ^{kj}}}{\kappa _{nit}^{j}}\right]
+^{-\theta }  \label{eq3}
 \end{eqnarray}
-Where 
-\begin{equation*}
-\xi = \Gamma\left(\frac{\theta + 1 - \eta}{\theta}\right)
-\end{equation*}
-and 
-\begin{equation*}
-B^j = {\beta^j}^{- \beta^j} (1 - \beta^j)^{-(1 - \beta^j)}.
-\end{equation*}
-
-Algebraic manipulations to arrive at a system of $N$ equations and $N$
+After some algebraic manipulations, we arrive at a system of $N$ equations and $N$
 unknowns. Simplify $\Phi_{nt}^j:$ 
 \begin{eqnarray*}
 \Phi_{nt}^j &=& {B^j}^{-\theta} \sum_{i = 1}^N \underbrace{T_i^j {A_{it}^j}%
