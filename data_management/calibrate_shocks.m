@@ -19,7 +19,8 @@ parameters.theta = theta;
 parameters.numerical_zero = numerical_zero;
 parameters.i_base = i_base;
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% READ DATA
 
 %% Import files from data folder.
 country_names = importdata([input_folder, 'country_name.txt']);
@@ -56,6 +57,8 @@ parameters.n_sectors = n_sectors;
 parameters.n_years = n_years;
 parameters.i_services = i_services;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RESHAPE AND CLEAN DATA
 
 %% Reshape value added and betas
 % Reshape value added to a more convenient 3 dimensional form with
@@ -63,9 +66,57 @@ parameters.i_services = i_services;
 va = reshape(reshape(va, n_years, n_countries * n_sectors)',...
     n_countries, n_sectors, n_years);
 
+%% Convert import shares to expenditure shares based on source country.
+d = zeros(n_countries, n_countries, n_sectors, n_years);
+n_lines_in_import_shares = length(import_shares);
+
+first_year = import_shares(1, 1);
+for i_line = 1:n_lines_in_import_shares
+    year = import_shares(i_line, 1) + 1 - first_year;
+    importer = import_shares(i_line, 2);
+    exporter = import_shares(i_line, 3);
+    
+    % Clip negative import shares from below at 0.
+    d(importer, exporter, 1:(n_sectors - 1), year) = ...
+        max(import_shares(i_line, 4:26), 0);
+    
+    % Set services shares to 0 as they are not traded.
+    d(importer, exporter, i_services, year) = 0;
+end
+
+% There are a number of manipulations to the shares
+d = correct_expenditure_shares(d, parameters);
+
+%% Import sectoral Prices
+% index of base country in sectoral price data
+ii = sum(has_prices(1:i_base));
+p_sectoral_data = csvread([input_folder, 'sectoral_price_index.csv']);
+p_sectoral_base = p_sectoral_data((ii - 1) * n_years + 1 : ii * n_years, :);
+
+%% Process imported matrices
+% Normalize sectoral price index in base country 
+p_sectoral_base = p_sectoral_base ./ repmat(p_sectoral_base(1, :), [n_years 1]);
+
+%% Calculate sectoral prices
+p_sectoral = ...
+    exp(squeeze(mean(1/theta * log(bsxfun(@rdivide, d, d(i_base, :, :, :))) - ...
+                log(bsxfun(@rdivide, kappa, kappa(i_base, :, :, :))), 2)) + ...
+        permute(repmat(log(p_sectoral_base), [1, 1, n_countries]), [3, 2, 1]));
+
+
+% Recompute PWT. Needed if US is not chosen as the base country
+pwt = reshape(pwt, n_years, n_countries);
+pwt = pwt ./ repmat(pwt(:, i_base), [1 n_countries]);
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CALIBRATE PARAMETERS
+
 
 % To get sectoral betas take average across years and countries.
 beta = mean(beta_panel)';
+
 
 
 %% IO links section
@@ -73,6 +124,7 @@ beta = mean(beta_panel)';
 if io_links == 1
     gammas = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
     gammas = bsxfun(@times, gammas, (1 - beta') ./ sum(gammas, 1));
+    %% FIXME: compute nus
     alpha = compute_alphas(va, beta, gammas, weights);
     gammas = repmat(gammas, [1, 1, n_years]);
 else
@@ -95,56 +147,7 @@ else
 end
 
 
-%% Import sectoral Prices
-% index of base country in sectoral price data
-ii = sum(has_prices(1:i_base));
-p_sectoral_data = csvread([input_folder, 'sectoral_price_index.csv']);
-p_sectoral_base = p_sectoral_data((ii - 1) * n_years + 1 : ii * n_years, :);
 
-% aa = cumsum(has_prices);
-% 
-% p_sectoral_data2 = zeros(n_countries, n_sectors, n_years);
-% for n = 1:n_countries
-%     if has_prices(n) == 1
-%         p_sectoral_data2(n, :, :) =  p_sectoral_data((aa(n) - 1) * n_years + 1 : aa(n) * n_years, : )';
-% %         p_sectoral_data2(n, :, :) = bsxfun(@rdivide, p_sectoral_data2(n, :, :), p_sectoral_data2(n, :, 1));  
-%     end % if
-% end % for n
-
-
-% p_sectoral_data2 = bsxfun(@rdivide, p_sectoral_data2, p_sectoral_data2(25, :, 1));
-
-%% Process imported matrices
-% Normalize sectoral price index in base country 
-p_sectoral_base = p_sectoral_base ./ repmat(p_sectoral_base(1, :), [n_years 1]);
-
-% Compute aggregate price index in base country
-p_base = prod((p_sectoral_base' ./ alpha) .^ alpha, 1)';
-
-% Recompute PWT. Needed if US is not chosen as the base country
-pwt = reshape(pwt, n_years, n_countries);
-pwt = pwt ./ repmat(pwt(:, i_base), [1 n_countries]);
-
-%% Convert import shares to expenditure shares based on source country.
-d = zeros(n_countries, n_countries, n_sectors, n_years);
-n_lines_in_import_shares = length(import_shares);
-
-first_year = import_shares(1, 1);
-for i_line = 1:n_lines_in_import_shares
-    year = import_shares(i_line, 1) + 1 - first_year;
-    importer = import_shares(i_line, 2);
-    exporter = import_shares(i_line, 3);
-    
-    % Clip negative import shares from below at 0.
-    d(importer, exporter, 1:(n_sectors - 1), year) = ...
-        max(import_shares(i_line, 4:26), 0);
-    
-    % Set services shares to 0 as they are not traded.
-    d(importer, exporter, i_services, year) = 0;
-end
-
-% There are a number of manipulations to the shares
-d = correct_expenditure_shares(d, parameters);
 
 
 %% Calculate new matrices of constants.
@@ -171,14 +174,11 @@ va_shares = va ./ permute(repmat(va_total, [1 1 n_sectors]), [2 3 1]);
 [psi, ~] = detrend_series(va_shares, weights);
 
 
-%% Calculate sectoral prices
+% Compute aggregate price index in base country
+%% FIXME: this will be CES 
+p_base = prod((p_sectoral_base' ./ alpha) .^ alpha, 1)';
 
-p_sectoral = ...
-    exp(squeeze(mean(1/theta * log(bsxfun(@rdivide, d, d(i_base, :, :, :))) - ...
-                log(bsxfun(@rdivide, kappa, kappa(i_base, :, :, :))), 2)) + ...
-        permute(repmat(log(p_sectoral_base), [1, 1, n_countries]), [3, 2, 1]));
- 
-    
+%% FIXME: service sectoral prices are also needed at line 101 
 p_sectoral(:, i_services, :) = ...
     compute_p_services(pwt, p_sectoral, p_base, parameters);
 
