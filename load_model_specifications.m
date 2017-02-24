@@ -27,16 +27,17 @@ for i = 1:4
     % eta (int?)
     spec.et = specs_table(5, i);
     
-    
+    % rho, which is the CES hyperelasticity parameter
+    spec.rh = specs_table(6, i);
     
     %% Conterfactual parameters
     % trade cost (0: actual calibrated, 1: 1972, 2: free trade)
-    spec.tc = specs_table(6, i);
+    spec.tc = specs_table(7, i);
     
     % productivity shock type (0: actual calibrated,
     %                          1: no sectoral shocks,
     %                          2: no sectoral and residual shocks)
-    spec.sh = specs_table(7, i);
+    spec.sh = specs_table(8, i);
     
     save(['model_specifications/', spec.model, '.mat'], 'spec')
 end
