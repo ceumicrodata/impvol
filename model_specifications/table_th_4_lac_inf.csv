@@ -4,6 +4,6 @@ balanced_trade,0,0,0,0
 labor_adjustment_cost,0,0,0,0
 theta,4,4,4,4
 eta,4,4,4,4
-rho,8,8,8,8
+rho,0.8,0.8,0.8,0.8
 trade_cost,0,0,1,1
 shock,0,1,0,1
