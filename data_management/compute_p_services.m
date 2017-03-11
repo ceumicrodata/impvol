@@ -1,6 +1,6 @@
 function out = compute_p_services(pwt, p_sectoral, p_base, parameters)
 
-alpha = parameters.alpha;
+alpha = parameters.alpha_r;
 i_services = parameters.i_services;
 
 [n_countries, n_sectors, n_years] = size(p_sectoral);
@@ -19,3 +19,22 @@ for t = 1:n_years
 end % t 
 
 end
+
+% function out = compute_p_services(pwt, parameters)
+% 
+% global c
+% 
+% n_countries = parameters.n_countries;
+% n_sectors = parameters.n_sectors;
+% n_years = parameters.n_years;
+% final_exp_share = parameters.alpha_t;
+% i_services = parameters.i_services;
+% i_base = parameters.i_base;
+% rho = c.rh;
+% 
+% out = zeros(n_countries,n_years);
+% for t = 1:n_years
+%     for n = 1:n_countries
+%         out(n,t) = pwt(t,n) .* (final_exp_share(n,i_services,t) ./ final_exp_share(i_base,i_services,t)) .^ (1/(1 - rho));
+%     end
+% end
