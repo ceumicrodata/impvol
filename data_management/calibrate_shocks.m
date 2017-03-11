@@ -4,7 +4,6 @@ function calibrate_shocks
 global c
 
 i_base = c.i_base;
-has_prices = c.has_prices;
 io_links = c.iol;
 bt = c.bt;
 
@@ -28,9 +27,6 @@ country_names = importdata([input_folder, 'country_name.txt']);
 %sector_names = sector_names.textdata(1,3:end);
 beta_panel = wrapper(dlmread([input_folder, 'beta_panel.txt'], '\t', 1, 2));
 
-pwt = wrapper(dlmread([input_folder,...
-    'aggregate_price_relative_to_US.csv'], ',', 0, 2));
-
 % va = wrapper(dlmread([input_folder, 'sectoral_value_added.txt'], '\t', 1, 2));
 va = wrapper(dlmread([input_folder, 'sectoral_value_added.csv'], ',', 1, 2));
 
@@ -42,11 +38,15 @@ output_shares = wrapper(dlmread([input_folder, 'output_shares.csv'], ',', 1, 1))
 intermediate_input_shares = wrapper(dlmread([input_folder, 'intermediate_input_shares.csv'], ',', 1, 1));
 
 trade_balance = wrapper(dlmread([input_folder, 'trade_balance_new.csv'], ',', 1, 1));
-trade_balance = bsxfun(@minus, trade_balance, mean(trade_balance)); 
+trade_balance = bsxfun(@minus, trade_balance, mean(trade_balance));
 
 if bt == 1
     trade_balance = zeros(size(trade_balance));
 end %if
+
+p_sectoral_data = csvread([input_folder, 'sectoral_price_index.csv']);
+pwt = wrapper(dlmread([input_folder,...
+    'aggregate_price_relative_to_US.csv'], ',', 0, 2));
 
 %% Get data dimensions
 n_countries = length(country_names);
@@ -59,14 +59,16 @@ parameters.n_sectors = n_sectors;
 parameters.n_years = n_years;
 parameters.i_services = i_services;
 
-
 %% Reshape value added and betas
 % Reshape value added to a more convenient 3 dimensional form with
 % dimensions (country, sector, year).
 va = reshape(reshape(va, n_years, n_countries * n_sectors)',...
-    n_countries, n_sectors, n_years);
+    n_countries, n_sectors, n_years); % (country, sector, year)
 
-VA = reshape(permute(va,[2,1,3]), n_years, n_countries * n_sectors)'; 
+va_share_orig = va./repmat(sum(va,2),[1,n_sectors,1]);
+
+va_long = long(va,parameters); % (country×sector,year)
+%Inverse reshape: va2 = permute(reshape(VA,n_sectors, n_countries, n_years),[2,1,3]);
 %for imp = 1:n_countries
 %    for t = 1:n_years
 %        VA(n_sectors*(imp - 1) + 1:n_sectors*imp, n_sectors*(imp - 1) + 1:n_sectors*imp, t) = repmat(va(imp,:,t),[n_sectors,1]); % Am I sure about the order of the dimensions?
@@ -74,13 +76,14 @@ VA = reshape(permute(va,[2,1,3]), n_years, n_countries * n_sectors)';
 %end
 
 % To get sectoral betas take average across years and countries.
-beta = mean(beta_panel)';
-% Here I should not take the average over time, just countries
-beta_2 = zeros(n_countries,n_sectors,n_years);
+beta_replace = mean(beta_panel)'; %(sector,1) - country and year average
+% Here we calculate the betas as an average over countries - this could be
+% done prettier
+beta = zeros(n_countries,n_sectors,n_years);
 for t = 1:n_years;
-    beta_2(:,:,t) = beta_panel(t:n_years:(n_years - 1)*n_countries + t,:);
+    beta(:,:,t) = beta_panel(t:n_years:(n_years - 1)*n_countries + t,:);
 end
-beta_2 = squeeze(mean(beta_2,1));
+beta = squeeze(mean(beta,1)); %(sector,year) - country average
 
 
 %% Convert import shares to expenditure shares based on source country.
@@ -102,43 +105,84 @@ for i_line = 1:n_lines_in_import_shares
 end
 
 % There are a number of manipulations to the shares
-d = correct_expenditure_shares(d, parameters);
+d = correct_expenditure_shares(d, parameters); % (imp_country, exp_country, sector, year)
 
 D = zeros(n_countries*n_sectors,n_countries*n_sectors,n_years);
-for sec = 1:n_sectors
-    exp = sec:n_sectors:(n_countries-1)*n_sectors + sec;
+for sector = 1:n_sectors
+    exporter = sector:n_sectors:(n_countries-1)*n_sectors + sector;
     for imp = 1:n_countries
         for t = 1:n_years
-            D(n_sectors*(imp - 1) + sec, exp,t) = d(imp,:,sec,t);
+            D(n_sectors*(imp - 1) + sector, exporter,t) = d(imp,:,sector,t); % (imp_country×sector, exp_country×sector, year)
         end
     end
+    clear exp
 end
 
+% Identity matrix
+% D = eye(n_countries*n_sectors);
+% D = repmat(D,[1,1,n_years]);
+
 %% IO links section
-Gammas = zeros(n_sectors, n_sectors, n_years);
-final_exp = zeros(n_countries*n_sectors,t);
-final_exp_share = zeros(n_countries,n_sectors,t);
+gammas = zeros(n_sectors, n_sectors, n_years); % (country, sector, year)
+final_exp = zeros(n_countries*n_sectors,n_years); % (country, sector, year)
+final_exp_share = zeros(n_countries,n_sectors,n_years); % (country, sector, year)
 
 if io_links == 1
-    gammas = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
+    gammas_replace = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
+    gammas_replace = bsxfun(@times, gammas_replace, (1 - beta_replace') ./ sum(gammas_replace, 1));
+    
+    %Gammas_tindep(:,:) = bsxfun(@times, gammas, (1 - beta_2(:,1)') ./ sum(gammas, 1));
+    %magic = (inv(D(:,:,1)) - kron(eye(n_countries), Gammas_tindep(:,:))) / kron(eye(n_countries), diag(beta_2(:,1)));
+    %final_exp = magic * VA;
+    
     for t = 1:n_years
-        Gammas(:,:,t) = bsxfun(@times, gammas, (1 - beta_2(:,t)') ./ sum(gammas, 1));
+        gammas(:,:,t) = bsxfun(@times, gammas_replace, (1 - beta(:,t)') ./ sum(gammas_replace, 1));
+        
+        %Gammas(:,:,t) = bsxfun(@times, gammas, (1 - beta_2(:,1)') ./ sum(gammas, 1));
         %compute here the new final expenditure share instead of the old
         %alpha_replace, but we need sectoral prices
         
-        final_exp(:,t) = ( inv(D(:,:,t)) - kron(eye(n_countries), squeeze(Gammas(:,:,t))) / kron(eye(n_countries), diag(beta_2(:,t))) ) * VA(:,t);
-        final_exp_share(:,:,t) = reshape(final_exp(:,t),[n_sectors,n_countries])' ./ repmat(sum(reshape(final_exp(:,t),[n_sectors,n_countries])',2),[1,n_sectors]);
+        final_exp(:,t) = ( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(gammas(:,:,t)))) / kron(eye(n_countries), diag(beta(:,t))) ) * va_long(:,t);
+        %final_exp(:,t) = ( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(Gammas(:,:,t)))) / kron(eye(n_countries), diag(beta_2(:,1))) ) * va_long(:,t);
         
-        %orig alpha
-        alpha_replace = compute_alphas(va, beta, gammas, weights);
-        %gammas = repmat(gammas, [1, 1, n_years]);
+        final_exp_share(:,:,t) = reshape(final_exp(:,t),[n_sectors,n_countries])' ./ repmat(sum(reshape(final_exp(:,t),[n_sectors,n_countries])',2),[1,n_sectors]);
     end
+    
+    %orig alpha
+    alpha_replace = compute_alphas(va, beta_replace, gammas_replace, weights); % we can also delete beta, if we no longer need the original alphas
+    gammas_replace = repmat(gammas_replace, [1, 1, n_years]);
+    
+    % Detrend the final expenditure
+    [final_exp_tr,~] = detrend_series(final_exp, weights);
+
+    % Replace the final expenditure with 0 whenever below 0
+    final_exp_tr(final_exp_tr < numerical_zero) = numerical_zero;
+
+    % Calculate shares
+    final_exp_tr_matr = permute(reshape(final_exp_tr,n_sectors, n_countries, n_years),[2,1,3]);
+    final_exp_matr = permute(reshape(final_exp,n_sectors, n_countries, n_years),[2,1,3]);
+
+    final_exp_share_tr_matr = ones(n_countries,n_sectors, n_years);
+    final_exp_share_matr = ones(n_countries,n_sectors, n_years);
+    for t = 1:n_years
+        final_exp_share_tr_matr(:,:,t) = squeeze(final_exp_tr_matr(:,:,t)) ./ repmat(sum(final_exp_tr_matr(:,:,t),2),[1,n_sectors,1]);
+        final_exp_share_matr(:,:,t) = squeeze(final_exp_matr(:,:,t)) ./ repmat(sum(final_exp_matr(:,:,t),2),[1,n_sectors,1]);
+    end
+    final_exp_share_tr = long(final_exp_share_tr_matr, parameters);
+    
+    % For xcheck
+    va_share = zeros(n_countries*n_sectors,n_years);
+    for t = 1:n_years
+        va_share(:,t) = squeeze( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(gammas(:,:,t)))) / kron(eye(n_countries), diag(beta(:,t))) )\final_exp_share_tr(:,t);
+    end
+    va_share_matr = wide(va_share, parameters);
+    
 else % this branch is broken
     va_sum_over_n = squeeze(sum(va, 1));
     sectoral_va_share = va_sum_over_n ./ ...
         repmat(sum(va_sum_over_n, 1), [n_sectors 1]);
     sectoral_va_share_over_beta = sectoral_va_share ./ ...
-        repmat(beta, [1 n_years]);
+        repmat(beta_replace, [1 n_years]);
     alpha_old = sectoral_va_share_over_beta ./ ...
         repmat(sum(sectoral_va_share_over_beta, 1), [n_sectors 1]);
     
@@ -146,103 +190,137 @@ else % this branch is broken
     alpha_old = alpha_trend ./ repmat(sum(alpha_trend, 1), [n_sectors 1]);
     
     alpha_replace = alpha_old;
-    gammas = zeros(n_sectors, n_sectors, n_years);
+    gammas_replace = zeros(n_sectors, n_sectors, n_years);
     for t = 1:n_years
-        gammas(:, :, t) = alpha_replace(:, t) * (1 - beta)';
+        gammas_replace(:, :, t) = alpha_replace(:, t) * (1 - beta_replace)';
     end
 end
 
+%% Get expectations of value added shares (psi)
+va_total = squeeze(sum(va, 2))';
+
+va_shares = va ./ permute(repmat(va_total, [1 1 n_sectors]), [2 3 1]);
+[psi, ~] = detrend_series(va_shares, weights);
+
+%% Calculate new matrices of constants.
+theta = c.th;
+eta = c.et;
+xi = gamma((theta + 1 - eta) / theta);
+
+%This is a constant in case of Cobb-Douglas production function - original 
+B_replace = bsxfun(@times, beta_replace.^(-beta_replace),  squeeze(prod(gammas_replace.^(-gammas_replace), 1)));
+%New B, shouldn't it be something else?
+B = bsxfun(@times, beta.^(-beta),  squeeze(prod(gammas.^(-gammas), 1)));
+
+kappa = compute_trade_cost(d, parameters);
+
+% collect parameters
+parameters.alpha_r = alpha_replace;
+parameters.alpha_t = final_exp_share_tr_matr;
+parameters.B_r = B_replace;
+parameters.B_t = B;
+parameters.beta_r = beta_replace;
+parameters.beta_t = beta;
+parameters.xi = xi;
+parameters.kappa = kappa;
+parameters.gammas_r = gammas_replace;
+parameters.gammas_t = gammas;
 
 %% Import sectoral Prices
-% index of base country in sectoral price data
-ii = sum(has_prices(1:i_base));
-p_sectoral_data = csvread([input_folder, 'sectoral_price_index.csv']);
-p_sectoral_base = p_sectoral_data((ii - 1) * n_years + 1 : ii * n_years, :);
-
-% aa = cumsum(has_prices);
-% 
-% p_sectoral_data2 = zeros(n_countries, n_sectors, n_years);
-% for n = 1:n_countries
-%     if has_prices(n) == 1
-%         p_sectoral_data2(n, :, :) =  p_sectoral_data((aa(n) - 1) * n_years + 1 : aa(n) * n_years, : )';
-% %         p_sectoral_data2(n, :, :) = bsxfun(@rdivide, p_sectoral_data2(n, :, :), p_sectoral_data2(n, :, 1));  
-%     end % if
-% end % for n
-
-
-% p_sectoral_data2 = bsxfun(@rdivide, p_sectoral_data2, p_sectoral_data2(25, :, 1));
-
-%% Process imported matrices
-% Normalize sectoral price index in base country 
-p_sectoral_base = p_sectoral_base ./ repmat(p_sectoral_base(1, :), [n_years 1]);
-
-% Compute aggregate price index in base country
-p_base = prod((p_sectoral_base' ./ alpha_replace) .^ alpha_replace, 1)';
 
 % Recompute PWT. Needed if US is not chosen as the base country
 pwt = reshape(pwt, n_years, n_countries);
 pwt = pwt ./ repmat(pwt(:, i_base), [1 n_countries]);
 
-%% Calculate new matrices of constants.
-xi = gamma((theta + 1 - eta) / theta);
-
-B = bsxfun(@times, beta.^(-beta),  squeeze(prod(gammas.^(-gammas), 1)));
-
-va_total = sum(va, 2);
-va_total = squeeze(va_total)';
-
-kappa = compute_trade_cost(d, parameters);
-
-% collect parameters
-parameters.alpha_replace = alpha_replace;
-parameters.B = B;
-parameters.beta = beta;
-parameters.xi = xi;
-parameters.kappa = kappa;
-parameters.gammas = gammas;
-
-
-%% Get expectations of value added shares (psi)
-va_shares = va ./ permute(repmat(va_total, [1 1 n_sectors]), [2 3 1]);
-[psi, ~] = detrend_series(va_shares, weights);
-
-
-%% Calculate sectoral prices
-
-p_sectoral = ...
-    exp(squeeze(mean(1/theta * log(bsxfun(@rdivide, d, d(i_base, :, :, :))) - ...
-                log(bsxfun(@rdivide, kappa, kappa(i_base, :, :, :))), 2)) + ...
-        permute(repmat(log(p_sectoral_base), [1, 1, n_countries]), [3, 2, 1]));
- 
-    
-p_sectoral(:, i_services, :) = ...
-    compute_p_services(pwt, p_sectoral, p_base, parameters);
-
-
+% Calculate sectoral prices
+[p_sectoral, p_base, p_sectoral_base] = compute_sectoral_p(p_sectoral_data, pwt, d, c, parameters);
+% % index of base country in sectoral price data
+% ii = sum(has_prices(1:i_base));
+% p_sectoral_data = csvread([input_folder, 'sectoral_price_index.csv']);
+% p_sectoral_base = p_sectoral_data((ii - 1) * n_years + 1 : ii * n_years, :);
 % 
-% %% check sectoral prices
-% close all
+% % aa = cumsum(has_prices);
+% % 
+% % p_sectoral_data2 = zeros(n_countries, n_sectors, n_years);
+% % for n = 1:n_countries
+% %     if has_prices(n) == 1
+% %         p_sectoral_data2(n, :, :) =  p_sectoral_data((aa(n) - 1) * n_years + 1 : aa(n) * n_years, : )';
+% % %         p_sectoral_data2(n, :, :) = bsxfun(@rdivide, p_sectoral_data2(n, :, :), p_sectoral_data2(n, :, 1));  
+% %     end % if
+% % end % for n
 % 
-% for j = 1:24
-%     figure()
 % 
-%     n = 2;
-%     n1 = sum(has_prices(1:n));
-%    
+% % p_sectoral_data2 = bsxfun(@rdivide, p_sectoral_data2, p_sectoral_data2(25, :, 1));
+
+%% Process imported matrices
+% Normalize sectoral price index in base country 
+% p_sectoral_base = p_sectoral_base ./ repmat(p_sectoral_base(1, :), [n_years 1]);
 % 
-%     a = p_sectoral_data(1 + (n1 - 1) * 36 : n1 * 36, j);
-%     a = a / a(1);
+% % Compute aggregate price index in base country
+% p_base = prod((p_sectoral_base' ./ alpha_replace) .^ alpha_replace, 1)';
 % 
-%     aa = squeeze(p_sectoral(n, j, :));
-%     aa = aa / aa(1);
+% % Recompute PWT. Needed if US is not chosen as the base country
+% pwt = reshape(pwt, n_years, n_countries);
+% pwt = pwt ./ repmat(pwt(:, i_base), [1 n_countries]);
 % 
-%     plot([a, aa])
+% %% Calculate new matrices of constants.
+% xi = gamma((theta + 1 - eta) / theta);
 % 
-% end
+% B = bsxfun(@times, beta.^(-beta),  squeeze(prod(gammas.^(-gammas), 1)));
+% 
+% va_total = sum(va, 2);
+% va_total = squeeze(va_total)';
+% 
+% kappa = compute_trade_cost(d, parameters);
+% 
+% % collect parameters
+% parameters.alpha = alpha_replace;
+% parameters.B = B;
+% parameters.beta = beta;
+% parameters.xi = xi;
+% parameters.kappa = kappa;
+% parameters.gammas = gammas;
+%
+% %% Calculate sectoral prices
+% 
+% p_sectoral = ...
+%     exp(squeeze(mean(1/theta * log(bsxfun(@rdivide, d, d(i_base, :, :, :))) - ...
+%                 log(bsxfun(@rdivide, kappa, kappa(i_base, :, :, :))), 2)) + ...
+%         permute(repmat(log(p_sectoral_base), [1, 1, n_countries]), [3, 2, 1]));
+%     
+% p_sectoral(:, i_services, :) = ...
+%     compute_p_services(pwt, p_sectoral, p_base, parameters);
+% 
+% 
+% p_sectoral(:,i_services, :) = 1;
+% % nu(services) = 1 for all n,t,
+% % other sectoral prices normalized to 1 initially
+% 
+% % 
+% % %% check sectoral prices
+% % close all
+% % 
+% % for j = 1:24
+% %     figure()
+% % 
+% %     n = 2;
+% %     n1 = sum(has_prices(1:n));
+% %    
+% % 
+% %     a = p_sectoral_data(1 + (n1 - 1) * 36 : n1 * 36, j);
+% %     a = a / a(1);
+% % 
+% %     aa = squeeze(p_sectoral(n, j, :));
+% %     aa = aa / aa(1);
+% % 
+% %     plot([a, aa])
+% % 
+% % end
 
 
 %% Recover nu from alpha using rho, nu = alpha * p_sectoral^(rho - 1) from alpha = normalization_term * nu * p_sectoral^(1 - rho). alpha must sum to unity over sectors
-nu = recover_nu(alpha, p_sectoral, rho);
+nu = zeros(n_countries,n_sectors,n_years);
+nu = final_exp_share .* p_sectoral.^(rho - 1);
 
 
 %%
@@ -263,13 +341,17 @@ z = zeros(n_countries, n_sectors, n_years);
 % factor4 = zeros(size(z));
 % factor5 = zeros(size(z));
 
+%xi = parameters.xi;
+%B = parameters.B;
+%kappa = parameters.kappa;
+
 for n = 1:n_countries
     for t = 1:n_years
-        z(n, :, t) = theta * log(xi * B(:, t)') + ...
-                     theta * beta' .* (log(va(n, :, t)) - log(psi(n, :, t))) + ...
+        z(n, :, t) = theta * log(xi * B_replace(:, t)') + ...
+                     theta * beta_replace' .* (log(va(n, :, t)) - log(psi(n, :, t))) + ...
                      mean(squeeze(log(d(:, n, :, t)) - theta * log(kappa(:, n, :, t))), 1) - ...
                      theta * mean(log(p_sectoral(:, :, t)), 1) + ...
-                     theta * log(p_sectoral(n, :, t)) * gammas(:, :, t);
+                     theta * log(p_sectoral(n, :, t)) * gammas_replace(:, :, t);
                  
 %         for j = 1:n_sectors
 %             factor1(n, j, t) = theta * log(xi * B(j, t));
@@ -280,6 +362,25 @@ for n = 1:n_countries
 %         end % for j
     end % for t
 end % for n
+
+% for n = 1:n_countries
+%     for t = 1:n_years
+%         z(n, :, t) = theta * log(xi * B(:, t)') + ...
+%                      theta * beta(:,t)' .* (log(va(n, :, t)) - log(psi(n, :, t))) + ...
+%                      mean(squeeze(log(d(:, n, :, t)) - theta * log(kappa(:, n, :, t))), 1) - ...
+%                      theta * mean(log(p_sectoral(:, :, t)), 1) + ...
+%                      theta * log(p_sectoral(n, :, t)) * Gammas(:, :, t);
+%                  
+% %         for j = 1:n_sectors
+% %             factor1(n, j, t) = theta * log(xi * B(j, t));
+% %             factor2(n, j, t) = theta * beta(j) * (log(va(n, j, t)) - log(psi(n, j, t)));
+% %             factor3(n, j, t) = mean(log(d(:, n, j, t)) - theta * log(kappa(:, n, j, t)));
+% %             factor4(n, j, t) = - theta * mean(log(p_sectoral(:, j, t)));
+% %             factor5(n, j, t) = theta * log(p_sectoral(n, :, t)) * gammas(:, j, t);
+% %         end % for j
+%     end % for t
+% end % for n
+
 
 z = exp(z);
 
@@ -303,10 +404,10 @@ for n = 1:n_countries
     for t = 1:n_years
         z_services(n, t) = ...
             xi^theta * ...
-            B(i_services, t)^theta * ...
+            B_replace(i_services, t)^theta * ...
             (va(n, i_services, t) / psi(n, i_services, t))^...
-                                            (theta * beta(i_services)) * ...
-            prod(p_sectoral(n, :, t).^(gammas(:, i_services, t)'))^theta * ...
+                                            (theta * beta_replace(i_services)) * ...
+            prod(p_sectoral(n, :, t).^(gammas_replace(:, i_services, t)'))^theta * ...
             p_sectoral(n, i_services, t)^(-theta);
         
 %         factor1(n, i_services, t) = theta * log(xi * B(i_services, t));
@@ -319,6 +420,27 @@ for n = 1:n_countries
         
     end % t
 end % n
+
+% for n = 1:n_countries
+%     for t = 1:n_years
+%         z_services(n, t) = ...
+%             xi^theta * ...
+%             B(i_services, t)^theta * ...
+%             (va(n, i_services, t) / psi(n, i_services, t))^...
+%                                             (theta * beta(i_services,t)) * ...
+%             prod(p_sectoral(n, :, t).^(Gammas(:, i_services, t)'))^theta * ...
+%             p_sectoral(n, i_services, t)^(-theta);
+%         
+% %         factor1(n, i_services, t) = theta * log(xi * B(i_services, t));
+% %         factor2(n, i_services, t) = theta * beta(i_services) * (log(va(n, i_services, t)) - log(psi(n, i_services, t)));
+% %         factor3(n, i_services, t) = 0;
+% %         factor4(n, i_services, t) = - theta * log(p_sectoral(n, i_services, t));
+% %         factor5(n, i_services, t) = theta * log(p_sectoral(n, :, t)) * gammas(:, i_services, t);
+%         
+% %         factor1(n, i_services, t) + factor2(n, i_services, t) + factor3(n, i_services, t) + factor4(n, i_services, t) + factor5(n, i_services, t)
+%         
+%     end % t
+% end % n
 
 z(:, i_services, :) = z_services;
 
@@ -413,9 +535,9 @@ z(:, i_services, :) = z_services;
 % ee(isnan(ee)) = ff(isnan(ee))
 
 
-%% Compute Equipped Labor - L
+%% Compute Equipped Labor - L - still Cobb-Douglas
 % This is alpha_j * (37) summed over j and then applying (38).
-full_power = permute(repmat(alpha ./ repmat(beta * theta, [1 n_years]),...
+full_power = permute(repmat(alpha_replace ./ repmat(beta_replace * theta, [1 n_years]),...
                             [1, 1, n_countries]),...
                      [3 1 2]);
 L = prod(z.^full_power, 2);
@@ -431,14 +553,14 @@ load([c.model_folder, 'specification.mat'], 'model');
 baseline.scenario = model;
 
 baseline.country_names = country_names;
-baseline.B = B;
+baseline.B = B_replace;
 % baseline.K = K;
-baseline.alpha = alpha;
-baseline.beta = beta;
+baseline.alpha = alpha_replace;
+baseline.beta = beta_replace;
 baseline.kappa = kappa;
 baseline.theta = theta;
 baseline.xi = xi;
-baseline.gammas = gammas;
+baseline.gammas = gammas_replace;
 
 
 deflator = pwt .* repmat(p_base, [1, n_countries]);
