@@ -17,7 +17,7 @@ function long_out = long(wide, parameters)
     n_sectors = parameters.n_sectors;
     n_years = parameters.n_years;
     
-    assert(all(size(wide) == [n_countries, n_sectors, n_years]));
+    assert_all(size(wide) == [n_countries, n_sectors, n_years]);
     
     long_out = reshape(permute(wide,[2,1,3]), n_countries * n_sectors, n_years);
 end
