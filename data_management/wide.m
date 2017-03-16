@@ -17,9 +17,7 @@ function wide_out = wide(long, parameters)
     n_sectors = parameters.n_sectors;
     n_years = parameters.n_years;
     
-    if size(long) == [n_countries*n_sectors,n_years]
-        wide_out = permute(reshape(long, n_sectors, n_countries, n_years),[2,1,3]);
-    else
-        disp('The size of the matrix does not meet the requirement');
-    end
+    assert(all(size(long) == [n_countries*n_sectors,n_years]));
+    
+    wide_out = permute(reshape(long, n_sectors, n_countries, n_years),[2,1,3]);
 end
