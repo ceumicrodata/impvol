@@ -128,55 +128,16 @@ final_exp = zeros(n_countries*n_sectors,n_years); % (country, sector, year)
 final_exp_share = zeros(n_countries,n_sectors,n_years); % (country, sector, year)
 
 if io_links == 1
-    gammas_replace = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
-    gammas_replace = bsxfun(@times, gammas_replace, (1 - beta_replace') ./ sum(gammas_replace, 1));
+    gammas = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
     
-    %Gammas_tindep(:,:) = bsxfun(@times, gammas, (1 - beta_2(:,1)') ./ sum(gammas, 1));
-    %magic = (inv(D(:,:,1)) - kron(eye(n_countries), Gammas_tindep(:,:))) / kron(eye(n_countries), diag(beta_2(:,1)));
-    %final_exp = magic * VA;
-    
+    gamma = zeros(n_sectors, n_sectors, n_years);
     for t = 1:n_years
-        gammas(:,:,t) = bsxfun(@times, gammas_replace, (1 - beta(:,t)') ./ sum(gammas_replace, 1));
-        
-        %Gammas(:,:,t) = bsxfun(@times, gammas, (1 - beta_2(:,1)') ./ sum(gammas, 1));
-        %compute here the new final expenditure share instead of the old
-        %alpha_replace, but we need sectoral prices
-        
-        final_exp(:,t) = ( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(gammas(:,:,t)))) / kron(eye(n_countries), diag(beta(:,t))) ) * va_long(:,t);
-        %final_exp(:,t) = ( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(Gammas(:,:,t)))) / kron(eye(n_countries), diag(beta_2(:,1))) ) * va_long(:,t);
-        
-        final_exp_share(:,:,t) = reshape(final_exp(:,t),[n_sectors,n_countries])' ./ repmat(sum(reshape(final_exp(:,t),[n_sectors,n_countries])',2),[1,n_sectors]);
+         gamma(:,:,t) = bsxfun(@times, gammas, (1 - beta(:,t)') ./ sum(gammas, 1));
     end
     
-    %orig alpha
-    alpha_replace = compute_alphas(va, beta_replace, gammas_replace, weights); % we can also delete beta, if we no longer need the original alphas
-    gammas_replace = repmat(gammas_replace, [1, 1, n_years]);
+    final_expenditure_share = compute_final_expenditure_share(D, va_long, gamma, beta, parameters, c);
     
-    % Detrend the final expenditure
-    [final_exp_tr,~] = detrend_series(final_exp, weights);
-
-    % Replace the final expenditure with 0 whenever below 0
-    final_exp_tr(final_exp_tr < numerical_zero) = numerical_zero;
-
-    % Calculate shares
-    final_exp_tr_matr = permute(reshape(final_exp_tr,n_sectors, n_countries, n_years),[2,1,3]);
-    final_exp_matr = permute(reshape(final_exp,n_sectors, n_countries, n_years),[2,1,3]);
-
-    final_exp_share_tr_matr = ones(n_countries,n_sectors, n_years);
-    final_exp_share_matr = ones(n_countries,n_sectors, n_years);
-    for t = 1:n_years
-        final_exp_share_tr_matr(:,:,t) = squeeze(final_exp_tr_matr(:,:,t)) ./ repmat(sum(final_exp_tr_matr(:,:,t),2),[1,n_sectors,1]);
-        final_exp_share_matr(:,:,t) = squeeze(final_exp_matr(:,:,t)) ./ repmat(sum(final_exp_matr(:,:,t),2),[1,n_sectors,1]);
-    end
-    final_exp_share_tr = long(final_exp_share_tr_matr, parameters);
-    
-    % For xcheck
-    va_share = zeros(n_countries*n_sectors,n_years);
-    for t = 1:n_years
-        va_share(:,t) = squeeze( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(gammas(:,:,t)))) / kron(eye(n_countries), diag(beta(:,t))) )\final_exp_share_tr(:,t);
-    end
-    va_share_matr = wide(va_share, parameters);
-    
+    %final_expenditure_share_long = long(final_expenditure_share, parameters);    
 else % this branch is broken
     va_sum_over_n = squeeze(sum(va, 1));
     sectoral_va_share = va_sum_over_n ./ ...
