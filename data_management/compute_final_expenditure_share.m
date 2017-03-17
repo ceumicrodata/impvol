@@ -1,4 +1,4 @@
-function final_expenditure_share = compute_final_expenditure_share(D, va, gamma, beta, parameters, c)
+function final_expenditure_share = compute_final_expenditure_share(D, va, gammas, beta, parameters, c)
     n_countries = parameters.n_countries;
     n_sectors = parameters.n_sectors;
     n_years = parameters.n_years;
@@ -7,14 +7,14 @@ function final_expenditure_share = compute_final_expenditure_share(D, va, gamma,
     
     assert_all(size(D) == [n_countries*n_sectors, n_countries*n_sectors, n_years]);
     assert_all(size(va) == [n_countries*n_sectors, n_years]);
-    assert_all(size(gamma) == [n_sectors, n_sectors, n_years]);
+    assert_all(size(gammas) == [n_sectors, n_sectors, n_years]);
     assert_all(size(beta) == [n_sectors, n_years]);
-    assert_all(abs(squeeze(sum(gamma, 1)) + beta - 1) < numerical_zero);
+    assert_all(abs(squeeze(sum(gammas, 1)) + beta - 1) < numerical_zero);
     
     final_exp = zeros(n_countries*n_sectors, n_years);    
     % Compute final expenditure shares
     for t = 1:n_years
-        final_exp(:,t) = ( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(gamma(:,:,t)))) / kron(eye(n_countries), diag(beta(:,t))) ) * va(:,t);
+        final_exp(:,t) = ( (inv(D(:,:,t)) - kron(eye(n_countries), squeeze(gammas(:,:,t)))) / kron(eye(n_countries), diag(beta(:,t))) ) * va(:,t);
         
         %final_expenditure_share(:,:,t) = reshape(final_exp(:,t), [n_sectors,n_countries])' ./ repmat(sum(reshape(final_exp(:,t), [n_sectors,n_countries])', 2), [1, n_sectors]);
     end

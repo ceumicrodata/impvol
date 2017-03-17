@@ -123,19 +123,15 @@ end
 % D = repmat(D,[1,1,n_years]);
 
 %% IO links section
-gammas = zeros(n_sectors, n_sectors, n_years); % (country, sector, year)
-final_exp = zeros(n_countries*n_sectors,n_years); % (country, sector, year)
-final_exp_share = zeros(n_countries,n_sectors,n_years); % (country, sector, year)
-
 if io_links == 1
-    gammas = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
-    
-    gamma = zeros(n_sectors, n_sectors, n_years);
+    gamma = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
+    gammas = zeros(n_sectors, n_sectors, n_years);
     for t = 1:n_years
-         gamma(:,:,t) = bsxfun(@times, gammas, (1 - beta(:,t)') ./ sum(gammas, 1));
+        gammas(:,:,t) = bsxfun(@times, gamma, (1 - beta(:,t)') ./ sum(gamma, 1));
     end
+    clear gamma;
     
-    final_expenditure_share = compute_final_expenditure_share(D, va_long, gamma, beta, parameters, c);
+    final_expenditure_share = compute_final_expenditure_share(D, va_long, gammas, beta, parameters, c);
     
     %final_expenditure_share_long = long(final_expenditure_share, parameters);    
 else % this branch is broken
@@ -280,9 +276,7 @@ pwt = pwt ./ repmat(pwt(:, i_base), [1 n_countries]);
 
 
 %% Recover nu from alpha using rho, nu = alpha * p_sectoral^(rho - 1) from alpha = normalization_term * nu * p_sectoral^(1 - rho). alpha must sum to unity over sectors
-nu = zeros(n_countries,n_sectors,n_years);
-nu = final_exp_share .* p_sectoral.^(rho - 1);
-
+nu =copmute_nus(final_exp_share, p_sectoral, parameters, c);
 
 %%
 % 
@@ -324,23 +318,23 @@ for n = 1:n_countries
     end % for t
 end % for n
 
-% for n = 1:n_countries
-%     for t = 1:n_years
-%         z(n, :, t) = theta * log(xi * B(:, t)') + ...
-%                      theta * beta(:,t)' .* (log(va(n, :, t)) - log(psi(n, :, t))) + ...
-%                      mean(squeeze(log(d(:, n, :, t)) - theta * log(kappa(:, n, :, t))), 1) - ...
-%                      theta * mean(log(p_sectoral(:, :, t)), 1) + ...
-%                      theta * log(p_sectoral(n, :, t)) * Gammas(:, :, t);
-%                  
-% %         for j = 1:n_sectors
-% %             factor1(n, j, t) = theta * log(xi * B(j, t));
-% %             factor2(n, j, t) = theta * beta(j) * (log(va(n, j, t)) - log(psi(n, j, t)));
-% %             factor3(n, j, t) = mean(log(d(:, n, j, t)) - theta * log(kappa(:, n, j, t)));
-% %             factor4(n, j, t) = - theta * mean(log(p_sectoral(:, j, t)));
-% %             factor5(n, j, t) = theta * log(p_sectoral(n, :, t)) * gammas(:, j, t);
-% %         end % for j
-%     end % for t
-% end % for n
+for n = 1:n_countries
+    for t = 1:n_years
+        z(n, :, t) = theta * log(xi * B(:, t)') + ...
+                     theta * beta(:,t)' .* (log(va(n, :, t)) - log(psi(n, :, t))) + ...
+                     mean(squeeze(log(d(:, n, :, t)) - theta * log(kappa(:, n, :, t))), 1) - ...
+                     theta * mean(log(p_sectoral(:, :, t)), 1) + ...
+                     theta * log(p_sectoral(n, :, t)) * Gammas(:, :, t);
+                 
+%         for j = 1:n_sectors
+%             factor1(n, j, t) = theta * log(xi * B(j, t));
+%             factor2(n, j, t) = theta * beta(j) * (log(va(n, j, t)) - log(psi(n, j, t)));
+%             factor3(n, j, t) = mean(log(d(:, n, j, t)) - theta * log(kappa(:, n, j, t)));
+%             factor4(n, j, t) = - theta * mean(log(p_sectoral(:, j, t)));
+%             factor5(n, j, t) = theta * log(p_sectoral(n, :, t)) * gammas(:, j, t);
+%         end % for j
+    end % for t
+end % for n
 
 
 z = exp(z);
