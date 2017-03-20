@@ -110,7 +110,7 @@ while outer_dif > outer_tol
     % get sectoral wages, aggregate prices and aggregate wages that correspond
     % to the current value of sectoral labor allocation
 %     tic
-    [w_njt, w_nt, P_nt, P_njt] = get_wages(L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt);
+    [w_njt, w_nt, P_nt, P_njt] = get_wages(equilibrium_input, L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt);
 %     toc
     
 %     [w_njt, w_nt, P_nt, P_njt] = fit_to_data(w_njt, w_nt, P_nt, P_njt);

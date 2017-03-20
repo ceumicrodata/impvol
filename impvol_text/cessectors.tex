@@ -1,0 +1,346 @@
+%2multibyte Version: 5.50.0.2953 CodePage: 65001
+
+\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TCIDATA{OutputFilter=LATEX.DLL}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{Codepage=65001}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=Manual}
+%TCIDATA{Created=Thursday, January 19, 2017 14:01:11}
+%TCIDATA{LastRevised=Friday, January 20, 2017 11:13:43}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+%TCIDATA{<META NAME="DocumentShell" CONTENT="Standard LaTeX\Blank - Standard LaTeX Article">}
+%TCIDATA{CSTFile=40 LaTeX article.cst}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\input{tcilatex}
+
+\begin{document}
+
+
+The world economy is composed of $N$ countries. At a given point in time $t$%
+, each country $n$ is endowed with $L_{nt}$ units of a primary (non
+produced) input, which we interpret as equipped labour. There are $J$
+sectors (or broad classes of goods) in the economy, whose output is combined
+into a final good through a Cobb-Douglas aggregate. In formulas, aggregate
+gross output in the economy is given by: 
+\begin{equation}
+C_{nt}=\left[ \sum\nolimits_{j=1}^{J}\alpha ^{j}\left( C_{nt}^{j}\right) ^{%
+\frac{\sigma -1}{\sigma }}\right] ^{\frac{\sigma }{\sigma -1}}
+\label{aggregate}
+\end{equation}%
+where $C_{t}^{j}$ is the aggregate composite in sector $j$ and $%
+\sum_{j=1}^{J}\alpha ^{j}=1$. Competitive firms in each sector $j$ produce a
+composite good according to the following
+constant-elasticity-of-substitution (CES) technology: 
+
+\bigskip min $P_{nt}^{j}C_{nt}^{j}$ st: $\left[ \sum\nolimits_{j=1}^{J}%
+\alpha ^{j}\left( C_{nt}^{j}\right) ^{\frac{\sigma -1}{\sigma }}\right] ^{%
+\frac{\sigma }{\sigma -1}}=1$
+
+\bigskip FOC%
+\begin{eqnarray*}
+P_{nt}^{j} &=&\lambda \left[ \sum\nolimits_{j=1}^{J}\alpha ^{j}\left(
+C_{nt}^{j}\right) ^{\frac{\sigma -1}{\sigma }}\right] ^{\frac{\sigma }{%
+\sigma -1}-1}\alpha ^{j}\left( C_{nt}^{j}\right) ^{\frac{-1}{\sigma }} \\
+P_{nt}^{j} &=&\lambda \alpha ^{j}\left( C_{nt}^{j}\right) ^{\frac{-1}{\sigma 
+}} \\
+\left( P_{nt}^{j}\right) ^{1-\sigma } &=&\lambda ^{1-\sigma }\left( \alpha
+^{j}\right) ^{1-\sigma }\left( C_{nt}^{j}\right) ^{\frac{\sigma -1}{\sigma }}
+\\
+\left( \alpha ^{j}\right) ^{\sigma }\left( P_{nt}^{j}\right) ^{1-\sigma }
+&=&\lambda ^{1-\sigma }\left( \alpha ^{j}\right) \left( C_{nt}^{j}\right) ^{%
+\frac{\sigma -1}{\sigma }} \\
+\sum\nolimits_{j=1}^{J}\left( \alpha ^{j}\right) ^{\sigma }\left(
+P_{nt}^{j}\right) ^{1-\sigma } &=&\lambda ^{1-\sigma
+}\sum\nolimits_{j=1}^{J}\left( \alpha ^{j}\right) \left( C_{nt}^{j}\right) ^{%
+\frac{\sigma -1}{\sigma }} \\
+\left[ \sum\nolimits_{j=1}^{J}\left( \alpha ^{j}\right) ^{\sigma }\left(
+P_{nt}^{j}\right) ^{1-\sigma }\right] ^{^{\frac{\sigma }{\sigma -1}}}
+&=&\lambda ^{-\sigma }\left[ \sum\nolimits_{j=1}^{J}\left( \alpha
+^{j}\right) \left( C_{nt}^{j}\right) ^{\frac{\sigma -1}{\sigma }}\right] ^{%
+\frac{\sigma }{\sigma -1}} \\
+\left[ \sum\nolimits_{j=1}^{J}\left( \alpha ^{j}\right) ^{\sigma }\left(
+P_{nt}^{j}\right) ^{1-\sigma }\right] ^{^{\frac{1}{1-\sigma }}} &=&\lambda 
+\end{eqnarray*}
+
+\bigskip 
+
+\bigskip 
+
+\bigskip 
+
+\begin{equation}
+Q_{nt}^{j}=\left[ \int_{0}^{1}q_{nt}(\omega ^{j})^{\frac{\eta -1}{\eta }%
+}d\omega ^{j}\right] ^{\frac{\eta }{\eta -1}}  \label{sectoroutput}
+\end{equation}%
+where $q_{nt}(\omega ^{j})$ is the quantity of good $\omega ^{j}$ used by
+country $n$ in sector $j$ at time $t$, and $\eta >0$ is the elasticity of
+substitution across goods within a given sector. The intermediate goods $%
+\omega ^{j}$ can be produced locally or imported from other countries.
+Delivering a good from country $n$ to country $m$ in sector $j$ and time
+period $t$ results in $0<\kappa _{mnt}^{j}\leq 1$ goods arriving at $m$; we
+assume that $\kappa _{mnt}^{j}\geq \kappa _{mkt}^{j}\kappa _{knt}^{j}\quad
+\forall m,n,k,j,t$ and $\kappa _{nnt}^{j}=1$. All costs incurred are net
+losses.\footnote{%
+In the calibration, the $\kappa $s will reflect all trading costs, including
+tariffs; so implicitly we adopt the extreme assumption that tariff revenues
+are wasted---or at least not rebated back to agents in a way that would
+interact with the allocation of resources in the economy.} Under the
+assumption of perfect competition, goods are sourced from the lowest-cost
+producer, after adjusting for transport costs.
+
+The technology for producing good $\omega ^{j}$ in country $m$ is: 
+\begin{equation}
+x_{mt}(\omega ^{j})=A_{mt}^{j}z_{m}(\omega ^{j})l_{mt}(\omega ^{j})^{\beta
+^{j}}\prod\nolimits_{k=1}^{J}M_{mt}^{k}(\omega ^{j})^{\gamma ^{kj}}
+\label{eqinput}
+\end{equation}%
+where $x_{mt}(\omega ^{j})$ is the production of good $\omega ^{j}$ by
+country $m$ at time $t$; $M_{mt}^{k}(\omega ^{j})$ is the amount of sector $%
+k $ output used by country $m$ to produce $x_{mt}(\omega ^{j})$ units of
+good $\omega ^{j};$ $l_{mt}(\omega ^{j})$ is the corresponding amount of
+equipped labour; $z_{n}(\omega ^{j})$ is a time-invariant variety-specific
+productivity factor; and $A_{nt}^{j}$ is a time-varying productivity shock
+common to all the varieties in sector $j$. The exponent $\gamma ^{kj}$
+captures the share of sector $k$ in the total production cost of sector $j.$
+We assume constant returns to scale, or $\beta ^{j}+\sum_{k=1}^{J}\gamma
+^{kj}=1$, for all $j$. As such, the expression allows for a rich
+input-output structure.
+
+Building on the literature, we assume the productivities $z_{n}(\omega ^{j})$
+follow a sector-specific, time-invariant Fr\'{e}chet distribution $%
+F_{n}^{j}(z)=\exp (-T_{n}^{j}z^{-\theta })$. A higher $T_{n}^{j}$ shifts the
+distribution of productivities to the right, that is leading to
+probabilistically higher productivities. A higher $\theta $ decreases the
+dispersion of the productivity distribution, and hence reduces the scope for
+comparative advantage. Shocks to $A_{nt}^{j}$ over time are interpreted as
+standard sectoral TFP shocks. The $z$\ terms are the main determinants of
+long-term comparative advantage in our model.
+
+Only intermediate goods $\omega ^{j}$ are traded; final composites $%
+Q_{nt}^{j}$ are not. These final goods are used directly by consumers and
+also as inputs in the production process. Hence, market clearing in the good
+markets implies: 
+\[
+Q_{nt}^{j}=C_{nt}^{j}+\sum\nolimits_{k=1}^{J}\int_{0}^{1}M_{nt}^{j}(\omega
+^{k})d\omega ^{k},
+\]%
+where the integral aggregates over the unit-size continuum of goods $\omega
+^{k}$ entering in the production of each sector's $k$ aggregate good.
+
+Clearing in the input market within a sector implies: 
+\[
+L_{nt}^{j}=\int_{0}^{1}l_{nt}(\omega ^{j})d\omega ^{j},
+\]%
+where $l_{nt}(\omega ^{j})$ denotes the amount of equipped labour used in
+the production of good $\omega ^{j}$ by country $n$. The (equipped) labour
+allocated to each sector, $L_{nt}^{j},$ with $\sum%
+\nolimits_{k=1}^{J}L_{nt}^{k}=L_{nt}$, is determined ex ante (before the
+realization of the shocks). Specifically, we assume there is perfect
+risk-sharing within a country, but no risk-sharing across countries.%
+\footnote{%
+To motivate the lack of risk-sharing across countries, see our earlier
+discussion on the high comovement between consumption and output as well as
+the high correlation between consumption and output volatility.} At the
+beginning of each period, a representative consumer decides on the optimal
+allocation of the primary input $L_{nt}$ into different sectors in order to
+maximize the expected value of utility; then (stochastic) shocks to
+productivity $A_{nt}^{j}$ are realized, equipped labour is reallocated
+within a sector (but not across sectors), and production and consumption
+take place. The lack of ex-post reallocation across sectors in a given
+period aims at capturing the idea that in the short run, it is costly to
+reallocate productive factors across sectors. Hence, ex post, $L_{t}^{j}$ is
+fixed until $t+1.$\footnote{%
+In the quantification, a period will be one year. This amounts to assuming
+that it takes at least one year for resources to be reallocated across
+sectors.} We relax this assumption in Section V, where we allow for ex post
+sectoral reallocation of equipped labour. (The reallocation carries a
+quadratic adjustment cost, which we calibrate to match sectoral reallocation
+in the data.)
+
+The representative consumer's budget constraint in each period is: 
+\begin{equation}
+P_{nt}C_{nt}=\sum\nolimits_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}-S_{nt},  \label{BC}
+\end{equation}%
+where $P_{nt}$ is the price of the consumption good defined in equation (\ref%
+{aggregate}), $w_{nt}^{j}L_{nt}^{j}$ is the nominal value-added generated in
+sector $j$, and $S_{nt}$ is an exogenously given current account surplus of
+country $n$, with $\sum_{n}S_{nt}=0$ for all $t$. We treat the
+current-account surplus as exogenous because the computational difficulties
+of endogenizing it are formidable.
+
+Lifetime utility is given by 
+\[
+U_{n}=\sum\nolimits_{t=0}^{\infty }\delta ^{t}u(C_{nt}),
+\]%
+where $u^{\prime }>0$, $u^{\prime \prime }\leq 0$ and $\delta $ is the
+discount factor. Because there is no intertemporal trade and no capital in
+the economy, each period consumers maximize the expected static utility flow 
+$E\left[ u\left( C_{nt}\right) \right] $ and the equilibrium is simply a
+sequence of static equilibria. In making his labor allocation decisions the
+representative consumer takes into account the joint probability
+distribution function of sectoral productivities, $A_{nt}^{j}$s. In the
+analysis, we assume log utility and therefore the consumer solves: 
+\begin{equation}
+L_{nt}^{j}=\arg \max E_{t-1}\left[ \ln \left( \frac{%
+\sum_{j=1}^{J}w_{nt}^{j}L_{nt}^{j}}{P_{nt}}\right) \right]
+,s.t.:\sum\nolimits_{j=1}^{J}L_{nt}^{j}=L_{nt},  \label{eq:log:utility}
+\end{equation}%
+where $E_{t-1}$ indicates that the expectation is taken before the
+realization of period $t$ shocks.\textbf{\ }
+
+\textbf{Shouldn't there be a }$-S_{nt}$ \textbf{in the bracket?}
+
+\subsection{Model Solution}
+
+Conditional on the realization of the country-and-sector specific shocks $%
+A_{nt}^{j}$, our model is very similar to other general equilibrium,
+multi-sector versions of the Eaton-Kortum model. The main difference is that
+equipped labor is pre-allocated across sectors. Hence, we do not offer a
+detailed derivation of the key equilibrium conditions that are unaffected by
+the ex-ante allocation of resources, but merely state them in the following
+list.
+
+\begin{equation}
+d_{nmt}^{j}=\frac{T_{m}^{j}\left( \frac{B^{j}\left( w_{mt}^{j}\right)
+^{\beta ^{j}}\prod_{k=1}^{J}(P_{mt}^{k})^{\gamma ^{kj}}}{A_{mt}^{j}\kappa
+_{nmt}^{j}}\right) ^{-\theta }}{\sum_{m=1}^{N}T_{m}^{j}\left( \frac{%
+B^{j}\left( w_{mt}^{j}\right) ^{\beta
+^{j}}\prod_{k=1}^{J}(P_{mt}^{k})^{\gamma ^{kj}}}{A_{mt}^{j}\kappa _{nmt}^{j}}%
+\right) ^{-\theta }},  \label{shares}
+\end{equation}
+
+\begin{equation}
+P_{nt}^{j}=\xi \sum_{m=1}^{N}T_{m}^{j}\left( \frac{B^{j}\left(
+w_{mt}^{j}\right) ^{\beta ^{j}}\prod_{k=1}^{J}(P_{mt}^{k})^{\gamma ^{kj}}}{%
+A_{mt}^{j}\kappa _{nmt}^{j}}\right) ,  \label{eq2}
+\end{equation}
+
+\begin{equation}
+P_{nt}=\prod\nolimits_{j}^{J}\left( \frac{1}{\alpha _{n}^{j}}\right)
+^{\alpha ^{j}}\left( P_{nt}^{j}\right) ^{\alpha ^{j}},  \label{eq1}
+\end{equation}%
+\begin{equation}
+R_{nt}^{j}=\sum\nolimits_{m=1}^{N}d_{mnt}^{j}E_{mt}^{j},  \label{rev}
+\end{equation}%
+\begin{equation}
+E_{mt}^{j}=\alpha _{t}^{j}P_{mt}C_{mt}+\sum\nolimits_{k=1}^{J}\gamma
+^{jk}R_{mt}^{k},  \label{exp}
+\end{equation}%
+\begin{equation}
+w_{mt}^{j}L_{nt}^{j}=\beta ^{j}R_{mt}^{j},  \label{RC}
+\end{equation}%
+and the budget constraint (\ref{BC}). In the equations above, $d_{nmt}^{j}$
+is the fraction of country $n$'s total spending on sector-$j$ goods that is
+imported from country $m;$ $P_{nt}^{j}$ is the price of sectoral-good $j$ in
+country $n$; $R_{n}^{j}$ is total revenues accruing to firms operating in
+sector $j$ in country $n$; and $E_{n}^{j}$ is total expenditure by country $%
+n $ residents (consumers and firms) on sectoral good $j$. $B^{j}\equiv
+\left( \beta ^{j}\right) ^{-\beta ^{j}}\dprod\limits_{k=1}^{J}\left( \gamma
+^{k_{j}}\right) ^{-\gamma ^{k_{j}}}$ and $\xi \equiv \left[ \Gamma \left( 
+\frac{\theta +1-\eta }{\theta }\right) \right] $, where $\Gamma $ is the
+gamma function, are parametric constants. Hence, equation (\ref{shares})
+says that country $n$ imports disproportionately from countries $m$ and
+sectors $j$ that have high productivity draws $T_{m}^{j}$ and $A_{m}^{j}$;
+low wages $w_{m}^{j}$ and sectoral prices $P_{m}^{k}$; and low bilateral
+trading costs, namely high $\kappa _{nm}$s. Equation (\ref{eq2}) says that
+the same factors affect domestic sectoral prices. Equation (\ref{eq1})
+follows from the final-good producer's profit maximization problem, and
+shows the price of consumption as an aggregate of the sectoral prices.
+Equation (\ref{rev}) expresses the total sales of sector $j$ in country $n$
+as a function of each country's expenditures on that sector and the share of
+country $n$ in each country's imports in that sector. Equation (\ref{exp})
+states that a country's expenditures in sector $j$ is the sum of final and
+intermediate uses of sector $j$ goods. Equation (\ref{RC}) simply notes from
+the Cobb-Douglas formulation that value added from sector $j$ is a share $%
+\beta ^{j}$ of the gross output of sector $j$.
+
+To these fairly standard equilibrium conditions we add here the first-order
+conditions for the allocation of inputs to sectors, which turns out to be: 
+\begin{equation}
+\frac{L_{nt}^{j}}{L_{nt}}=E_{t-1}\left[ \frac{w_{nt}^{j}L_{nt}^{j}}{%
+\sum_{k}w_{nt}^{k}L_{nt}^{k}}\right] ,\qquad \forall j,t.  \label{eq:FOC}
+\end{equation}%
+The share of resources allocated to a given sector equals its expected share
+in value added. Note that $1/\sum_{k}w_{nt}^{k}L_{nt}^{k}$ is the marginal
+utility of consumption in period $t$; thus, more resources are allocated to
+higher value-added sectors, after appropriately weighting by marginal
+utility.\footnote{%
+Compared to the allocation in a determinisitc model, in our stochastic
+application sectors whose productivity is negatively correlated with
+aggregate productivity (that is, they have high value added when the rest of
+the economy has low value added) are allocated a disproportionate share of
+resources. In states of the world in which overall income is low, the
+marginal utility of consumption $1/\sum_{k}w_{nt}^{k}L_{nt}^{k}$ will be
+high and hence the optimal allocation entails allocating more resources to
+this sector.}
+
+The model can conceptually be solved backwards in two steps. First, for any
+given set of values for $L_{nt}^{j}$, equations (\ref{shares})-(\ref{RC})
+can be solved for $P_{nt}$, $w_{nt}^{j}$, $P_{nt}^{j}$, $d_{nmt}^{j}$, $%
+E_{n}^{j}$, $R_{n}^{j}$, and $C_{n}$ as functions of the $\kappa _{mnt}^{j}$%
+s, the $T_{n}^{j}$s, the $A_{n}^{j}$s, and of course the $L_{n}^{j}$s. For
+calibration purposes it turns out to be both possible and convenient to
+express the dependence of these solutions on $T_{n}^{j}$, $A_{n}^{j}$, and $%
+L_{n}^{j}$ in terms of the \textit{augmented productivity factors}%
+\begin{equation}
+Z_{nt}^{j}\equiv T_{n}^{j}\left[ L_{nt}\left( A_{nt}^{j}\right) ^{1/\beta
+^{j}}\right] ^{\beta ^{j}\theta },  \label{productivityfactor}
+\end{equation}%
+and the sectoral employment shares $\frac{L_{nt}^{j}}{L_{nt}}$. The
+augmented productivity factors capture the joint influence of all the
+exogenous processes (whether deterministic or stochastic) that impinge on
+the country and sector overall productive capacity.
+
+The second stage of the solution uses (\ref{eq:FOC}).to find the ex-ante
+shares $L_{nt}^{j}/L_{n}$. In using this equation we interpret the
+expectation operator as a rational expectation. In principle, therefore, we
+endow the representative agent making the labor allocation decisions with
+the same knowledge of the exogenous process $\kappa _{nmt}^{j}$ and (the
+stochastic properties of) $Z_{nt}^{j}$ as established below in Section \ref%
+{mapping_into_observables}. In practice, to solve the model we identify the
+expectation in (\ref{eq:FOC}) with the trend value of the expression in
+brackets. Hence, our solution method begins with a choice of a candidate
+time series for $L_{nt}^{j}$, and computes the solution for $w_{nt}^{j}$
+given that candidate time series as well as realizations of the exogenous
+processes. It them computes the trend of the expression in brackets, and if
+this is (close enough to) equal to $L_{nt}^{j}/L_{nt}$ is stops. Otherwise
+the next iteration sets $L_{nt}^{j}/L_{nt}$ equal to the trend value
+resulting from the previous iteration. A more detailed explanation is
+provided in the Appendix.
+
+The key theoretical outcome we are interested in is aggregate income
+volatility, which we measure as the variance (or standard deviation, where
+indicated), of real income deviations from country-specific trends. I turn,
+real income in the model is given by total value added deflated by the
+optimal expenditure-based price index, or $Y_{nt}=\frac{w_{nt}L_{nt}}{P_{nt}}%
+.$ As discussed in the Introduction, these welfare-relevant measures of
+income are expected to show first-order responses to changes in the terms of
+trade, and hence in foreign productivities, endowments, or trade costs.
+
+\subsection{Two Illustrativ}
+
+\end{document}

@@ -1,4 +1,4 @@
-function [w_nj_new, P_nj_new, price_iterations, P_n_new] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full)
+function [w_nj_new, P_nj_new, price_iterations, P_n_new] = wage_update(equilibrium_input, w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full)
 % This function is one iteration of the wage loop.
 % First it calculates prices corresponding to current wages,
 % then calculates new wages.
@@ -20,7 +20,7 @@ D = bsxfun(@times, permute((bsxfun(@power, bsxfun(@times, sum(L_nj, 2), w_nj)', 
 % [mean(P_nj_new(:)), range(P_nj_new(:))]
 
 % Calculate aggregate prices
-P_n_new = prod(bsxfun(@power, bsxfun(@rdivide, P_nj_new, alpha(:, t)'), alpha(:, t)'), 2);
+P_n_new = aggregate_prices(P_nj_new, equilibrium_input);
 
 % check
 % [mean(P_n_new), range(P_n_new)]
@@ -45,7 +45,7 @@ for n = 1:N
 	B_d = [B_d; temp];
 end % for n
 
-
+%% FIXME: D_alpha depends on new prices
 A = B_d * (B_gamma + D_alpha * B_beta) - eye(N * J);
 b = B_d * D_alpha * S_full;
 % b = zeros(size(S_full));

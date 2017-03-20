@@ -1,4 +1,4 @@
-function [w_njt, w_nt, P_nt, P_njt] = get_wages(L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt)
+function [w_njt, w_nt, P_nt, P_njt] = get_wages(equilibrium_input, L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt)
 % This function calculates equilibrium sector-specific wages for any given set of
 % sector-specific labor allocation.
 % The corresponding equilibrium aggregate wages and aggregate prices are also returned along the wages.
@@ -70,6 +70,7 @@ for t = 1:T
     
     B_gamma = kron(eye(N), sparse(gammas(:, :, t)));
     B_beta = kron(eye(N), sparse(repmat(beta', [J, 1])));
+    %% FIXME: D_alpha is now country and time varying
     D_alpha = diag(sparse(repmat(alpha(:, t), [N, 1])));
     S_full = kron(S(:, t), ones([J, 1]));
     beta_full = repmat(beta, [N, 1]);
@@ -93,7 +94,7 @@ for t = 1:T
         
         % calculate new sector specific wages (and associated prices)
         % based on current values
-        [w_nj_new, P_nj, price_iterations, P_n] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full);
+        [w_nj_new, P_nj, price_iterations, P_n] = wage_update(equilibrium_input, w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full);
                 
         step = w_nj_new - w_nj;
         
