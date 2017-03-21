@@ -151,7 +151,8 @@ theta = c.th;
 eta = c.et;
 xi = gamma((theta + 1 - eta) / theta);
 
-B = bsxfun(@times, beta.^(-beta),  squeeze(prod(gammas.^(-gammas), 1)));
+B = beta.^(-beta) .* squeeze(prod(gammas.^(-gammas), 1));
+assert_all(size(B)==[n_sectors, n_years]);
 
 kappa = compute_trade_cost(d, parameters);
 
@@ -237,6 +238,7 @@ baseline.beta = beta;
 baseline.kappa = kappa;
 baseline.theta = theta;
 baseline.xi = xi;
+baseline.rho = rho;
 baseline.gammas = gammas;
 
 baseline.trade_balance = trade_balance;

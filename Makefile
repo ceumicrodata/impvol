@@ -1,5 +1,6 @@
 CODES		= run_model.m init_globals.m data_management/calibrate_shocks.m data_management/create_counterfactual_scenarios.m equilibrium/equilibrium_main.m compute_volatilities.m
-MATLAB		=  /Applications/MATLAB_R2014b.app/bin/matlab
+MATLAB		=  matlab
+#/Applications/MATLAB_R2014b.app/bin/matlab
 MATLAB_BEGIN	= $(MATLAB) -nodisplay -r "try, 
 MATLAB_END		= , catch, exit(1), end, exit(0);"
 COLUMNS 		= baseline nosectoral kappa1972 kappa1972_nosectoral

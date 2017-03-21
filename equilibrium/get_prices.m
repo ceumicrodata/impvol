@@ -1,5 +1,7 @@
 function [P_nj_new, inner_iteration] = get_prices(P_nj, D, t)
 
+assert_all(P_nj>0);
+
 global c theta
 
 lambda_p = c.dampening_price_loop;
