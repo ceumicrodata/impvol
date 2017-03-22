@@ -12,7 +12,7 @@ assert_all(P_nj>0);
 assert_all(va_to_fit>0);
 assert_all(p_to_fit>0);
 assert_all(betas>0);
-assert_all(kappa>0);
+assert_all(kappa>=0);
 
 i_base = c.i_base;
 [N, J] = size(L_nj);

@@ -155,6 +155,8 @@ B = beta.^(-beta) .* squeeze(prod(gammas.^(-gammas), 1));
 assert_all(size(B)==[n_sectors, n_years]);
 
 kappa = compute_trade_cost(d, parameters);
+assert_all(kappa>=0);
+assert_all(kappa<=1);
 
 % collect parameters
 parameters.final_expenditure_share = final_expenditure_share;
