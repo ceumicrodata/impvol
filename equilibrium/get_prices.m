@@ -1,6 +1,8 @@
 function [P_nj_new, inner_iteration] = get_prices(P_nj, D, t)
 
 assert_all(P_nj>0);
+[N, J] = size(P_nj);
+assert_all(size(D)==[N, N, J]);
 
 global c theta
 

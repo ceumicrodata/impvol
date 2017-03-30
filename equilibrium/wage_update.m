@@ -12,7 +12,7 @@ assert_all(P_nj>0);
 assert_all(va_to_fit>0);
 assert_all(p_to_fit>0);
 assert_all(betas>0);
-assert_all(kappa>0);
+assert_all(kappa>=0);
 
 i_base = c.i_base;
 [N, J] = size(L_nj);
@@ -20,15 +20,20 @@ i_base = c.i_base;
 assert_all(size(S_t)==[N, 1]);
 assert_all(size(gammas(:,:,t))==[J, J]);
 assert_all(size(betas(:,t))==[J, 1]);
+assert_all(size(kappa(:,:,:,t))==[N, N, J]);
 assert_all(abs(squeeze(sum(gammas, 1)) + betas - 1) < c.numerical_zero);
 
 beta_full = repmat(betas(:,t), [N, 1]);
 
 % Compute D to be used in the price equations. See the definition of D in the notes.
 % D depends only on current sector specific wages and aggregate labor
-D = bsxfun(@times, permute((bsxfun(@power, bsxfun(@times, sum(L_nj, 2), w_nj)', -betas(:,t)) .^ theta) .* z_nj', [3 2 1]), kappa(:, :, :, t).^theta);
-
-assert_all(D>0);
+%D = bsxfun(@times, permute((bsxfun(@power, bsxfun(@times, sum(L_nj, 2), w_nj)', -betas(:,t)) .^ theta) .* z_nj', [3 2 1]), kappa(:, :, :, t).^theta);
+L_n = sum(L_nj,2);
+D = zeros(N,N,J);
+for j = 1:J
+	D(:,:,j) = repmat(z_nj(:,j) .* ((L_n .* w_nj(:,j)) .^ (-betas(j,t) * theta)), [1, N])' .* kappa(:,:,j,t) .^ theta;
+end
+assert_all(D>=0);
 
 % Get sectoral prices. Note that this step depends on current wages through D.
 [P_nj_new, price_iterations] = get_prices(P_nj, D, t);
@@ -67,7 +72,7 @@ expenditure_shares = get_expenditure_shares(P_nj_new, rho, nu(:,:,t));
 assert_all(size(expenditure_shares)==[N, J]);
 
 %% FIXME: D_alpha depends on new prices
-magic_A = zeros(N*J, N*J);
+magic_A = sparse(zeros(N*J, N*J));
 surplus_demand = zeros(N*J, 1);
 for n = 1:N
 	start_index = (n-1)*J+1;
@@ -82,10 +87,11 @@ A = B_d * magic_A - eye(N * J);
 b = B_d * surplus_demand;
 
 options = optimoptions('lsqlin','Algorithm','active-set', 'Display', 'off');
-R = lsqlin(A, b, [], [], beta_full', va_to_fit, [], [], [], options);
+R = lsqlin(A, b, [], [], beta_full', va_to_fit, zeros(N*J,1) + c.numerical_zero, [], [], options);
+mean(A * R - b)
+min(R)
 
 R_jn_new = reshape(R, [J, N]);
-
 w_nj_new = real(bsxfun(@times, R_jn_new' ./ L_nj, betas(:,t)'));
 
 

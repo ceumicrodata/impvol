@@ -2,7 +2,7 @@ function final_expenditure_share = compute_final_expenditure_share(D, va, gammas
     n_countries = parameters.n_countries;
     n_sectors = parameters.n_sectors;
     n_years = parameters.n_years;
-    numerical_zero = parameters.numerical_zero;
+    numerical_zero = 0.01;
     weights = c.filter_weights;
     
     assert_all(size(D) == [n_countries*n_sectors, n_countries*n_sectors, n_years]);
@@ -30,11 +30,11 @@ function final_expenditure_share = compute_final_expenditure_share(D, va, gammas
 
     final_expenditure_share = ones(n_countries, n_sectors, n_years);
     for t = 1:n_years
-        final_expenditure_share(:,:,t) = squeeze(final_exp_tr_matr(:,:,t)) ./ repmat(sum(final_exp_tr_matr(:,:,t),2), [1, n_sectors, 1]);
+        final_expenditure_share(:,:,t) = final_exp_tr_matr(:,:,t) ./ repmat(sum(final_exp_tr_matr(:,:,t),2), [1, n_sectors]);
     end
     
     assert_all(size(final_expenditure_share) == [n_countries, n_sectors, n_years]);
-    assert_all(final_expenditure_share(:) > 0);
+    assert_all(final_expenditure_share(:) > 0.0);
     assert_all(abs(sum(final_expenditure_share, 2) - 1) < numerical_zero);
 end
 
