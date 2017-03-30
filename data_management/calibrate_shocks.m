@@ -117,7 +117,6 @@ for sector = 1:n_sectors
     end
     clear exp
 end
-
 %% IO links section
 if io_links == 1
     gamma_x = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
@@ -223,7 +222,10 @@ z(:, i_services, :) = z_services;
 %% Compute Equipped Labor - L
 % Verify with scaling, it should not matter.
 L = ones(n_countries, n_years);
-
+for n = 1:n_countries
+    L(n,:) = exp(squeeze(mean(log(z(n,:,1))' ./ beta(:,1), 1)) ./ (-n_sectors*theta));
+end
+assert_all(L>0);
 %% Save computed variables and parameters
 
 
