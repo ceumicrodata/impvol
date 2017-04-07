@@ -5,8 +5,11 @@ function out = get_expenditure_shares(p_sectoral, rho, nu_input)
 	assert(rho>0);
 	[N, J] = size(nu_input);
 
-	out = nu_input .* p_sectoral .^ (1-rho);
-	out = out ./ repmat(sum(out,2), [1, J]);
+	%out = nu_input .* p_sectoral .^ (1-rho);
+	%out = out ./ repmat(sum(out,2), [1, J]);
+
+	%% DEBUG: equal shares
+	out = repmat(1/J, N, J);
 
 	assert_all(size(out)==[N, J]);
 	assert_all(out>0);

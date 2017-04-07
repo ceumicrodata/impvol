@@ -8,9 +8,12 @@ i_services = parameters.i_services;
 i_base = parameters.i_base;
 rho = parameters.rho;
 
-out = zeros(n_countries,n_years);
-for t = 1:n_years
-    for n = 1:n_countries
-        out(n,t) = pwt(t,n) .* p_base(t,1) .*(final_expenditure_share(n,i_services,t)) .^ (1/(1 - rho));
-    end
-end
+%out = zeros(n_countries,n_years);
+%for t = 1:n_years
+%    for n = 1:n_countries
+%        out(n,t) = pwt(t,n) .* p_base(t,1) .*(final_expenditure_share(n,i_services,t)) .^ (1/(1 - rho));
+%    end
+%end
+
+%% DEBUG: constant service prices 
+out = repmat(1, n_countries, n_years);

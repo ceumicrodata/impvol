@@ -37,7 +37,7 @@ mkdir(c.model_folder)
 % 2: 1 + wage loop convergence info for all periods (show number of steps)
 % 3: 2 + wage loop iteration info (diff for every nth iteration) 
 % 4: 3 + price loop convergence info (number of steps + mean aggr. price)
-c.verbosity = 2;
+c.verbosity = 4;
 c.outer_print_every = 1;
 
 % specify how frequency of iteration display in wage loop
