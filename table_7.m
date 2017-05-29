@@ -8,53 +8,41 @@ c = init_globals(model);
 load([c.model_folder, 'equilibrium.mat'])
 realGDP = equilibrium.L_nt .* equilibrium.w_nt ./ equilibrium.P_nt;
 cd data_management
-[~, cycle] = detrend_series(log(realGDP), c.filter_weights);
+[~, cycle_baseline] = detrend_series(log(realGDP), c.filter_weights);
 cd ..
-cycle70 = cycle(:,2:8);
-cycle80 = cycle(:,9:18);
-cycle90 = cycle(:,19:28);
-cycle00 = cycle(:,29:36);
+cycle_baseline = mean(cycle_baseline, 1);
 
 model = [t1, '_nosectoral'];
 c = init_globals(model);
 load([c.model_folder, 'equilibrium.mat'])
 realGDP = equilibrium.L_nt .* equilibrium.w_nt ./ equilibrium.P_nt;
 cd data_management
-[~, cycle] = detrend_series(log(realGDP), c.filter_weights);
+[~, cycle_nosectoral] = detrend_series(log(realGDP), c.filter_weights);
 cd ..
-cycle70_nosectoral = cycle(:,2:8);
-cycle80_nosectoral = cycle(:,9:18);
-cycle90_nosectoral = cycle(:,19:28);
-cycle00_nosectoral = cycle(:,29:36);
+cycle_nosectoral = mean(cycle_nosectoral, 1);
 
 model = [t1, '_kappa1972'];
 c = init_globals(model);
 load([c.model_folder, 'equilibrium.mat'])
 realGDP = equilibrium.L_nt .* equilibrium.w_nt ./ equilibrium.P_nt;
 cd data_management
-[~, cycle] = detrend_series(log(realGDP), c.filter_weights);
+[~, cycle_kappa1972] = detrend_series(log(realGDP), c.filter_weights);
 cd ..
-cycle70_kappa1972 = cycle(:,2:8);
-cycle80_kappa1972 = cycle(:,9:18);
-cycle90_kappa1972 = cycle(:,19:28);
-cycle00_kappa1972 = cycle(:,29:36);
+cycle_kappa1972 = mean(cycle_kappa1972, 1);
 
 model = [t1, '_kappa1972_nosectoral'];
 c = init_globals(model);
 load([c.model_folder, 'equilibrium.mat'])
 realGDP = equilibrium.L_nt .* equilibrium.w_nt ./ equilibrium.P_nt;
 cd data_management
-[~, cycle] = detrend_series(log(realGDP), c.filter_weights);
+[~, cycle_kappa1972_nosectoral] = detrend_series(log(realGDP), c.filter_weights);
 cd ..
-cycle70_kappa1972_nosectoral = cycle(:,2:8);
-cycle80_kappa1972_nosectoral = cycle(:,9:18);
-cycle90_kappa1972_nosectoral = cycle(:,19:28);
-cycle00_kappa1972_nosectoral = cycle(:,29:36);
+cycle_kappa1972_nosectoral = mean(cycle_kappa1972_nosectoral, 1);
 
-volatilities = [var(cycle70(:)); var(cycle80(:)); var(cycle90(:)); var(cycle00(:))];
-volatilities_nosectoral = [var(cycle70_nosectoral(:)); var(cycle80_nosectoral(:)); var(cycle90_nosectoral(:)); var(cycle00_nosectoral(:))];
-volatilities_kappa1972 = [var(cycle70_kappa1972(:)); var(cycle80_kappa1972(:)); var(cycle90_kappa1972(:)); var(cycle00_kappa1972(:))];
-volatilities_kappa1972_nosectoral = [var(cycle70_kappa1972_nosectoral(:)); var(cycle80_kappa1972_nosectoral(:)); var(cycle90_kappa1972_nosectoral(:)); var(cycle00_kappa1972_nosectoral(:))];
+volatilities = [var(cycle_baseline(1,2:8)); var(cycle_baseline(1,9:18)); var(cycle_baseline(1,19:28)); var(cycle_baseline(1,29:36))];
+volatilities_nosectoral = [var(cycle_nosectoral(1,2:8)); var(cycle_nosectoral(1,9:18)); var(cycle_nosectoral(1,19:28)); var(cycle_nosectoral(1,29:36))];
+volatilities_kappa1972 = [var(cycle_kappa1972(1,2:8)); var(cycle_kappa1972(1,9:18)); var(cycle_kappa1972(1,19:28)); var(cycle_kappa1972(1,29:36))];
+volatilities_kappa1972_nosectoral = [var(cycle_kappa1972_nosectoral(1,2:8)); var(cycle_kappa1972_nosectoral(1,9:18)); var(cycle_kappa1972_nosectoral(1,19:28)); var(cycle_kappa1972_nosectoral(1,29:36))];
 
 vol = [volatilities, volatilities_nosectoral, volatilities_kappa1972, volatilities_kappa1972_nosectoral];
 decades = cellstr({'1973-1979'; '1980-1989'; '1990-1999'; '2000-2008'});
