@@ -38,6 +38,9 @@ for i = 1:4
     %                          2: no sectoral and residual shocks)
     spec.sh = specs_table(7, i);
     
+    %% China parameters
+    spec.china = specs_table(8, i);
+    
     save(['model_specifications/', spec.model, '.mat'], 'spec')
 end
 
