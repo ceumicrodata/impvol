@@ -7,6 +7,7 @@ i_base = c.i_base;
 has_prices = c.has_prices;
 io_links = c.iol;
 bt = c.bt;
+china = c.china;
 
 theta = c.th;
 eta = c.et;
@@ -76,22 +77,28 @@ if io_links == 1
     alpha = compute_alphas(va, beta, gammas, weights);
     gammas = repmat(gammas, [1, 1, n_years]);
 else
-    va_sum_over_n = squeeze(sum(va, 1));
-    sectoral_va_share = va_sum_over_n ./ ...
-        repmat(sum(va_sum_over_n, 1), [n_sectors 1]);
-    sectoral_va_share_over_beta = sectoral_va_share ./ ...
-        repmat(beta, [1 n_years]);
-    alpha_old = sectoral_va_share_over_beta ./ ...
-        repmat(sum(sectoral_va_share_over_beta, 1), [n_sectors 1]);
-    
-    [alpha_trend, ~] = detrend_series(alpha_old, weights);
-    alpha_old = alpha_trend ./ repmat(sum(alpha_trend, 1), [n_sectors 1]);
-    
-    alpha = alpha_old;
-    gammas = zeros(n_sectors, n_sectors, n_years);
-    for t = 1:n_years
-        gammas(:, :, t) = alpha(:, t) * (1 - beta)';
-    end
+	beta = ones(size(beta));
+    gammas = compute_gammas(io_values, total_output, output_shares, intermediate_input_shares);
+    gammas = bsxfun(@times, gammas, (1 - beta') ./ sum(gammas, 1));
+    alpha = compute_alphas(va, beta, gammas, weights);
+    gammas = repmat(gammas, [1, 1, n_years]);
+
+%    va_sum_over_n = squeeze(sum(va, 1));
+%    sectoral_va_share = va_sum_over_n ./ ...
+%        repmat(sum(va_sum_over_n, 1), [n_sectors 1]);
+%    sectoral_va_share_over_beta = sectoral_va_share ./ ...
+%        repmat(beta, [1 n_years]);
+%    alpha_old = sectoral_va_share_over_beta ./ ...
+%        repmat(sum(sectoral_va_share_over_beta, 1), [n_sectors 1]);
+%    
+%    [alpha_trend, ~] = detrend_series(alpha_old, weights);
+%    alpha_old = alpha_trend ./ repmat(sum(alpha_trend, 1), [n_sectors 1]);
+%    
+%    alpha = alpha_old;
+%    gammas = zeros(n_sectors, n_sectors, n_years);
+%    for t = 1:n_years
+%        gammas(:, :, t) = alpha(:, t) * (1 - beta)';
+%    end
 end
 
 
@@ -156,6 +163,17 @@ va_total = sum(va, 2);
 va_total = squeeze(va_total)';
 
 kappa = compute_trade_cost(d, parameters);
+
+if china == 1
+    kappa(strcmp(country_names, 'China'),:,:,:) = ones(size(kappa(strcmp(country_names, 'China'),:,:,:)))/100000;
+    kappa(:,strcmp(country_names, 'China'),:,:) = ones(size(kappa(:,strcmp(country_names, 'China'),:,:)))/100000;
+    kappa(strcmp(country_names, 'China'),strcmp(country_names, 'China'),:,:) = 1;
+elseif china == 2
+    for i = 2:n_years
+        kappa(strcmp(country_names, 'China'),:,:,i) = kappa(strcmp(country_names, 'China'),:,:,1);
+        kappa(:,strcmp(country_names, 'China'),:,i) = kappa(:,strcmp(country_names, 'China'),:,1);
+    end
+end
 
 % collect parameters
 parameters.alpha = alpha;
