@@ -22,8 +22,8 @@ end
 % We clip them from below to 0 and then renormalize the
 % shares so that they add up to 1 for a given (destination) country, sector
 % time period triplet.
-d(d < 0) = 0;
-d = d ./ repmat(sum(d, 2), [1, n_countries, 1, 1]);
+%d(d < 0) = 0;
+%d = d ./ repmat(sum(d, 2), [1, n_countries, 1, 1]);
 
 % % In the first period we clip them from below to 0 and then renormalize the
 % % shares so that they add up to 1 for a given (destination) country, sector
