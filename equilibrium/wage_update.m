@@ -1,4 +1,4 @@
-function [w_nj_new, P_nj_new, price_iterations, P_n_new] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full)
+function [w_nj_new, P_nj_new, price_iterations, P_n_new, d] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full)
 % This function is one iteration of the wage loop.
 % First it calculates prices corresponding to current wages,
 % then calculates new wages.

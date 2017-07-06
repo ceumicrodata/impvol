@@ -1,4 +1,4 @@
-function [w_njt, w_nt, P_nt, P_njt] = get_wages(L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt)
+function [w_njt, w_nt, P_nt, P_njt, d_mnjt] = get_wages(L_njt, L_nt, z_njt, outer_iteration, w_njt, P_njt)
 % This function calculates equilibrium sector-specific wages for any given set of
 % sector-specific labor allocation.
 % The corresponding equilibrium aggregate wages and aggregate prices are also returned along the wages.
@@ -13,7 +13,7 @@ global verbose c alpha beta gammas S
 % P_njt = zeros(N, J, T); % Sector specific prices
 % w_nt = zeros(N, T); % Aggregate wages
 % w_njt = zeros(N, J, T); % Sector specific wages
-% d_mnjt = zeros(N, N, J, T);
+d_mnjt = zeros(N, N, J, T);
 
 
 for t = 1:T 
@@ -93,8 +93,9 @@ for t = 1:T
         
         % calculate new sector specific wages (and associated prices)
         % based on current values
-        [w_nj_new, P_nj, price_iterations, P_n] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full);
-                
+        [w_nj_new, P_nj, price_iterations, P_n, d_t] = wage_update(w_nj, L_nj, z_nj, P_nj, t, va_to_fit, p_to_fit, B_gamma, B_beta, D_alpha, S_full, beta_full);
+        d_mnjt(:,:,:,t) = d_t;
+        
         step = w_nj_new - w_nj;
         
         middle_dif = norm(step(:)) / (1 + norm(w_nj(:)));   
