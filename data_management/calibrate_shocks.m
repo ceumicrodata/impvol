@@ -142,10 +142,6 @@ for i_line = 1:n_lines_in_import_shares
     importer = import_shares(i_line, 2);
     exporter = import_shares(i_line, 3);
     
-    % Clip negative import shares from below at 0.
-    d(importer, exporter, 1:(n_sectors - 1), year) = ...
-        max(import_shares(i_line, 4:26), 0);
-    
     % Set services shares to 0 as they are not traded.
     d(importer, exporter, i_services, year) = 0;
 end
