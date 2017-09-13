@@ -5,11 +5,11 @@ load(['model_specifications/', model, '.mat'])
 c = spec;
 
 % Specify base country. (Has to have sectoral prices available)
-c.i_base = 25;
+c.i_base = 24;
 
 % Specify countries that have sectoral price index
 c.has_prices = ...
-    logical([1 1 1 0 0 0 1 1 1 1 1 0 1 1 1 0 1 0 1 0 1 1 1 1 1])';
+    logical([1 1 1 0 0 1 1 1 1 1 0 1 1 1 0 1 0 1 0 1 1 1 1 1])';
 assert(c.has_prices(c.i_base) == 1, 'No sectoral prices for base country.')
 
 
