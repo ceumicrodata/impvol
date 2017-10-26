@@ -4,6 +4,9 @@ global c
 
 load([c.model_folder, 'equilibrium.mat'])
 
+% sector, time, country
+log_sectoral_GDP = permute(log(equilibrium.w_njt) + log(equilibrium.L_njt), [2 3 1]);
+
 realGDP = equilibrium.L_nt .* equilibrium.w_nt ./ equilibrium.P_nt;
 [~, cycle] = detrend_series(log(realGDP), c.filter_weights);
 volatilities = var(cycle, 0, 2);

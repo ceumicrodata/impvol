@@ -7,20 +7,24 @@ weights = c.filter_weights;
 
 load([c.model_folder, 'alg_inputs.mat']);
 
+%% Trade costs
+[n_countries, ~, i_services, n_years] = size(baseline.kappa);
 
 %% Decompose shocks if needed
 
 if c.sh == 0 % actual
     z = baseline.z;
 elseif c.sh == 1 % no sectoral shocks
-    [z, ~] = decompose_shocks(baseline.z, weights);
+    [z, ~, trash] = decompose_shocks(baseline.z, weights);
 elseif c.sh == 2 % no sectoral and residual shocks
-    [~, z] = decompose_shocks(baseline.z, weights);
+    [~, z, trash] = decompose_shocks(baseline.z, weights);
+    % except in servcies, where shocks are original
+    z(:,i_services,:) = baseline.z(:,i_services,:);
+elseif c.sh == 3 % no residual shocks
+    [~, trash, z] = decompose_shocks(baseline.z, weights);
 end
 
 
-%% Trade costs
-[n_countries, ~, i_services, n_years] = size(baseline.kappa);
 
 if c.tc == 0 % actual
     kappa = baseline.kappa;
