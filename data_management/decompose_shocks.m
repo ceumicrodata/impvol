@@ -1,4 +1,6 @@
-function [z_no_sector, z_no_sector_residual, z_mu_lambda] = decompose_shocks(z, weights)
+function [z_no_sector, z_no_sector_residual, z_mu_lambda] = decompose_shocks(z, weights, sectoral_weights)
+
+assert(sum(sectoral_weights)==1);
 
 K = length(weights) - 1;
 
@@ -28,8 +30,9 @@ dlmwrite('lambda.csv', lambda_full, ',');
 
 % Country-time effect: subtract sector-time specific effect and take average
 % over sectors
-% mu = squeeze(mean(z_tilde - lambda_full, 2));
-mu_full = repmat(mean(z_tilde - lambda_full, 2), [1, size(z_tilde, 2), 1]);
+% weighted by sectoral weights
+sw_full = repmat(sectoral_weights, [size(z_tilde, 1), 1, size(z_tilde, 3)]);
+mu_full = repmat(sum(sw_full .* (z_tilde - lambda_full), 2), [1, size(z_tilde, 2), 1]);
 dlmwrite('mu.csv', mu_full, ',');
 
 % Residual term
