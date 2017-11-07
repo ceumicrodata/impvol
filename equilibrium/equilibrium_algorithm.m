@@ -4,6 +4,20 @@ function equilibrium_out = equilibrium_algorithm(equilibrium_input)
 global alpha beta theta xi kappa B verbose lambda_w lambda_p c gammas S
 % NOTE: see the definition of K in the documentation
 
+% % Remove China
+% china_index = find(strcmp('China', equilibrium_input.country_names));
+% equilibrium_input.country_names(china_index, :) = [];
+% equilibrium_input.kappa(china_index,:,:,:) = [];
+% equilibrium_input.kappa(:,china_index,:,:) = [];
+% equilibrium_input.L(china_index,:) = [];
+% equilibrium_input.psi(china_index,:,:) = [];
+% equilibrium_input.trade_balance(china_index,:) = [];
+% equilibrium_input.z(china_index,:,:) = [];
+% 
+% c.i_base = 24;
+% c.has_prices(china_index,:) = [];
+% %%%%%%%%%%%%%%%
+
 theta = c.th;
 
 lambda_L = c.dampening_labor_loop;

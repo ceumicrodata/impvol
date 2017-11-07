@@ -36,6 +36,19 @@ elseif c.tc == 2 % free trade
 end
 
 
+% Chine counterfactuals
+if c.china == 1
+    kappa(strcmp(baseline.country_names, 'China'),:,:,:) = ones(size(kappa(strcmp(baseline.country_names, 'China'),:,:,:)))/100000;
+    kappa(:,strcmp(baseline.country_names, 'China'),:,:) = ones(size(kappa(:,strcmp(baseline.country_names, 'China'),:,:)))/100000;
+    kappa(strcmp(baseline.country_names, 'China'),strcmp(baseline.country_names, 'China'),:,:) = 1;
+elseif c.china == 2
+    for i = 2:n_years
+        kappa(strcmp(baseline.country_names, 'China'),:,:,i) = kappa(strcmp(baseline.country_names, 'China'),:,:,1);
+        kappa(:,strcmp(baseline.country_names, 'China'),:,i) = kappa(:,strcmp(baseline.country_names, 'China'),:,1);
+    end
+end
+
+
 %% Save
 baseline.z = z;
 baseline.kappa = kappa;

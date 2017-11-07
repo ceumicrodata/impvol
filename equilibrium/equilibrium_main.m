@@ -12,6 +12,9 @@ save([c.model_folder, 'equilibrium.mat'], 'equilibrium')
 
 % Save nominal GDP and deflator in *.csv
 country_names = importdata([c.data_folder_original, 'country_name.txt']);
+% % China removed
+% country_names(strcmp('China', country_names)) = [];
+% %%%%%%%%%%%%%%%
 fid = fopen([c.model_folder, 'ngdp.csv'], 'w');
 fprintf(fid, '%s,',  'year', country_names{1:end-1});
 fprintf(fid, '%s\n', country_names{end});

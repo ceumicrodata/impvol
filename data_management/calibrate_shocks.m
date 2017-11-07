@@ -164,17 +164,6 @@ va_total = squeeze(va_total)';
 
 kappa = compute_trade_cost(d, parameters);
 
-if china == 1
-    kappa(strcmp(country_names, 'China'),:,:,:) = ones(size(kappa(strcmp(country_names, 'China'),:,:,:)))/100000;
-    kappa(:,strcmp(country_names, 'China'),:,:) = ones(size(kappa(:,strcmp(country_names, 'China'),:,:)))/100000;
-    kappa(strcmp(country_names, 'China'),strcmp(country_names, 'China'),:,:) = 1;
-elseif china == 2
-    for i = 2:n_years
-        kappa(strcmp(country_names, 'China'),:,:,i) = kappa(strcmp(country_names, 'China'),:,:,1);
-        kappa(:,strcmp(country_names, 'China'),:,i) = kappa(:,strcmp(country_names, 'China'),:,1);
-    end
-end
-
 % collect parameters
 parameters.alpha = alpha;
 parameters.B = B;

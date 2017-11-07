@@ -12,6 +12,9 @@ realGDP = equilibrium.L_nt .* equilibrium.w_nt ./ equilibrium.P_nt;
 volatilities = var(cycle, 0, 2);
 
 country_names = importdata([c.data_folder_original, 'country_name.txt']);
+% % China removed
+% country_names(strcmp('China', country_names)) = [];
+% %%%%%%%%%%%%%%%
 fid = fopen([c.model_folder, 'volatilities.csv'], 'w');
 fprintf(fid, '%25s, %12s\n',  'country', 'volatility');
 
